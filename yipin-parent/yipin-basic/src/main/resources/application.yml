@@ -1,0 +1,22 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://39.105.6.158:3306/art?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: Learn&Exam20
+  jpa:
+    database: mysql
+    show-sql: true
+  redis:
+    host: 101.200.182.241
+####swagger相关配置
+swagger:
+  base-package: com.yipin.basic.controller
+  title: 艺品项目小程序接口文档
+  description:
+  version: 1.0
+  contact:
+    name: lizhanpeng
+    email: 1468438331@qq.com
