@@ -167,7 +167,7 @@ public class UserServiceImpl implements UserService {
         if (user == null){
             return Result.newResult(ResultEnum.USER_NOT_EXIST);
         }
-        if (production.getCheckStatus() == 0 || production.getEvaluate_status() == 0 || production.getPublishStatus() == 0){
+        if (production.getCheckStatus() == 0 || production.getEvaluateStatus() == 0 || production.getPublishStatus() == 0){
             return Result.newResult(ResultEnum.PRODUCTION_ERROR);
         }
         if (user.getMainProductionId() != null){

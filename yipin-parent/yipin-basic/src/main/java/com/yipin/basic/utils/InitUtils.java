@@ -23,6 +23,8 @@ public class InitUtils {
         user.setAssessments(0);
         user.setInformationStatus(0);
         user.setPerformanceNum(new BigDecimal(0.00));
+        user.setRole(0);
+        user.setProductionNum(0);
         return user;
     }
 
@@ -31,7 +33,7 @@ public class InitUtils {
         userArt.setCherry(0);
         userArt.setStrawberry(0);
         userArt.setApple(0);
-        userArt.setOnlineHours(0);
+        userArt.setOnlineMinute(0);
         userArt.setAllOnlineHours(0);
         userArt.setUpgradeHours(1);//TODO 目前设置为一个小时，用于测试
         userArt.setCreateTime(new Date());
@@ -41,19 +43,19 @@ public class InitUtils {
 
     /**初始化用户品值参数**/
     public static UserPerformance InitUserPerformance(UserPerformance userPerformance){
-        userPerformance.setAllUploadNums(0);
         userPerformance.setUploadProductionNums(0);
         userPerformance.setPeriodDays(7);//TODO 目前设置为7天
         userPerformance.setCommentNums(0);
-        userPerformance.setBeCommentedNums(0);
         userPerformance.setExceptionalAmount(new BigDecimal(0.0));
         userPerformance.setRewardAmount(new BigDecimal(0.0));
         userPerformance.setInsistence(new BigDecimal(0.0));
         userPerformance.setAssiduous(new BigDecimal(0.0));
         userPerformance.setParticipation(new BigDecimal(0.0));
         userPerformance.setWorth(new BigDecimal(0.0));
+        userPerformance.setLikeNums(0);
         userPerformance.setCreateTime(new Date());
         userPerformance.setUpdateTime(new Date());
+        userPerformance.setIsPeriod(1);
         return userPerformance;
     }
 

@@ -2,14 +2,19 @@ package com.yipin.basic.service.impl;
 
 import VO.PageVO;
 import VO.Result;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import com.yipin.basic.VO.UserVO;
 import VO.Void;
 import args.PageArg;
 import com.yipin.basic.VO.ProductionVO;
 import com.yipin.basic.dao.productionDao.ProductionRepository;
+import com.yipin.basic.dao.userDao.UserArtRepository;
+import com.yipin.basic.dao.userDao.UserPerformanceRepository;
 import com.yipin.basic.dao.userDao.UserRepository;
 import com.yipin.basic.entity.production.Production;
 import com.yipin.basic.entity.user.User;
+import com.yipin.basic.entity.user.UserArt;
+import com.yipin.basic.entity.user.UserPerformance;
 import com.yipin.basic.form.ProductionForm;
 import com.yipin.basic.service.ProductionService;
 import com.yipin.basic.service.UserService;
@@ -19,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +42,10 @@ public class ProductionServiceImpl implements ProductionService {
     private UserRepository userRepository;
     @Autowired
     private ProductionRepository productionRepository;
+    @Autowired
+    private UserArtRepository userArtRepository;
+    @Autowired
+    private UserPerformanceRepository userPerformanceRepository;
     @Autowired
     private HttpServletRequest request;
 
@@ -78,20 +88,38 @@ public class ProductionServiceImpl implements ProductionService {
         if (token == null || "".equals(token)){
             return Result.newResult(ResultEnum.AUTHENTICATION_ERROR);
         }
-
+        User user = userRepository.findUserById(productionForm.getUserId());
+        if (user == null){
+            return Result.newResult(ResultEnum.USER_NOT_EXIST);
+        }
+        if (user.getInformationStatus() == 0){
+            return Result.newError("请先完成个人信息填写");
+        }
         Production production = new Production();
         BeanUtils.copyProperties(productionForm,production);
 
         production.setCheckStatus(1); //先设置为过审核之后看看有没有审核需求
-        production.setEvaluate_status(0); //初始评估状态为0
+        production.setEvaluateStatus(0); //初始评估状态为0
         production.setIsMainProduction(0); //是否为代表作
         production.setCreateTime(new Date());
         production.setUpdateTime(new Date());
         production.setViews(0);
         production.setLikes(0);
         production.setComments(0);
-
         productionRepository.save(production);
+        if (productionForm.getPublishStatus() == 1){
+            UserPerformance userPerformance = userPerformanceRepository.findLastUserPerformance(user.getId());
+            userPerformance.setUploadProductionNums(userPerformance.getUploadProductionNums() + 1);
+            user.setProductionNum(user.getProductionNum() + 1);
+            userPerformanceRepository.save(userPerformance);
+            userRepository.save(user);
+            //评估后才能作为代表作
+            /*if (user.getMainProductionId() == null ){
+                user.setMainProductionId(production.getId());
+                production.setIsMainProduction(1);
+                productionRepository.save(production);
+            }*/
+        }
         return Result.newSuccess();
     }
 
@@ -114,7 +142,17 @@ public class ProductionServiceImpl implements ProductionService {
             return Result.newError("作品已公开，无需重复公开");
         }
         production.setPublishStatus(1);
+        User user = userRepository.findUserById(production.getUserId());
+        if (user.getMainProductionId() == null && production.getEvaluateStatus() == 1){
+            user.setMainProductionId(production.getId());
+            production.setIsMainProduction(1);
+        }
         productionRepository.save(production);
+        UserPerformance userPerformance = userPerformanceRepository.findLastUserPerformance(user.getId());
+        userPerformance.setUploadProductionNums(userPerformance.getUploadProductionNums() + 1);
+        user.setProductionNum(user.getProductionNum() + 1);
+        userPerformanceRepository.save(userPerformance);
+        userRepository.save(user);
         return Result.newSuccess();
     }
 
@@ -136,8 +174,28 @@ public class ProductionServiceImpl implements ProductionService {
         if (production.getPublishStatus() == 0){
             return Result.newError("作品已为私密，无需重复设置私密");
         }
+
         production.setPublishStatus(0);
         productionRepository.save(production);
+        User user = userRepository.findUserById(production.getUserId());
+        if (user.getMainProductionId() == production.getId()){
+            List<Production> productionList = productionRepository.findProductionByPublishStatusAndUserIdAndEvaluateStatusOrderByCreateTimeDesc(1,user.getId(),1);
+            if (productionList.isEmpty()){
+                user.setMainProductionId(null);
+            }else{
+                user.setMainProductionId(productionList.get(0).getId());
+                Production p = productionRepository.findProductionById(productionList.get(0).getId());
+                p.setIsMainProduction(1);
+                productionRepository.save(p);
+            }
+            production.setIsMainProduction(0);
+            productionRepository.save(production);
+        }
+        UserPerformance userPerformance = userPerformanceRepository.findLastUserPerformance(user.getId());
+        user.setProductionNum(user.getProductionNum() - 1);
+        userPerformance.setUploadProductionNums(userPerformance.getUploadProductionNums() - 1);
+        userPerformanceRepository.save(userPerformance);
+        userRepository.save(user);
         return Result.newSuccess();
     }
 
@@ -233,7 +291,12 @@ public class ProductionServiceImpl implements ProductionService {
             return Result.newResult(ResultEnum.USER_NOT_EXIST);
         }
         user.setLikes(user.getLikes() + 1);
+        UserPerformance userPerformance = userPerformanceRepository.findLastUserPerformance(user.getId());
+        userPerformance.setLikeNums(userPerformance.getLikeNums() + 1);
         production.setLikes(production.getLikes() + 1);
+        userPerformanceRepository.save(userPerformance);
+        productionRepository.save(production);
+        userRepository.save(user);
         return Result.newSuccess();
     }
 
@@ -283,7 +346,7 @@ public class ProductionServiceImpl implements ProductionService {
             return Result.newResult(ResultEnum.PARAM_ERROR);
         }
         Pageable pageable = PageRequest.of(arg.getPageNo() - 1,arg.getPageSize());
-        Page<Production> productionPage = productionRepository.findProductionByTitleLike("%" + title + "%",pageable);
+        Page<Production> productionPage = productionRepository.findProductionByTitleLikes("%" + title + "%",pageable);
         List<Production> productionList = productionPage.getContent();
 
         List<ProductionVO> productionVOList = new ArrayList<>();
@@ -300,6 +363,32 @@ public class ProductionServiceImpl implements ProductionService {
                 .rows(productionVOList)
                 .build();
         return Result.newSuccess(pageVo);
+    }
+
+    /**根据id获取作品信息**/
+    @Override
+    public Result<ProductionVO> getProductionById(Integer id) {
+        if (id == null){
+            return Result.newResult(ResultEnum.PARAM_ERROR);
+        }
+        Production production = productionRepository.findProductionById(id);
+        if (production == null){
+            return Result.newResult(ResultEnum.NO_GOODS_MSG);
+        }
+        User user = userRepository.findUserById(production.getUserId());
+        if (user == null){
+            return Result.newResult(ResultEnum.USER_NOT_EXIST);
+        }
+        UserArt userArt = userArtRepository.findLastUserArt(production.getUserId());
+        UserPerformance userPerformance = userPerformanceRepository.findLastUserPerformance(production.getUserId());
+        UserVO userVO = new UserVO();
+        ProductionVO productionVO = new ProductionVO();
+        BeanUtils.copyProperties(production,productionVO);
+        BeanUtils.copyProperties(user,userVO);
+        userVO.setUserArt(userArt);
+        userVO.setUserPerformance(userPerformance);
+        productionVO.setUserVO(userVO);
+        return Result.newSuccess(productionVO);
     }
 
 

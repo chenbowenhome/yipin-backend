@@ -4,13 +4,12 @@ import VO.PageVO;
 import VO.Result;
 import VO.Void;
 import args.PageArg;
-import com.yipin.basic.VO.ProductionVO;
 import com.yipin.basic.dao.CommentRepository;
 import com.yipin.basic.dao.productionDao.ProductionRepository;
-import com.yipin.basic.dao.userDao.UserRepository;
+import com.yipin.basic.dao.userDao.UserPerformanceRepository;
 import com.yipin.basic.entity.Comment;
 import com.yipin.basic.entity.production.Production;
-import com.yipin.basic.entity.user.User;
+import com.yipin.basic.entity.user.UserPerformance;
 import com.yipin.basic.form.CommentForm;
 import com.yipin.basic.service.CommentService;
 import enums.ResultEnum;
@@ -19,10 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
@@ -34,6 +31,8 @@ public class CommentServiceImpl implements CommentService {
     private CommentRepository commentRepository;
     @Autowired
     private ProductionRepository productionRepository;
+    @Autowired
+    private UserPerformanceRepository userPerformanceRepository;
     @Autowired
     private HttpServletRequest request;
 
@@ -56,6 +55,9 @@ public class CommentServiceImpl implements CommentService {
             return Result.newResult(ResultEnum.NO_GOODS_MSG);
         }
         production.setComments(production.getComments() + 1);
+        UserPerformance userPerformance = userPerformanceRepository.findLastUserPerformance(production.getUserId());
+        userPerformance.setCommentNums(userPerformance.getCommentNums() + 1);
+        userPerformanceRepository.save(userPerformance);
         Comment comment = new Comment();
         BeanUtils.copyProperties(commentForm,comment);
         comment.setCreateTime(new Date());
@@ -68,7 +70,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Result<PageVO<Comment>> listComments(Integer productionId,PageArg arg) {
         Pageable pageable = PageRequest.of(arg.getPageNo() - 1,arg.getPageSize());
-        Page<Comment> commentPage = commentRepository.findCommentByProductionIdOrderByCreateTime(productionId,pageable);
+        Page<Comment> commentPage = commentRepository.findCommentByProductionIdOrderByCreateTimeDesc(productionId,pageable);
         PageVO<Comment> pageVo = PageVO.<Comment>builder()
                 .totalPage(commentPage.getTotalPages())
                 .pageNo(arg.getPageNo())
@@ -97,11 +99,16 @@ public class CommentServiceImpl implements CommentService {
         if (production == null){
             return Result.newResult(ResultEnum.NO_GOODS_MSG);
         }
-        production.setComments(production.getComments() + 1);
+        production.setComments(production.getComments() - 1);
+        UserPerformance userPerformance = userPerformanceRepository.findLastUserPerformance(production.getUserId());
+        userPerformance.setCommentNums(userPerformance.getCommentNums() - 1);
+        userPerformanceRepository.save(userPerformance);
+        productionRepository.save(production);
         commentRepository.deleteById(id);
         return Result.newSuccess();
     }
 
+    /**更新一条评论**/
     @Override
     public Result<Void> updateComment(Integer id, CommentForm commentForm) {
         String token = (String) request.getAttribute("claims_user");

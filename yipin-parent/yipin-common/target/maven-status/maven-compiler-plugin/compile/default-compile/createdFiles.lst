@@ -4,7 +4,6 @@ enums\ResultEnum.class
 utils\JSONUtils.class
 VO\Void.class
 utils\OkHttpUtil$InstanceHolder$1.class
-VO\UserVO.class
 VO\PageVO$PageVOBuilder.class
 VO\Result.class
 enums\RoleEnum.class

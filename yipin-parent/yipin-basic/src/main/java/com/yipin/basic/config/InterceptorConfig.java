@@ -21,15 +21,25 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
         //注册拦截器要声明拦截器对象和要拦截的请求
         registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
+                .excludePathPatterns("/swagger-resources/**", "/webjars/**","/assets/**", "/v2/**", "/swagger-ui.html/**")
+                .excludePathPatterns("/templates/**")
+                .excludePathPatterns("/public/**")
+                .excludePathPatterns("/static/**");
     }
 
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/META-INF/resources/")
+                .addResourceLocations("classpath:/resources/")
+                .addResourceLocations("classpath:/static/")
+                .addResourceLocations("classpath:/public/")
+                .addResourceLocations("classpath:/templates/");
         registry.addResourceHandler("swagger-ui.html")
                 .addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
+        super.addResourceHandlers(registry);
     }
 
     @Override
@@ -37,4 +47,6 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
         // Spring data jpa pageable的参数分解器
         argumentResolvers.add(new PageableHandlerMethodArgumentResolver());
     }
+
+
 }

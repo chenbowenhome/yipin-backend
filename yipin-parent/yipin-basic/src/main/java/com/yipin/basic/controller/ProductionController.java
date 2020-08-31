@@ -26,7 +26,7 @@ public class ProductionController {
     private ProductionService productionService;
 
     /**分页查询代表作**/
-    @ApiOperation("首页分页查询代表作，按品值排序")
+    @ApiOperation("首页分页查询代表作，按上传时间排序")
     @RequestMapping(value = "/listPublishedProduction",method = RequestMethod.POST)
     public Result<PageVO<ProductionVO>> listPublishedProduction(@RequestBody PageArg arg){
         arg.validate();
@@ -92,10 +92,17 @@ public class ProductionController {
     }
 
     /**根据标题搜索作品**/
-    @ApiOperation("根据标题搜索作品")
+    @ApiOperation("根据标题搜索代表作品")
     @RequestMapping(value = "/searchProduction",method = RequestMethod.POST)
     public Result<PageVO<ProductionVO>> searchProduction(String title,@RequestBody PageArg arg){
         arg.validate();
         return productionService.searchProduction(title,arg);
+    }
+
+    /**根据id获取作品信息**/
+    @ApiOperation("根据id获取作品信息")
+    @RequestMapping(value = "/getProductionById",method = RequestMethod.POST)
+    public Result<ProductionVO> getProductionById(Integer id) {
+        return productionService.getProductionById(id);
     }
 }

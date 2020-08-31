@@ -21,10 +21,6 @@ public class UserPerformance {
      */
     private Integer userId;
     /**
-     * 用户上传作品总次数
-     */
-    private Integer allUploadNums;
-    /**
      * 用户本周期上传作品数
      */
     private Integer uploadProductionNums;
@@ -37,9 +33,9 @@ public class UserPerformance {
      */
     private Integer commentNums;
     /**
-     * 本周被他人评价的次数
+     * 本周点赞次数
      */
-    private Integer beCommentedNums;
+    private Integer likeNums;
     /**
      * 本周打赏他人的金额
      */
@@ -72,4 +68,8 @@ public class UserPerformance {
      * 更新时间
      */
     private Date updateTime;
+    /**
+     * 是否为周期内
+     */
+    private Integer isPeriod;
 }

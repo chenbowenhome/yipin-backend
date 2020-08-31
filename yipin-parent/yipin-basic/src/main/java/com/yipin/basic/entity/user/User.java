@@ -105,4 +105,12 @@ public class User implements Serializable {
      * 本期排名
      */
     private Integer ranking;
+    /**
+     * 用户身份
+     */
+    private Integer role;
+    /**
+     * 总作品数
+     */
+    private Integer productionNum;
 }

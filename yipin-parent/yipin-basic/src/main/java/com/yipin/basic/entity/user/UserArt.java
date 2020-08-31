@@ -35,7 +35,7 @@ public class UserArt {
     /**
      * 当前在线小时数
      */
-    private Integer onlineHours;
+    private Integer onlineMinute;
     /**
      * 总在线小时数
      */

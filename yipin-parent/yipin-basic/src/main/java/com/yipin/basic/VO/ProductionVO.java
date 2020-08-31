@@ -26,11 +26,11 @@ public class ProductionVO implements Serializable {
     /**
      * 发布状态
      */
-    private Integer publish_status;
+    private Integer publishStatus;
     /**
      * 评估状态
      */
-    private Integer evaluate_status;
+    private Integer evaluateStatus;
     /**
      * 图片url
      */

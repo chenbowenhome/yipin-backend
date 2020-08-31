@@ -9,8 +9,8 @@ spring:
   jpa:
     database: mysql
     show-sql: true
-  redis:
-    host: 101.200.182.241
+  ##redis:
+  ##  host: 101.200.182.241
 ####swagger相关配置
 swagger:
   base-package: com.yipin.basic.controller

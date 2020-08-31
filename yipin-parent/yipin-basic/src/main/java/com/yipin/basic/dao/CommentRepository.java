@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CommentRepository extends JpaRepository<Comment,Integer> {
     Comment findCommentById(Integer id);
-    Page<Comment> findCommentByProductionIdOrderByCreateTime(Integer productionId,Pageable pageable);
+    Page<Comment> findCommentByProductionIdOrderByCreateTimeDesc(Integer productionId,Pageable pageable);
+    Page<Comment> findCommentByUserIdOrderByCreateTimeDesc(Integer userId,Pageable pageable);
 }

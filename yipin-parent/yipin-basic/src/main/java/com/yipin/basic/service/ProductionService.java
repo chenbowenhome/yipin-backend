@@ -29,4 +29,6 @@ public interface ProductionService {
     Result<ProductionVO> getMainProduction(Integer userId);
     /**根据标题搜索作品**/
     Result<PageVO<ProductionVO>> searchProduction(String title,PageArg arg);
+    /**根据id获取作品信息**/
+    Result<ProductionVO> getProductionById(Integer id);
 }

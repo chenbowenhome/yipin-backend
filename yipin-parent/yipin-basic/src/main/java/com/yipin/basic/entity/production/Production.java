@@ -50,7 +50,7 @@ public class Production implements Serializable {
     /**
      * 评估状态
      */
-    private Integer evaluate_status;
+    private Integer evaluateStatus;
     /**
      * 创建时间
      */
