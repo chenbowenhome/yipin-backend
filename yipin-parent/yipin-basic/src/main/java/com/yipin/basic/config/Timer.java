@@ -64,7 +64,7 @@ public class Timer {
     }
 
     /**更新用户品值**/
-    @Scheduled(cron = "0 15 17 ? * SUN")
+    @Scheduled(cron = "0 58 23 ? * SUN")
     public void updateUserPerformance(){
         List<Integer> idList = userRepository.findUserId();
         for (Integer id : idList) {
@@ -126,6 +126,18 @@ public class Timer {
             u.setUserId(id);
             userPerformanceRepository.save(userPerformance);
             userPerformanceRepository.save(u);
+        }
+    }
+
+    /**更新用户品值排名**/
+    @Scheduled(cron = "0 57 23 ? * SUN")
+    public void updateUserPerformanceOrder(){
+        List<User> userList = userRepository.findUserByOrderByPerformanceNumDesc();
+        int index = 1;
+        for (User user : userList) {
+            user.setRanking(index);
+            userRepository.save(user);
+            index++;
         }
     }
 }

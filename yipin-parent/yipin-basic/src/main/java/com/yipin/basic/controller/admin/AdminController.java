@@ -2,9 +2,11 @@ package com.yipin.basic.controller.admin;
 
 import com.yipin.basic.dao.CommentRepository;
 import com.yipin.basic.dao.productionDao.ProductionRepository;
+import com.yipin.basic.dao.specialistDao.SpecialistRepository;
 import com.yipin.basic.dao.userDao.UserRepository;
 import com.yipin.basic.entity.Comment;
 import com.yipin.basic.entity.production.Production;
+import com.yipin.basic.entity.specialist.Specialist;
 import com.yipin.basic.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -27,11 +31,31 @@ public class AdminController {
     private CommentRepository commentRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private SpecialistRepository specialistRepository;
 
 
+    /**删除作品**/
     @GetMapping("/production-list/{id}/delete")
     public String deleteProduction(@PathVariable Integer id,
                               RedirectAttributes attributes) {
+        Production production = productionRepository.findProductionById(id);
+        if (production.getPublishStatus() == 1) {
+            User user = userRepository.findUserById(production.getUserId());
+            if (user.getMainProductionId() == production.getId()) {
+                List<Production> productionList = productionRepository.findProductionByPublishStatusAndUserIdAndEvaluateStatusOrderByCreateTimeDesc(1, user.getId(), 1);
+                if (productionList.isEmpty()) {
+                    user.setMainProductionId(null);
+                } else {
+                    user.setMainProductionId(productionList.get(0).getId());
+                    Production p = productionRepository.findProductionById(productionList.get(0).getId());
+                    p.setIsMainProduction(1);
+                    productionRepository.save(p);
+                }
+            }
+            user.setProductionNum(user.getProductionNum() - 1);
+            userRepository.save(user);
+        }
         productionRepository.deleteById(id);
         attributes.addFlashAttribute("msg", "成功删除作品！");
         return "redirect:/admin/production-list";
@@ -42,9 +66,9 @@ public class AdminController {
                               RedirectAttributes attributes) {
         Comment comment = commentRepository.findCommentById(id);
         Production production = productionRepository.findProductionById(comment.getProductionId());
+        commentRepository.deleteById(id);
         production.setComments(production.getComments() - 1);
         productionRepository.save(production);
-        commentRepository.deleteById(id);
         attributes.addFlashAttribute("msg", "成功删除评论！");
         return "redirect:/admin/comment-list?id=" + comment.getProductionId();
     }
@@ -78,5 +102,24 @@ public class AdminController {
         }
         userRepository.save(user);
         return "redirect:/admin/user-list";
+    }
+
+    @GetMapping("/specialist/{id}/agree")
+    public String agreeSpecialist(@PathVariable Integer id) {
+        Specialist specialist = specialistRepository.findSpecialistById(id);
+        specialist.setCheckStatus(1);
+        specialistRepository.save(specialist);
+        User user = userRepository.findUserById(specialist.getUserId());
+        user.setIsSpecialist(1);
+        userRepository.save(user);
+        return "redirect:/admin/specialist";
+    }
+
+    @GetMapping("/specialist/{id}/disagree")
+    public String disagreeSpecialist(@PathVariable Integer id) {
+        Specialist specialist = specialistRepository.findSpecialistById(id);
+        specialist.setCheckStatus(2);
+        specialistRepository.save(specialist);
+        return "redirect:/admin/specialist";
     }
 }

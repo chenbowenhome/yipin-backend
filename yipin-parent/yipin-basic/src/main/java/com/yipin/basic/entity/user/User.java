@@ -113,4 +113,8 @@ public class User implements Serializable {
      * 总作品数
      */
     private Integer productionNum;
+    /**
+     * 是否为专家
+     */
+    private Integer isSpecialist;
 }

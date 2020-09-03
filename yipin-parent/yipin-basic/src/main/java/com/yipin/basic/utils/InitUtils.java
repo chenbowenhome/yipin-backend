@@ -25,6 +25,7 @@ public class InitUtils {
         user.setPerformanceNum(new BigDecimal(0.00));
         user.setRole(0);
         user.setProductionNum(0);
+        user.setIsSpecialist(0);
         return user;
     }
 

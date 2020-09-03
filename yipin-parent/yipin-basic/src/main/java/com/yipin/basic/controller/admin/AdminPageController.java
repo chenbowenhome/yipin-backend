@@ -3,8 +3,10 @@ package com.yipin.basic.controller.admin;
 import com.yipin.basic.VO.ProductionVO;
 import com.yipin.basic.dao.CommentRepository;
 import com.yipin.basic.dao.productionDao.ProductionRepository;
+import com.yipin.basic.dao.specialistDao.SpecialistRepository;
 import com.yipin.basic.dao.userDao.UserRepository;
 import com.yipin.basic.entity.production.Production;
+import com.yipin.basic.entity.specialist.Specialist;
 import com.yipin.basic.entity.user.User;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ public class AdminPageController {
     private ProductionRepository productionRepository;
     @Autowired
     private CommentRepository commentRepository;
+    @Autowired
+    private SpecialistRepository specialistRepository;
 
     @GetMapping("/index")
     public String indexPage(Model model) {
@@ -54,6 +58,18 @@ public class AdminPageController {
         model.addAttribute("production",productionRepository.findProductionById(id));
         model.addAttribute("page",commentRepository.findCommentByProductionIdOrderByCreateTimeDesc(id,pageable));
         return "comment-list";
+    }
+
+    @RequestMapping("/specialist")
+    public String specialistPage(@PageableDefault(size = 2) Pageable pageable, Model model){
+        model.addAttribute("page",specialistRepository.findSpecialistByCheckStatusOrderByCreateTimeDesc(0,pageable));
+        return "specialist";
+    }
+
+    @RequestMapping("/specialist-list")
+    public String specialistListPage(@PageableDefault(size = 2) Pageable pageable, Model model){
+        model.addAttribute("page",specialistRepository.findSpecialistByCheckStatusOrderByCreateTimeDesc(1,pageable));
+        return "specialist-list";
     }
 
 }

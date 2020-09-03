@@ -3,7 +3,7 @@
 
 <head>
     <title>
-        数据表格_大气漂亮的Bootstrap后台管理系统模板Se7en - JS代码网
+        艺品后台管理系统
     </title>
     <!--<link href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700" media="all" rel="stylesheet" type="text/css" />-->
     <link href="/stylesheets/bootstrap.min.css" media="all" rel="stylesheet" type="text/css"/>
@@ -269,64 +269,13 @@
                         <span aria-hidden="true" class="se7en-charts"></span>作品管理</a>
                     </li>
                     <li class="dropdown"><a data-toggle="dropdown" href="#">
-                        <span aria-hidden="true" class="se7en-pages"></span>Pages<b class="caret"></b></a>
+                        <span aria-hidden="true" class="se7en-pages"></span>专家管理<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="chat.html">
-                                <span class="notifications label label-warning">New</span>
-                                <p>
-                                    Chat
-                                </p></a>
-
+                            <li>
+                                <a href="/admin/specialist">专家申请列表</a>
                             </li>
                             <li>
-                                <a href="calendar.html">Calendar</a>
-                            </li>
-                            <li><a href="timeline.html">
-                                <span class="notifications label label-warning">New</span>
-                                <p>
-                                    Timeline
-                                </p></a>
-
-                            </li>
-                            <li><a href="login1.html">
-                                <span class="notifications label label-warning">New</span>
-                                <p>
-                                    Login 1
-                                </p></a>
-
-                            </li>
-                            <li>
-                                <a href="login2.html">Login 2</a>
-                            </li>
-                            <li><a href="signup1.html">
-                                <span class="notifications label label-warning">New</span>
-                                <p>
-                                    Sign Up 1
-                                </p></a>
-
-                            </li>
-                            <li>
-                                <a href="signup2.html">Sign Up 2</a>
-                            </li>
-                            <li><a href="invoice.html">
-                                <span class="notifications label label-warning">New</span>
-                                <p>
-                                    Invoice
-                                </p></a>
-
-                            </li>
-                            <li><a href="faq.html">
-                                <span class="notifications label label-warning">New</span>
-                                <p>
-                                    FAQ
-                                </p></a>
-
-                            </li>
-                            <li>
-                                <a href="filters.html">Filter Results</a>
-                            </li>
-                            <li>
-                                <a href="404-page.html">404 Page</a>
+                                <a href="/admin/specialist-list">专家列表</a>
                             </li>
                         </ul>
                     </li>
@@ -421,12 +370,40 @@
                                 </td>
                                 <td class="actions">
                                     <div class="action-buttons">
-                                        <a class="table-actions" th:href="@{/admin/comment-list(id=${productionList.id})}"><i class="icon-eye-open"></i></a>
-                                        <a class="table-actions" th:href="@{/admin/production-list/{id}/delete(id=${productionList.id})}"><i class="icon-trash"></i></a>
+                                        <a class="table-actions" data-toggle="modal" href="#myModal1" ><i class="icon-eye-open"></i></a>
+                                        <a class="table-actions" data-toggle="modal" href="#myModal2" ><i class="icon-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>
+                            <div class="modal fade" id="myModal1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <h4>
+                                                查看作品评论
+                                            </h4>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a class="btn btn-primary"  th:href="@{/admin/comment-list(id=${productionList.id})}">确定</a><button class="btn btn-default-outline" data-dismiss="modal" type="button">取消</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div class="modal fade" id="myModal2">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <h4>
+                                                删除后无法恢复，真的要删除该作品吗
+                                            </h4>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a class="btn btn-primary"  th:href="@{/admin/production-list/{id}/delete(id=${productionList.id})}">确定</a><button class="btn btn-default-outline" data-dismiss="modal" type="button">取消</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             </tbody>
 
                         </table>
