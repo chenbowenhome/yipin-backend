@@ -1,6 +1,7 @@
 package com.yipin.basic.config;
 
 import com.yipin.basic.interceptor.JwtInterceptor;
+import com.yipin.basic.interceptor.LoginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
@@ -9,12 +10,15 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
+import java.io.File;
 import java.util.List;
 
 @Configuration
 public class InterceptorConfig extends WebMvcConfigurationSupport {
     @Autowired
     private JwtInterceptor jwtInterceptor;
+    @Autowired
+    private LoginInterceptor loginInterceptor;
 
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
@@ -25,10 +29,18 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
                 .excludePathPatterns("/templates/**")
                 .excludePathPatterns("/public/**")
                 .excludePathPatterns("/static/**");
+
+        registry.addInterceptor(loginInterceptor)
+                .addPathPatterns("/admin/**")
+                .excludePathPatterns("/admin")
+                .excludePathPatterns("/admin/login")
+                .excludePathPatterns("/static/**");
     }
+
 
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/images/**").addResourceLocations("file:/root/art/images/");
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/META-INF/resources/")
                 .addResourceLocations("classpath:/resources/")

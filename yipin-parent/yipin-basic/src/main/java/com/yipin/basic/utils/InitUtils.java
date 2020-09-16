@@ -23,7 +23,6 @@ public class InitUtils {
         user.setAssessments(0);
         user.setInformationStatus(0);
         user.setPerformanceNum(new BigDecimal(0.00));
-        user.setRole(0);
         user.setProductionNum(0);
         user.setIsSpecialist(0);
         return user;

@@ -11,6 +11,12 @@ spring:
     show-sql: true
   ##redis:
   ##  host: 101.200.182.241
+  # 关闭缓存, 方便在本地调试, Build 一下即可即时刷新页面, 生产环境应改为 true
+  thymeleaf:
+    cache: false
+  multipart:
+    max-file-size: 15MB
+    max-request-size: 15MB
 ####swagger相关配置
 swagger:
   base-package: com.yipin.basic.controller

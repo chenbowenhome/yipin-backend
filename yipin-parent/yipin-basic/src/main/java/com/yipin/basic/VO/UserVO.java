@@ -68,6 +68,10 @@ public class UserVO implements Serializable {
      */
     private Date lastdate;
     /**
+     * 更新时间
+     */
+    private Date updatetime;
+    /**
      * 点赞总数
      */
     private Integer likes;
@@ -84,6 +88,10 @@ public class UserVO implements Serializable {
      */
     private Integer mainProductionId;
     /**
+     * 个人信息状态，0为未完成，1为已完成
+     */
+    private Integer informationStatus;
+    /**
      * 品值
      */
     private BigDecimal performanceNum;
@@ -91,6 +99,14 @@ public class UserVO implements Serializable {
      * 本期排名
      */
     private Integer ranking;
+    /**
+     * 总作品数
+     */
+    private Integer productionNum;
+    /**
+     * 是否为专家
+     */
+    private Integer isSpecialist;
 
     private UserArt userArt;
 

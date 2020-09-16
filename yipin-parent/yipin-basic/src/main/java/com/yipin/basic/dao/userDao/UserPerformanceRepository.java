@@ -16,4 +16,6 @@ public interface UserPerformanceRepository extends JpaRepository<UserPerformance
     Integer findMaxExceptionalAmount();
     @Query(value = "SELECT reward_amount FROM user_performance WHERE is_period = 1 ORDER BY reward_amount DESC LIMIT 1",nativeQuery = true)
     Integer findMaxRewardAmount();
+    @Query(value = "SELECT * FROM user_performance WHERE user_id = ?1 AND is_period <> 1 ORDER BY create_time DESC LIMIT 1",nativeQuery = true)
+    UserPerformance findSecondUserPerformance(Integer userId);
 }

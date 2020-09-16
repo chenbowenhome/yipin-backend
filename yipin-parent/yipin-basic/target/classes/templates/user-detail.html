@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>
+        用户详细信息
+    </title>
+    <!--<link href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700" media="all" rel="stylesheet" type="text/css" />-->
+    <link href="/stylesheets/bootstrap.min.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/stylesheets/font-awesome.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/stylesheets/se7en-font.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/stylesheets/isotope.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/stylesheets/jquery.fancybox.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/stylesheets/fullcalendar.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/stylesheets/wizard.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/stylesheets/select2.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/stylesheets/morris.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/stylesheets/datatables.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/stylesheets/datepicker.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/stylesheets/timepicker.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/stylesheets/colorpicker.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/stylesheets/bootstrap-switch.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/stylesheets/daterange-picker.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/stylesheets/typeahead.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/stylesheets/summernote.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/stylesheets/pygments.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/stylesheets/style.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/stylesheets/color/green.css" media="all" rel="alternate stylesheet" title="green-theme"
+          type="text/css"/>
+    <link href="/stylesheets/color/orange.css" media="all" rel="alternate stylesheet" title="orange-theme"
+          type="text/css"/>
+    <link href="/stylesheets/color/magenta.css" media="all" rel="alternate stylesheet" title="magenta-theme"
+          type="text/css"/>
+    <link href="/stylesheets/color/gray.css" media="all" rel="alternate stylesheet" title="gray-theme" type="text/css"/>
+    <script src="/javascripts/jquery.min.js" type="text/javascript"></script>
+    <script src="/javascripts/jquery-ui.js" type="text/javascript"></script>
+    <script src="/javascripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/javascripts/raphael.min.js" type="text/javascript"></script>
+    <script src="/javascripts/selectivizr-min.js" type="text/javascript"></script>
+    <script src="/javascripts/jquery.mousewheel.js" type="text/javascript"></script>
+    <script src="/javascripts/jquery.vmap.min.js" type="text/javascript"></script>
+    <script src="/javascripts/jquery.vmap.sampledata.js" type="text/javascript"></script>
+    <script src="/javascripts/jquery.vmap.world.js" type="text/javascript"></script>
+    <script src="/javascripts/jquery.bootstrap.wizard.js" type="text/javascript"></script>
+    <script src="/javascripts/fullcalendar.min.js" type="text/javascript"></script>
+    <script src="/javascripts/gcal.js" type="text/javascript"></script>
+    <script src="/javascripts/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="/javascripts/datatable-editable.js" type="text/javascript"></script>
+    <script src="/javascripts/jquery.easy-pie-chart.js" type="text/javascript"></script>
+    <script src="/avascripts/excanvas.min.js" type="text/javascript"></script>
+    <script src="/javascripts/jquery.isotope.min.js" type="text/javascript"></script>
+    <script src="/javascripts/isotope_extras.js" type="text/javascript"></script>
+    <script src="/javascripts/modernizr.custom.js" type="text/javascript"></script>
+    <script src="/javascripts/jquery.fancybox.pack.js" type="text/javascript"></script>
+    <script src="/javascripts/select2.js" type="text/javascript"></script>
+    <script src="/javascripts/styleswitcher.js" type="text/javascript"></script>
+    <script src="/javascripts/wysiwyg.js" type="text/javascript"></script>
+    <script src="/javascripts/summernote.min.js" type="text/javascript"></script>
+    <script src="/javascripts/jquery.inputmask.min.js" type="text/javascript"></script>
+    <script src="/javascripts/jquery.validate.js" type="text/javascript"></script>
+    <script src="/javascripts/bootstrap-fileupload.js" type="text/javascript"></script>
+    <script src="/javascripts/bootstrap-datepicker.js" type="text/javascript"></script>
+    <script src="/javascripts/bootstrap-timepicker.js" type="text/javascript"></script>
+    <script src="/javascripts/bootstrap-colorpicker.js" type="text/javascript"></script>
+    <script src="/javascripts/bootstrap-switch.min.js" type="text/javascript"></script>
+    <script src="/javascripts/typeahead.js" type="text/javascript"></script>
+    <script src="/javascripts/daterange-picker.js" type="text/javascript"></script>
+    <script src="/javascripts/date.js" type="text/javascript"></script>
+    <script src="/javascripts/morris.min.js" type="text/javascript"></script>
+    <script src="/javascripts/skycons.js" type="text/javascript"></script>
+    <script src="/javascripts/fitvids.js" type="text/javascript"></script>
+    <script src="/javascripts/jquery.sparkline.min.js" type="text/javascript"></script>
+    <script src="/javascripts/main.js" type="text/javascript"></script>
+    <script src="/javascripts/respond.js" type="text/javascript"></script>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+</head>
+<body>
+<div class="modal-shiftfix">
+    <!-- Navigation -->
+    <div class="navbar navbar-fixed-top scroll-hide">
+        <div class="container-fluid top-bar">
+            <div class="pull-right">
+                <ul class="nav navbar-nav pull-right">
+                    <li class="dropdown notifications hidden-xs">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span aria-hidden="true"
+                                                                                         class="se7en-flag"></span>
+                            <div class="sr-only">
+                                Notifications
+                            </div>
+                            <p class="counter">
+                                4
+                            </p>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">
+                                <div class="notifications label label-info">
+                                    New
+                                </div>
+                                <p>
+                                    New user added: Jane Smith
+                                </p></a>
+
+                            </li>
+                            <li><a href="#">
+                                <div class="notifications label label-info">
+                                    New
+                                </div>
+                                <p>
+                                    Sales targets available
+                                </p></a>
+
+                            </li>
+                            <li><a href="#">
+                                <div class="notifications label label-info">
+                                    New
+                                </div>
+                                <p>
+                                    New performance metric added
+                                </p></a>
+
+                            </li>
+                            <li><a href="#">
+                                <div class="notifications label label-info">
+                                    New
+                                </div>
+                                <p>
+                                    New growth data available
+                                </p></a>
+
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown messages hidden-xs">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span aria-hidden="true"
+                                                                                         class="se7en-envelope"></span>
+                            <div class="sr-only">
+                                Messages
+                            </div>
+                            <p class="counter">
+                                3
+                            </p>
+                        </a>
+                        <ul class="dropdown-menu messages">
+                            <li><a href="#">
+                                <img width="34" height="34" src="images/avatar-male2.png"/>Could we meet today? I
+                                wanted...</a>
+                            </li>
+                            <li><a href="#">
+                                <img width="34" height="34" src="images/avatar-female.png"/>Important data needs your
+                                analysis...</a>
+                            </li>
+                            <li><a href="#">
+                                <img width="34" height="34" src="images/avatar-male2.png"/>Buy Se7en today, it's a great
+                                theme...</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown settings hidden-xs">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span aria-hidden="true"
+                                                                                         class="se7en-gear"></span>
+                            <div class="sr-only">
+                                Settings
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="settings-link blue" href="javascript:chooseStyle('none', 30)"><span></span>Blue</a>
+                            </li>
+                            <li>
+                                <a class="settings-link green"
+                                   href="javascript:chooseStyle('green-theme', 30)"><span></span>Green</a>
+                            </li>
+                            <li>
+                                <a class="settings-link orange"
+                                   href="javascript:chooseStyle('orange-theme', 30)"><span></span>Orange</a>
+                            </li>
+                            <li>
+                                <a class="settings-link magenta"
+                                   href="javascript:chooseStyle('magenta-theme', 30)"><span></span>Magenta</a>
+                            </li>
+                            <li>
+                                <a class="settings-link gray"
+                                   href="javascript:chooseStyle('gray-theme', 30)"><span></span>Gray</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown user hidden-xs"><a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <img width="34" height="34" src="images/avatar-male.jpg"/>John Smith<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">
+                                <i class="icon-user"></i>My Account</a>
+                            </li>
+                            <li><a href="#">
+                                <i class="icon-gear"></i>Account Settings</a>
+                            </li>
+                            <li><a href="login1.html">
+                                <i class="icon-signout"></i>Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <button class="navbar-toggle"><span class="icon-bar"></span><span class="icon-bar"></span><span
+                    class="icon-bar"></span></button>
+            <a class="logo" href="index-2.html">se7en</a>
+            <form class="navbar-form form-inline col-lg-2 hidden-xs">
+                <input class="form-control" placeholder="Search" type="text">
+            </form>
+        </div>
+        <div class="container-fluid main-nav clearfix">
+            <div class="nav-collapse">
+                <ul class="nav">
+
+                    <li><a href="/admin/dictionaries-list">
+                        <span aria-hidden="true" class="se7en-charts"></span>字典管理</a>
+                    </li>
+                    <!--顶部导航-->
+                    <li><a href="/admin/user-list">
+                        <span aria-hidden="true" class="se7en-charts"></span>用户管理</a>
+                    </li>
+
+                    <li><a href="/admin/production-list">
+                        <span aria-hidden="true" class="se7en-charts"></span>作品管理</a>
+                    </li>
+                    <li class="dropdown"><a data-toggle="dropdown" href="#">
+                        <span aria-hidden="true" class="se7en-pages"></span>轮播图管理<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/admin/add-slide">新增轮播图</a>
+                            </li>
+                            <li>
+                                <a href="/admin/slide">轮播图列表</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a data-toggle="dropdown" href="#">
+                        <span aria-hidden="true" class="se7en-pages"></span>专家管理<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/admin/specialist">专家申请列表</a>
+                            </li>
+                            <li>
+                                <a href="/admin/specialist-list">专家列表</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown"><a data-toggle="dropdown" href="#">
+                        <span aria-hidden="true" class="se7en-pages"></span>管理员管理<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li th:if="${admin.isSuper} eq '1'">
+                                <a href="/admin/admin-register">新增管理员</a>
+                            </li>
+                            <li>
+                                <a href="/admin/admin-list">管理员列表</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- End Navigation -->
+    <div class="container-fluid main-content">
+        <!-- End Task List --><!-- Ratings -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="widget-container scrollable list rating-widget">
+                    <div class="heading">
+                        <h4>用户详细信息</h4>
+                    </div>
+                    <div class="widget-content">
+                        <ul>
+                            <li>
+                                <div class="reviewer-info">
+                                    <div class="star-rating pull-right">
+
+                                    </div>
+                                    <img width="60" height="60" th:src="${user.avatar}"/><a href="#"
+                                                                                            th:text="${user.nickname}"></a><em
+                                        th:text="'注册日期：' + ${user.regdate}"></em>
+                                </div>
+                                <div class="review-text">
+                                    <p>
+                                        <a th:if="${user.informationStatus} eq '1'">已完善用户信息</a>
+                                        <a th:if="${user.informationStatus} eq '0'">未完善用户信息</a>
+                                    </p>
+                                    <p>
+                                    <p th:if="${user.description} eq null">用户自述：未填写</p>
+                                    <p th:unless="${user.description} eq null"
+                                       th:text="'用户自述：' + ${user.description}"></p>
+                                    </p>
+                                    <p>
+                                    <p th:if="${user.mobile} eq null">电话号码：未填写</p>
+                                    <p th:unless="${user.mobile} eq null" th:text="'电话号码：' + ${user.mobile}"></p>
+                                    </p>
+                                    <p>
+                                    <p th:if="${user.sex} eq '1'">性别：男</p>
+                                    <p th:if="${user.sex} eq '0'">性别：保密</p>
+                                    <p th:if="${user.sex} eq '2'">性别：女</p>
+                                    </p>
+                                    <p>
+                                    <p th:if="${user.unit} eq null">单位：未填写</p>
+                                    <p th:unless="${user.unit} eq null" th:text="'单位：' + ${user.unit}"></p>
+                                    </p>
+                                    <p>
+                                    <p th:if="${user.email} eq null">邮箱：未填写</p>
+                                    <p th:unless="${user.email} eq null" th:text="'邮箱：' + ${user.email}"></p>
+                                    </p>
+                                    <p>
+                                    <p th:if="${user.identity} eq '1'">身份：老师</p>
+                                    <p th:if="${user.identity} eq '0'">身份：学生</p>
+                                    <p th:if="${user.identity} eq null">身份：未填写</p>
+                                    </p>
+                                    <p>
+                                    <p th:if="${user.birthday} eq null">用户出生年月日：未填写</p>
+                                    <p th:unless="${user.birthday} eq null" th:text="'用户出生年月日：' + ${user.birthday}"></p>
+                                    </p>
+                                    <p th:text="'粉丝数：' + ${user.fanscount}">
+                                    </p>
+                                    <p th:text="'关注数：' + ${user.followcount}">
+                                    </p>
+                                    <p th:text="'作品被点赞总数：' + ${user.likes}">
+                                    </p>
+                                    <p th:text="'作品被打赏总数：' + ${user.gifts}">
+                                    </p>
+                                    <p th:text="'评估作品总数：' + ${user.assessments}">
+                                    </p>
+                                    <p th:text="'用户品值：' + ${user.performanceNum}">
+                                    </p>
+                                    <p>
+                                    <p th:if="${user.ranking} eq null">用户排名：未在排名内</p>
+                                    <p th:unless="${user.ranking} eq null" th:text="'用户排名：' + ${user.ranking}"></p>
+                                    </p>
+                                    <p th:text="'用户发布总作品数：' + ${user.productionNum}">
+                                    </p>
+                                    <p th:text="'最后登录日期：' + ${user.lastdate}">
+                                    </p>
+                                    <p th:text="'用户个人信息更新时间：' + ${user.updatetime}">
+                                    </p>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="widget-container fluid-height clearfix">
+                    <div class="heading">
+                        <h4>用户艺能信息</h4>
+                    </div>
+                    <div>
+                        <div class="widget-content padded clearfix">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                <th>
+                                    用户id
+                                </th>
+                                <th>
+                                    樱桃个数
+                                </th>
+                                <th class="hidden-xs">
+                                    草莓个数
+                                </th>
+                                <th class="hidden-xs">
+                                    苹果个数
+                                </th>
+                                <th>
+                                    总在线时间（小时）
+                                </th>
+                                <th>
+                                    升级所需时间（小时）
+                                </th>
+                                <th>
+                                    创建时间
+                                </th>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td th:text="${user.userArt.userId}">
+
+                                    </td>
+                                    <td th:text="${user.userArt.cherry}">
+
+                                    </td>
+                                    <td th:text="${user.userArt.strawberry}">
+
+                                    </td>
+                                    <td th:text="${user.userArt.apple}">
+
+                                    </td>
+                                    <td th:text="${user.userArt.allOnlineHours}">
+
+                                    </td>
+                                    <td th:text="${user.userArt.upgradeHours}">
+
+                                    </td>
+                                    <td th:text="${user.userArt.createTime}">
+
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="widget-container fluid-height clearfix">
+                    <div class="heading">
+                        <h4>用户品值参数信息</h4>
+                    </div>
+                    <div>
+                        <div class="widget-content padded clearfix">
+                            <table th:unless="${user.userPerformance} eq null"
+                                   class="table table-bordered table-striped">
+                                <thead>
+                                <th>
+                                    用户上传作品数
+                                </th>
+                                <th>
+                                    周期天数
+                                </th>
+                                <th class="hidden-xs">
+                                    评价他人次数
+                                </th>
+                                <th class="hidden-xs">
+                                    点赞个数
+                                </th>
+                                <th>
+                                    打赏的金额
+                                </th>
+                                <th>
+                                    被打赏的金额
+                                </th>
+                                <th>
+                                    坚持度
+                                </th>
+                                <th>
+                                    勤奋度
+                                </th>
+                                <th>
+                                    参与度
+                                </th>
+                                <th>
+                                    价值度
+                                </th>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td th:text="${user.userPerformance.uploadProductionNums}">
+
+                                    </td>
+                                    <td th:text="${user.userPerformance.periodDays}">
+
+                                    </td>
+                                    <td th:text="${user.userPerformance.commentNums}">
+
+                                    </td>
+                                    <td th:text="${user.userPerformance.likeNums}">
+
+                                    </td>
+                                    <td th:text="${user.userPerformance.exceptionalAmount}">
+
+                                    </td>
+                                    <td th:text="${user.userPerformance.rewardAmount}">
+
+                                    </td>
+                                    <td th:text="${user.userPerformance.insistence}">
+
+                                    </td>
+                                    <td th:text="${user.userPerformance.assiduous}">
+
+                                    </td>
+                                    <td th:text="${user.userPerformance.participation}">
+
+                                    </td>
+                                    <td th:text="${user.userPerformance.worth}">
+
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                            <p th:if="${user.userPerformance} eq null">该用户为新用户，品值参数还在计算中...</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="widget-container fluid-height clearfix">
+                    <div class="heading">
+                        <h4>用户代表作信息</h4>
+                    </div>
+                    <div>
+                        <div class="widget-content padded clearfix">
+                            <div th:unless="${production} eq null" class="widget-content padded">
+                                <ul class="gallery-grid">
+                                    <li>
+                                        <img height="300" th:src="${production.imgUrl[0]}"/>
+                                        <a th:href="${production.imgUrl[0]}">点击查看图片</a>
+                                    </li>
+                                    <li>
+
+                                    </li>
+                                    <li>
+                                        <div class="widget-content clearfix">
+                                            <div class="widget-content padded">
+                                                <div class="review-text">
+                                                    <p th:text="'标题：' + ${production.title}"></p>
+                                                    <p th:text="'描述：' + ${production.description}"></p>
+                                                    <p>发布状态：
+                                                        <a th:if="${production.publishStatus} eq '0'">未发布</a>
+                                                        <a th:if="${production.publishStatus} eq '1'">已发布</a>
+                                                    </p>
+                                                    <p>评估状态：
+                                                        <a th:if="${production.evaluateStatus} eq '0'">未评估</a>
+                                                        <a th:if="${production.evaluateStatus} eq '1'">已评估</a>
+                                                    </p>
+                                                    <p th:text="'浏览数：' + ${production.views}"></p>
+                                                    <p th:text="'点赞数：' + ${production.likes}"></p>
+                                                    <p th:text="'评论数：' + ${production.comments}"></p>
+                                                    <p th:text="'发布时间：' + ${production.createTime}"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div th:if="${production} eq null">
+                                <p>该用户未设置代表作...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="widget-container fluid-height clearfix list">
+                    <div class="heading">
+                        <h4>用户已发布的作品</h4>
+                    </div>
+                        <div th:unless="${publishedList.size()} eq 0" class="row" th:each="production : ${publishedList}">
+                                <div class="widget-container padded clearfix">
+                                    <div class="widget-content padded">
+                                        <ul class="gallery-grid">
+                                            <li>
+                                                <img height="300" th:src="${production.imgUrl[0]}"/>
+                                                <a th:href="${production.imgUrl[0]}">点击查看图片</a>
+                                            </li>
+                                            <li>
+
+                                            </li>
+                                            <li>
+                                                <div class="widget-content clearfix">
+                                                    <div class="widget-content padded">
+                                                        <div class="review-text">
+                                                            <p th:text="'标题：' + ${production.title}"></p>
+                                                            <p th:text="'描述：' + ${production.description}"></p>
+                                                            <p>发布状态：
+                                                                <a th:if="${production.publishStatus} eq '0'">未发布</a>
+                                                                <a th:if="${production.publishStatus} eq '1'">已发布</a>
+                                                            </p>
+                                                            <p>评估状态：
+                                                                <a th:if="${production.evaluateStatus} eq '0'">未评估</a>
+                                                                <a th:if="${production.evaluateStatus} eq '1'">已评估</a>
+                                                            </p>
+                                                            <p th:text="'浏览数：' + ${production.views}"></p>
+                                                            <p th:text="'点赞数：' + ${production.likes}"></p>
+                                                            <p th:text="'评论数：' + ${production.comments}"></p>
+                                                            <p th:text="'发布时间：' + ${production.createTime}"></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="widget-content padded"  th:if="${publishedList.size()} eq 0">
+                        <p>该用户未上传作品...</p>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="widget-container fluid-height clearfix">
+                    <div class="heading">
+                        <h4>用户未发布的作品</h4>
+                    </div>
+                    <div th:unless="${unPublishedList.size()} eq 0" class="row" th:each="production : ${unPublishedList}">
+                        <div class="widget-container padded clearfix">
+                            <div class="widget-content padded">
+                                <ul class="gallery-grid">
+                                    <li>
+                                        <img height="300" th:src="${production.imgUrl[0]}"/>
+                                        <a th:href="${production.imgUrl[0]}">点击查看图片</a>
+                                    </li>
+                                    <li>
+
+                                    </li>
+                                    <li>
+                                        <div class="widget-content clearfix">
+                                            <div class="widget-content padded">
+                                                <div class="review-text">
+                                                    <p th:text="'标题：' + ${production.title}"></p>
+                                                    <p th:text="'描述：' + ${production.description}"></p>
+                                                    <p>发布状态：
+                                                        <a th:if="${production.publishStatus} eq '0'">未发布</a>
+                                                        <a th:if="${production.publishStatus} eq '1'">已发布</a>
+                                                    </p>
+                                                    <p>评估状态：
+                                                        <a th:if="${production.evaluateStatus} eq '0'">未评估</a>
+                                                        <a th:if="${production.evaluateStatus} eq '1'">已评估</a>
+                                                    </p>
+                                                    <p th:text="'浏览数：' + ${production.views}"></p>
+                                                    <p th:text="'点赞数：' + ${production.likes}"></p>
+                                                    <p th:text="'评论数：' + ${production.comments}"></p>
+                                                    <p th:text="'发布时间：' + ${production.createTime}"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-content padded " th:if="${unPublishedList.size()} eq 0">
+                        <p>该用户未上传作品...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Ratings -->
+</div>
+</div>
+</body>
+
+</html>

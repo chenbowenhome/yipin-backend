@@ -264,7 +264,7 @@ the specific language governing permissions and limitations under the Apache Lic
             $el.focus();
 
             /* make sure el received focus so we do not error out when trying to manipulate the caret.
-                sometimes modals or others listeners may steal it after its set */
+                sometimes modals or com.yipin.basic.utils.others listeners may steal it after its set */
             if ($el.is(":visible") && el === document.activeElement) {
 
                 /* after the focus is set move the caret to the end, necessary when we val()

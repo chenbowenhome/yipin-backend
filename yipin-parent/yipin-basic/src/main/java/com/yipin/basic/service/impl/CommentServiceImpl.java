@@ -4,10 +4,10 @@ import VO.PageVO;
 import VO.Result;
 import VO.Void;
 import args.PageArg;
-import com.yipin.basic.dao.CommentRepository;
+import com.yipin.basic.dao.othersDao.CommentRepository;
 import com.yipin.basic.dao.productionDao.ProductionRepository;
 import com.yipin.basic.dao.userDao.UserPerformanceRepository;
-import com.yipin.basic.entity.Comment;
+import com.yipin.basic.entity.others.Comment;
 import com.yipin.basic.entity.production.Production;
 import com.yipin.basic.entity.user.UserPerformance;
 import com.yipin.basic.form.CommentForm;
@@ -62,6 +62,7 @@ public class CommentServiceImpl implements CommentService {
         BeanUtils.copyProperties(commentForm,comment);
         comment.setCreateTime(new Date());
         comment.setUpdateTime(new Date());
+        comment.setDeleteStatus(false);
         commentRepository.save(comment);
         return Result.newSuccess();
     }
@@ -92,8 +93,8 @@ public class CommentServiceImpl implements CommentService {
             return Result.newResult(ResultEnum.PARAM_ERROR);
         }
         Comment comment = commentRepository.findCommentById(id);
-        if (comment == null){
-            return Result.newError("评论不存在");
+        if (comment == null || comment.getDeleteStatus()){
+            return Result.newError("评论不存在或者已被删除");
         }
         Production production = productionRepository.findProductionById(comment.getProductionId());
         if (production == null){
@@ -104,7 +105,8 @@ public class CommentServiceImpl implements CommentService {
         userPerformance.setCommentNums(userPerformance.getCommentNums() - 1);
         userPerformanceRepository.save(userPerformance);
         productionRepository.save(production);
-        commentRepository.deleteById(id);
+        comment.setDeleteStatus(true);
+        commentRepository.save(comment);
         return Result.newSuccess();
     }
 
@@ -120,8 +122,8 @@ public class CommentServiceImpl implements CommentService {
             return Result.newResult(ResultEnum.PARAM_ERROR);
         }
         Comment comment = commentRepository.findCommentById(id);
-        if (comment == null){
-            return Result.newError("评论不存在");
+        if (comment == null || comment.getDeleteStatus()){
+            return Result.newError("评论不存在或已被删除");
         }
         BeanUtils.copyProperties(commentForm,comment);
         commentRepository.save(comment);

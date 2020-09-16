@@ -56,6 +56,10 @@ public class ProductionVO implements Serializable {
      */
     private Integer comments;
     /**
+     * 是否为代表作
+     */
+    private Integer isMainProduction;
+    /**
      * 用户信息
      */
     private UserVO userVO;

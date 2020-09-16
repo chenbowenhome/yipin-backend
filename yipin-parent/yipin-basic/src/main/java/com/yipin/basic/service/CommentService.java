@@ -4,7 +4,7 @@ import VO.PageVO;
 import VO.Result;
 import VO.Void;
 import args.PageArg;
-import com.yipin.basic.entity.Comment;
+import com.yipin.basic.entity.others.Comment;
 import com.yipin.basic.form.CommentForm;
 
 public interface CommentService {

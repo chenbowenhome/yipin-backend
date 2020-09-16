@@ -19,4 +19,10 @@ public class BasicApplication {
     public JwtUtil jwtUtil(){
         return new JwtUtil();
     }
+    /**添加spring security加密类**/
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
 }

@@ -39,14 +39,25 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-thymeleaf</artifactId>
     </dependency>
+
+    <dependency>
+        <groupId>org</groupId>
+        <artifactId>opencv</artifactId>
+        <version>1.0</version>
+        <scope>system</scope>
+        <systemPath>${basedir}/src/main/resources/lib/opencv-3411.jar</systemPath>
+    </dependency>
 </dependencies>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+                <includeSystemScope>true</includeSystemScope>
+            </configuration>
+        </plugin>
         </plugins>
     </build>
 </project>

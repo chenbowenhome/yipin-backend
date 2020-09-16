@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ProductionRepository extends JpaRepository<Production,Integer> {
-    Page<Production> findProductionByPublishStatusOrderByCreateTimeDesc(Pageable pageable,Integer publish_status);
+    List<Production> findProductionByPublishStatusAndUserIdOrderByCreateTimeDesc(Integer publish_status,Integer user_id);
     Production findProductionById(Integer id);
     Page<Production> findProductionByPublishStatusAndUserIdOrderByCreateTimeDesc(Integer publish_status,Integer user_id,Pageable pageable);
     @Query(value = "SELECT * FROM production p,user u WHERE p.id = u.main_production_id ORDER BY p.create_time DESC",nativeQuery = true)

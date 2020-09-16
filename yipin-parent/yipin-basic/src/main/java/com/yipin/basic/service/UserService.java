@@ -41,4 +41,6 @@ public interface UserService {
     Result<PageVO<UserVO>> listFollowUsers(Integer userId, PageArg arg);
     /**获取用户粉丝列表**/
     Result<PageVO<UserVO>> listFanUsers(Integer userId,PageArg arg);
+
+    Result<String> uploadImageTest(MultipartFile file);
 }

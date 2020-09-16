@@ -1043,7 +1043,7 @@ $.widget("ui.draggable", $.ui.mouse, {
 
 		var o = this.options;
 
-		// among others, prevent a drag on a resizable-handle
+		// among com.yipin.basic.utils.others, prevent a drag on a resizable-handle
 		if (this.helper || o.disabled || $(event.target).closest(".ui-resizable-handle").length > 0) {
 			return false;
 		}
@@ -4982,7 +4982,7 @@ function stringParse( string ) {
 	if ( rgba.length ) {
 
 		// if this came from a parsed string, force "transparent" when alpha is 0
-		// chrome, (and maybe others) return "transparent" as rgba(0,0,0,0)
+		// chrome, (and maybe com.yipin.basic.utils.others) return "transparent" as rgba(0,0,0,0)
 		if ( rgba.join() === "0,0,0,0" ) {
 			jQuery.extend( rgba, colors.transparent );
 		}

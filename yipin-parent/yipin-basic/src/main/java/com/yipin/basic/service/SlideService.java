@@ -4,7 +4,7 @@ import VO.PageVO;
 import VO.Result;
 import VO.Void;
 import args.PageArg;
-import com.yipin.basic.entity.Slide;
+import com.yipin.basic.entity.others.Slide;
 import com.yipin.basic.form.SlideForm;
 
 public interface SlideService {

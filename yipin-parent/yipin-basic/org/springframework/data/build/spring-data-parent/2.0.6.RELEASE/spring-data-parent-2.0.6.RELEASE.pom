@@ -557,7 +557,7 @@
 									</configuration>
 								</execution>
 
-								<!-- Makes sure resources can be overriden by others -->
+								<!-- Makes sure resources can be overriden by com.yipin.basic.utils.others -->
 								<execution>
 									<id>make-resources-group-writable</id>
 									<phase>deploy</phase>

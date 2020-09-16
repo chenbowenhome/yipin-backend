@@ -209,64 +209,26 @@
         <div class="container-fluid main-nav clearfix">
             <div class="nav-collapse">
                 <ul class="nav">
-                    <li>
-                        <a href="index-2.html"><span aria-hidden="true" class="se7en-home"></span>Dashboard</a>
+                    <li><a href="/admin/dictionaries-list">
+                        <span aria-hidden="true" class="se7en-charts"></span>字典管理</a>
                     </li>
-                    <li><a href="social.html">
-                        <span aria-hidden="true" class="se7en-feed"></span>Social Feed</a>
-                    </li>
-                    <li class="dropdown"><a data-toggle="dropdown" href="#">
-                        <span aria-hidden="true" class="se7en-star"></span>Features<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="buttons.html">Buttons</a>
-                            </li>
-                            <li>
-                                <a href="fontawesome.html">Font Awesome Icons</a>
-                            </li>
-                            <li><a href="glyphicons.html">
-                                <span class="notifications label label-warning">New</span>
-                                <p>
-                                    Glyphicons
-                                </p></a>
-
-                            </li>
-                            <li>
-                                <a href="components.html">Components</a>
-                            </li>
-                            <li>
-                                <a href="widgets.html">Widgets</a>
-                            </li>
-                            <li>
-                                <a href="typo.html">Typography</a>
-                            </li>
-                            <li>
-                                <a href="grid.html">Grid Layout</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown"><a data-toggle="dropdown" href="#">
-                        <span aria-hidden="true" class="se7en-forms"></span>Forms<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="form-components.html">
-                                <span class="notifications label label-warning">New</span>
-                                <p>
-                                    Form Components
-                                </p></a>
-
-                            </li>
-                            <li>
-                                <a href="form-advanced.html">Advanced Forms</a>
-                            </li>
-                        </ul>
-                    </li>
-
                     <li><a href="/admin/user-list">
                         <span aria-hidden="true" class="se7en-charts"></span>用户管理</a>
                     </li>
 
                     <li><a href="/admin/production-list">
                         <span aria-hidden="true" class="se7en-charts"></span>作品管理</a>
+                    </li>
+                    <li class="dropdown"><a data-toggle="dropdown" href="#">
+                        <span aria-hidden="true" class="se7en-pages"></span>轮播图管理<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/admin/add-slide">新增轮播图</a>
+                            </li>
+                            <li>
+                                <a href="/admin/slide">轮播图列表</a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="dropdown"><a data-toggle="dropdown" href="#">
                         <span aria-hidden="true" class="se7en-pages"></span>专家管理<b class="caret"></b></a>
@@ -279,8 +241,16 @@
                             </li>
                         </ul>
                     </li>
-                    <li><a href="gallery.html">
-                        <span aria-hidden="true" class="se7en-gallery"></span>Gallery</a>
+                    <li class="dropdown"><a data-toggle="dropdown" href="#">
+                        <span aria-hidden="true" class="se7en-pages"></span>管理员管理<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li th:if="${admin.isSuper} eq '1'">
+                                <a href="/admin/admin-register">新增管理员</a>
+                            </li>
+                            <li>
+                                <a href="/admin/admin-list">管理员列表</a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -299,6 +269,12 @@
                 <div class="widget-container fluid-height clearfix">
                     <div class="heading">
                         <i class="icon-table"></i>专家申请列表
+                    </div>
+
+                    <div class="alert alert-success" th:unless="${#strings.isEmpty(msg)}">
+                        <button class="close" data-dismiss="alert" type="button">&times;</button><a th:text="${msg}"></a>
+                        <div class="badge pull-right">
+                        </div>
                     </div>
                     <div class="widget-content padded clearfix">
                         <table class="table table-bordered table-striped">
@@ -327,7 +303,9 @@
                             <th class="hidden-xs">
                                 请求时间
                             </th>
-
+                            <th class="hidden-xs">
+                                教师资格证与获奖证书
+                            </th>
                             <th class="hidden-xs">
 
                             </th>
@@ -360,7 +338,9 @@
                                 <td class="hidden-xs" th:text="${user.createTime}">
 
                                 </td>
-
+                                <td class="hidden-xs" >
+                                    <a th:href="@{/admin/specialist-detail(id=${user.id})}">点击查看</a>
+                                </td>
                                 <td class="actions">
                                     <div class="action-buttons">
                                         <a class="table-actions" th:href="@{/admin/specialist/{id}/agree(id=${user.id})}">同意</a>

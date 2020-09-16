@@ -210,56 +210,8 @@
         <div class="container-fluid main-nav clearfix">
             <div class="nav-collapse">
                 <ul class="nav">
-                    <li>
-                        <a href="index-2.html"><span aria-hidden="true" class="se7en-home"></span>Dashboard</a>
-                    </li>
-                    <li><a href="social.html">
-                        <span aria-hidden="true" class="se7en-feed"></span>Social Feed</a>
-                    </li>
-                    <li class="dropdown"><a data-toggle="dropdown" href="#">
-                        <span aria-hidden="true" class="se7en-star"></span>Features<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="buttons.html">Buttons</a>
-                            </li>
-                            <li>
-                                <a href="fontawesome.html">Font Awesome Icons</a>
-                            </li>
-                            <li><a href="glyphicons.html">
-                                <span class="notifications label label-warning">New</span>
-                                <p>
-                                    Glyphicons
-                                </p></a>
-
-                            </li>
-                            <li>
-                                <a href="components.html">Components</a>
-                            </li>
-                            <li>
-                                <a href="widgets.html">Widgets</a>
-                            </li>
-                            <li>
-                                <a href="typo.html">Typography</a>
-                            </li>
-                            <li>
-                                <a href="grid.html">Grid Layout</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown"><a data-toggle="dropdown" href="#">
-                        <span aria-hidden="true" class="se7en-forms"></span>Forms<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="form-components.html">
-                                <span class="notifications label label-warning">New</span>
-                                <p>
-                                    Form Components
-                                </p></a>
-
-                            </li>
-                            <li>
-                                <a href="form-advanced.html">Advanced Forms</a>
-                            </li>
-                        </ul>
+                    <li><a href="/admin/dictionaries-list">
+                        <span aria-hidden="true" class="se7en-charts"></span>字典管理</a>
                     </li>
                     <li><a href="/admin/user-list">
                         <span aria-hidden="true" class="se7en-charts"></span>用户管理</a>
@@ -267,6 +219,17 @@
 
                     <li><a href="/admin/production-list">
                         <span aria-hidden="true" class="se7en-charts"></span>作品管理</a>
+                    </li>
+                    <li class="dropdown"><a data-toggle="dropdown" href="#">
+                        <span aria-hidden="true" class="se7en-pages"></span>轮播图管理<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/admin/add-slide">新增轮播图</a>
+                            </li>
+                            <li>
+                                <a href="/admin/slide">轮播图列表</a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="dropdown"><a data-toggle="dropdown" href="#">
                         <span aria-hidden="true" class="se7en-pages"></span>专家管理<b class="caret"></b></a>
@@ -279,8 +242,16 @@
                             </li>
                         </ul>
                     </li>
-                    <li><a href="gallery.html">
-                        <span aria-hidden="true" class="se7en-gallery"></span>Gallery</a>
+                    <li class="dropdown"><a data-toggle="dropdown" href="#">
+                        <span aria-hidden="true" class="se7en-pages"></span>管理员管理<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li th:if="${admin.isSuper} eq '1'">
+                                <a href="/admin/admin-register">新增管理员</a>
+                            </li>
+                            <li>
+                                <a href="/admin/admin-list">管理员列表</a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -303,7 +274,46 @@
                         <a  th:text="'作品id：'+${production.id}"></a>
 
                     </div>
+                    <div class="widget-content padded clearfix">
+                        <div  class="widget-content padded">
+                            <ul class="gallery-grid">
+                                <li>
+                                    <img height="300" th:src="${production.imgUrl[0]}"/>
+                                    <a th:href="${production.imgUrl[0]}">点击查看图片</a>
+                                </li>
+                                <li>
 
+                                </li>
+                                <li>
+                                    <div class="widget-content clearfix">
+                                        <div class="widget-content padded">
+                                            <div class="review-text">
+                                                <p th:text="'标题：' + ${production.title}"></p>
+                                                <p th:text="'描述：' + ${production.description}"></p>
+                                                <p>发布状态：
+                                                    <a th:if="${production.publishStatus} eq '0'">未发布</a>
+                                                    <a th:if="${production.publishStatus} eq '1'">已发布</a>
+                                                </p>
+                                                <p>评估状态：
+                                                    <a th:if="${production.evaluateStatus} eq '0'">未评估</a>
+                                                    <a th:if="${production.evaluateStatus} eq '1'">已评估</a>
+                                                </p>
+                                                <p th:text="'浏览数：' + ${production.views}"></p>
+                                                <p th:text="'点赞数：' + ${production.likes}"></p>
+                                                <p th:text="'评论数：' + ${production.comments}"></p>
+                                                <p th:text="'发布时间：' + ${production.createTime}"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="alert alert-success" th:unless="${#strings.isEmpty(msg)}">
+                        <button class="close" data-dismiss="alert" type="button">&times;</button><a th:text="${msg}"></a>
+                        <div class="badge pull-right">
+                        </div>
+                    </div>
 
                     <div class="widget-content padded clearfix">
                         <table class="table table-bordered table-striped" >
@@ -324,7 +334,9 @@
                             <th class="hidden-xs">
                                 评论时间
                             </th>
-
+                            <th class="hidden-xs">
+                                是否被删除
+                            </th>
                             <th></th>
                             </thead>
                             <tbody th:each="commentList : ${page.content}">
@@ -344,11 +356,16 @@
                                 <td class="hidden-xs" th:text="${commentList.createTime}">
 
                                 </td>
-
+                                <td >
+                                    <span th:unless="${commentList.deleteStatus}"
+                                          class="label label-success">未删除</span>
+                                    <span th:if="${commentList.deleteStatus}"
+                                          class="label label-danger">已删除</span>
+                                </td>
                                 <td class="actions">
                                     <div class="action-buttons">
                                         <!-- th:href="@{/admin/comment-list/{id}/delete(id=${commentList.id})}" -->
-                                        <a class="table-actions" data-toggle="modal" href="#myModal" ><i class="icon-trash"></i></a>
+                                        <a class="table-actions open-AddBookDialog" th:data-id="${commentList.id}" data-toggle="modal" href="#myModal" ><i class="icon-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>
@@ -363,7 +380,11 @@
                                             </h4>
                                         </div>
                                         <div class="modal-footer">
-                                            <a class="btn btn-primary"  th:href="@{/admin/comment-list/{id}/delete(id=${commentList.id})}">确定</a><button class="btn btn-default-outline" data-dismiss="modal" type="button">取消</button>
+                                            <form th:action="@{/admin/comment-list/delete}" method="post">
+                                                <input  id="id" name="id" type="hidden" value="">
+                                                <input class="btn btn-primary" type="submit" value="确定">
+                                            </form>
+                                            <button class="btn btn-default-outline" data-dismiss="modal" type="button">取消</button>
                                         </div>
                                     </div>
                                 </div>
@@ -415,5 +436,12 @@
     </div>
 </div>
 </body>
-
+<script>
+    $(document).ready(function () {
+        $(".open-AddBookDialog").click(function () {
+            $('#id').val($(this).data('id'));
+            $('#addBookDialog').modal('show');
+        });
+    });
+</script>
 </html>

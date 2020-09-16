@@ -19,17 +19,15 @@ public class JwtInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String header = request.getHeader("TOKEN");
-        if (header != null && !"".equals(header)){
+        if (header != null && !"".equals(header)) {
             String token = header;
-            try{
+            try {
                 Claims claims = jwtUtil.parseJWT(token);
                 String roles = (String) claims.get("roles");
-                if (roles != null){
-                    if (roles.equals("student")){
-                        request.setAttribute("claims_user",token);
-                    }
+                if (roles != null) {
+                    request.setAttribute("claims_user", token);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException("token不正确");
             }
         }

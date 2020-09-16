@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="opencv-3411">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/yipin-basic/src/main/resources/lib/opencv-3411.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/yipin-basic/src/main/resources/lib/opencv-3411.jar!/" />
+    </SOURCES>
+    <excluded>
+      <root url="jar://$PROJECT_DIR$/yipin-basic/src/main/resources/lib/opencv-3411.jar!/" />
+    </excluded>
+  </library>
+</component>

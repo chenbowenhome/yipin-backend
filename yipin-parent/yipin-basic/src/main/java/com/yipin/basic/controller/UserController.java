@@ -45,7 +45,6 @@ public class UserController {
     @Autowired
     private UserPerformanceRepository userPerformanceRepository;
 
-
     /**更新用户信息**/
     @ApiOperation("更新用户信息,传几个更新几个")
     @RequestMapping(value = "/updateUserMsg",method = RequestMethod.POST)
@@ -193,5 +192,12 @@ public class UserController {
     public Result<PageVO<UserVO>> listFanUsers(Integer userId,@RequestBody PageArg arg){
         arg.validate();
         return userService.listFanUsers(userId,arg);
+    }
+
+    /**上传图片测试**/
+    @ApiOperation("上传图片测试")
+    @RequestMapping(value = "/uploadImageTest",method = RequestMethod.POST)
+    public Result<String> uploadImageTest(@RequestParam("file") MultipartFile file){
+        return userService.uploadImageTest(file);
     }
 }
