@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Api(tags = "轮播图相关接口")
 @RestController
@@ -48,5 +49,12 @@ public class SlideController {
     @RequestMapping(value = "/updateSlide",method = RequestMethod.POST)
     public Result<Void> updateSlide(Integer id,@Valid @RequestBody SlideForm slideForm){
         return slideService.updateSlide(id,slideForm);
+    }
+
+    /**获取前三条轮播图信息**/
+    @ApiOperation("获取前三条轮播图信息")
+    @RequestMapping(value = "/getThreeSlide",method = RequestMethod.GET)
+    public Result<List<Slide>> getThreeSlide(){
+        return slideService.getThreeSlide();
     }
 }

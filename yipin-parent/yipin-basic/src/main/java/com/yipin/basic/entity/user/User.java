@@ -1,14 +1,20 @@
 package com.yipin.basic.entity.user;
 
+import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.Data;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
 @Table(name = "user")
+@TypeDef(name = "json", typeClass = JsonStringType.class)
 public class User implements Serializable {
 
     /**
@@ -92,7 +98,9 @@ public class User implements Serializable {
     /**
      * 代表作
      */
-    private Integer mainProductionId;
+    @Type( type = "json" )
+    @Column( columnDefinition = "json" )
+    private List<Integer> mainProductionId;
     /**
      * 个人信息状态，0为未完成，1为已完成
      */

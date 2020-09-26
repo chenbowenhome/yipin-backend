@@ -75,4 +75,12 @@ public class Production implements Serializable {
      * 是否为代表作
      */
     private Integer isMainProduction;
+    /**
+     * 分类标签id
+     */
+    private Integer tagId;
+    /**
+     * 删除状态
+     */
+    private Integer deleteStatus;
 }

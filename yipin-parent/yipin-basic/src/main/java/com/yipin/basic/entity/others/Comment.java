@@ -45,5 +45,21 @@ public class Comment implements Serializable {
      * 是否被删除，0为未删除，1为已删除
      */
     private Boolean deleteStatus;
+    /**
+     * 主评论id
+     */
+    private Integer mainCommentId;
+    /**
+     * 点赞数
+     */
+    private Integer likes;
+    /**
+     * 子评论个数
+     */
+    private Integer kidCommentNums;
+    /**
+     * 话题文章id
+     */
+    private Integer topicArticleId;
 
 }

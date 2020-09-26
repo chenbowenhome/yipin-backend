@@ -49,7 +49,7 @@ public class SlideServiceImpl implements SlideService {
     @Override
     public Result<PageVO<Slide>> listSlide(PageArg arg) {
         Pageable pageable = PageRequest.of(arg.getPageNo() - 1,arg.getPageSize());
-        Page<Slide> slidePage = slideRepository.findAllByOrderByOrderNumDesc(pageable);
+        Page<Slide> slidePage = slideRepository.findAllByOrderByOrderNumAsc(pageable);
         List<Slide> slideList = slidePage.getContent();
         //构建pageVo对象
         PageVO<Slide> pageVo = PageVO.<Slide>builder()
@@ -74,5 +74,12 @@ public class SlideServiceImpl implements SlideService {
         BeanUtils.copyProperties(slideForm,slide);
         slideRepository.save(slide);
         return Result.newSuccess();
+    }
+
+    /**获取前三条轮播图信息**/
+    @Override
+    public Result<List<Slide>> getThreeSlide(){
+        List<Slide> slideList = slideRepository.findThreeSlide();
+        return Result.newSuccess(slideList);
     }
 }

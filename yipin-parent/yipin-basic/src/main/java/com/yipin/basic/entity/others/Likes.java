@@ -28,4 +28,8 @@ public class Likes implements Serializable {
      * 点赞时间
      */
     private Date createTime;
+    /**
+     * 评论id
+     */
+    private Integer commentId;
 }

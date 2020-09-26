@@ -7,6 +7,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**与前端进行交互的实体类，因为有些东西不能传到前端**/
 @Data
@@ -86,7 +87,7 @@ public class UserVO implements Serializable {
     /**
      * 代表作
      */
-    private Integer mainProductionId;
+    private List<Integer> mainProductionId;
     /**
      * 个人信息状态，0为未完成，1为已完成
      */

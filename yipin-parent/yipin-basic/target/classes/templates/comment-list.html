@@ -210,6 +210,7 @@
         <div class="container-fluid main-nav clearfix">
             <div class="nav-collapse">
                 <ul class="nav">
+
                     <li><a href="/admin/dictionaries-list">
                         <span aria-hidden="true" class="se7en-charts"></span>字典管理</a>
                     </li>
@@ -228,6 +229,39 @@
                             </li>
                             <li>
                                 <a href="/admin/slide">轮播图列表</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a data-toggle="dropdown" href="#">
+                        <span aria-hidden="true" class="se7en-pages"></span>画种管理<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/admin/add-paint-type">新增画种</a>
+                            </li>
+                            <li>
+                                <a href="/admin/paint-type">画种列表</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a data-toggle="dropdown" href="#">
+                        <span aria-hidden="true" class="se7en-pages"></span>话题管理<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/admin/add-topicArticle">发布新话题</a>
+                            </li>
+                            <li>
+                                <a href="/admin/topicArticle">话题列表</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a data-toggle="dropdown" href="#">
+                        <span aria-hidden="true" class="se7en-pages"></span>分类标签管理<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/admin/add-production-tag">新增分类标签</a>
+                            </li>
+                            <li>
+                                <a href="/admin/production-tag">分类标签列表</a>
                             </li>
                         </ul>
                     </li>
@@ -261,7 +295,7 @@
     <div class="container-fluid main-content">
         <div class="page-title">
             <h1>
-                作品评论管理表格
+                作品详细信息
             </h1>
         </div>
         <!-- DataTables Example -->
@@ -269,13 +303,18 @@
             <div class="col-lg-12">
                 <div class="widget-container fluid-height clearfix">
                     <div class="heading" th:if="${production} != null">
-                        <div  th:text="'作品名称：'+${production.title}"></div>
+                        <div th:text="'作品名称：'+${production.title}"></div>
                         <div text=" || "></div>
-                        <a  th:text="'作品id：'+${production.id}"></a>
-
+                        <a th:text="'作品id：'+${production.id}"></a>
+                    </div>
+                    <div class="alert alert-success" th:unless="${#strings.isEmpty(msg)}">
+                        <button class="close" data-dismiss="alert" type="button">&times;</button>
+                        <a th:text="${msg}"></a>
+                        <div class="badge pull-right">
+                        </div>
                     </div>
                     <div class="widget-content padded clearfix">
-                        <div  class="widget-content padded">
+                        <div class="widget-content padded">
                             <ul class="gallery-grid">
                                 <li>
                                     <img height="300" th:src="${production.imgUrl[0]}"/>
@@ -287,6 +326,11 @@
                                 <li>
                                     <div class="widget-content clearfix">
                                         <div class="widget-content padded">
+                                            <div class="reviewer-info ">
+                                                <p>用户：
+                                                <img width="60" height="60"   th:src="${user.avatar}"/><a class="padded" th:href="@{/admin/user-detail(id=${user.id})}" >[点击查看用户信息]</a>
+                                                </p>
+                                            </div>
                                             <div class="review-text">
                                                 <p th:text="'标题：' + ${production.title}"></p>
                                                 <p th:text="'描述：' + ${production.description}"></p>
@@ -298,25 +342,26 @@
                                                     <a th:if="${production.evaluateStatus} eq '0'">未评估</a>
                                                     <a th:if="${production.evaluateStatus} eq '1'">已评估</a>
                                                 </p>
+                                                <p>是否为代表作
+                                                    <a th:if="${production.isMainProduction} eq '0'">否</a>
+                                                    <a th:if="${production.isMainProduction} eq '1'">是</a>
+                                                </p>
                                                 <p th:text="'浏览数：' + ${production.views}"></p>
                                                 <p th:text="'点赞数：' + ${production.likes}"></p>
                                                 <p th:text="'评论数：' + ${production.comments}"></p>
                                                 <p th:text="'发布时间：' + ${production.createTime}"></p>
+                                                <a th:href="@{/admin/likes(id=${production.id})}" >[点击查看作品点赞信息]</a>
                                             </div>
                                         </div>
                                     </div>
                                 </li>
                             </ul>
                         </div>
-                    </div>
-                    <div class="alert alert-success" th:unless="${#strings.isEmpty(msg)}">
-                        <button class="close" data-dismiss="alert" type="button">&times;</button><a th:text="${msg}"></a>
-                        <div class="badge pull-right">
-                        </div>
+
                     </div>
 
                     <div class="widget-content padded clearfix">
-                        <table class="table table-bordered table-striped" >
+                        <table class="table table-bordered table-striped">
                             <thead>
 
                             <th class="hidden-xs">
@@ -333,6 +378,9 @@
                             </th>
                             <th class="hidden-xs">
                                 评论时间
+                            </th>
+                            <th class="hidden-xs">
+                                点赞数
                             </th>
                             <th class="hidden-xs">
                                 是否被删除
@@ -356,7 +404,10 @@
                                 <td class="hidden-xs" th:text="${commentList.createTime}">
 
                                 </td>
-                                <td >
+                                <td class="hidden-xs" th:text="${commentList.likes}">
+
+                                </td>
+                                <td>
                                     <span th:unless="${commentList.deleteStatus}"
                                           class="label label-success">未删除</span>
                                     <span th:if="${commentList.deleteStatus}"
@@ -365,7 +416,8 @@
                                 <td class="actions">
                                     <div class="action-buttons">
                                         <!-- th:href="@{/admin/comment-list/{id}/delete(id=${commentList.id})}" -->
-                                        <a class="table-actions open-AddBookDialog" th:data-id="${commentList.id}" data-toggle="modal" href="#myModal" ><i class="icon-trash"></i></a>
+                                        <a class="table-actions open-AddBookDialog" th:data-id="${commentList.id}"
+                                           data-toggle="modal" href="#myModal"><i class="icon-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>
@@ -381,10 +433,12 @@
                                         </div>
                                         <div class="modal-footer">
                                             <form th:action="@{/admin/comment-list/delete}" method="post">
-                                                <input  id="id" name="id" type="hidden" value="">
+                                                <input id="id" name="id" type="hidden" value="">
                                                 <input class="btn btn-primary" type="submit" value="确定">
                                             </form>
-                                            <button class="btn btn-default-outline" data-dismiss="modal" type="button">取消</button>
+                                            <button class="btn btn-default-outline" data-dismiss="modal" type="button">
+                                                取消
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -399,32 +453,37 @@
                                      aria-live="polite"></div>
                             </div>
                             <div class="col-sm-12 col-md-7">
-                                <div class="dataTables_paginate paging_simple_numbers" id="bootstrap-data-table-export_paginate">
+                                <div class="dataTables_paginate paging_simple_numbers"
+                                     id="bootstrap-data-table-export_paginate">
                                     <ul class="pagination">
                                         <li class="paginate_button page-item previous "
                                             id="bootstrap-data-table-export_previous">
 
-                                            <a th:href="@{/admin/comment-list(id=${production.id},page=${page.number}-1)}" th:unless="${page.first}"
+                                            <a th:href="@{/admin/comment-list(id=${production.id},page=${page.number}-1)}"
+                                               th:unless="${page.first}"
                                                class="btn">上一页</a>
 
                                         </li>
-                                        <li class="paginate_button page-item active"><a th:text="${page.number}+1" href="#"
+                                        <li class="paginate_button page-item active"><a th:text="${page.number}+1"
+                                                                                        href="#"
                                                                                         aria-controls="bootstrap-data-table-export"
                                                                                         data-dt-idx="1" tabindex="0"
                                                                                         class="page-link"></a></li>
-                                        <li class="paginate_button page-item next" id="bootstrap-data-table-export_next">
+                                        <li class="paginate_button page-item next"
+                                            id="bootstrap-data-table-export_next">
 
-                                            <a th:href="@{/admin/comment-list(id=${production.id},page=${page.number}+1)}" th:unless="${page.last}"
+                                            <a th:href="@{/admin/comment-list(id=${production.id},page=${page.number}+1)}"
+                                               th:unless="${page.last}"
                                                class="btn">下一页</a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <form id="form" method="post"  th:action="@{/admin/searchByUserId}" >
-                            <input id="userId" name="userId" type="text" class="form-control"  >
-                            <button  type="submit" class="btn btn-lg btn-info  btn-block">
-                                <span >通过用户id搜索评论</span>
+                        <form id="form" method="post" th:action="@{/admin/searchByUserId}">
+                            <input id="userId" name="userId" type="text" class="form-control">
+                            <button type="submit" class="btn btn-lg btn-info  btn-block">
+                                <span>通过用户id搜索评论</span>
                             </button>
                         </form>
                     </div>

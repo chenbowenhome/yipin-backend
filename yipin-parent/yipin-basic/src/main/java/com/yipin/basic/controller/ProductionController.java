@@ -5,6 +5,7 @@ import VO.Result;
 import VO.Void;
 import args.PageArg;
 import com.yipin.basic.VO.ProductionVO;
+import com.yipin.basic.entity.production.ProductionTag;
 import com.yipin.basic.form.ProductionForm;
 import com.yipin.basic.service.ProductionService;
 import io.swagger.annotations.Api;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Api(tags = "作品相关接口")
 @RestController
@@ -35,7 +37,7 @@ public class ProductionController {
 
     /**上传作品信息,可选择保存或者直接发布**/
     @ApiOperation("上传作品信息,可选择不公开或者公开")
-    @RequestMapping(value = "/uploadProduct ion",method = RequestMethod.POST)
+    @RequestMapping(value = "/uploadProduction",method = RequestMethod.POST)
     public Result<Void> uploadProduction(@Valid @RequestBody ProductionForm productionForm){
         return productionService.uploadProduction(productionForm);
     }
@@ -71,10 +73,17 @@ public class ProductionController {
     }
 
     /**为作品点赞**/
-    @ApiOperation("为作品点赞,传入作品id")
+    @ApiOperation("为作品点赞,传入作品id和用户id")
     @RequestMapping(value = "/likes",method = RequestMethod.POST)
-    public Result<Void> likes(Integer id){
-        return productionService.likes(id);
+    public Result<Void> likes(Integer id,Integer userId){
+        return productionService.likes(id,userId);
+    }
+
+    /**取消点赞**/
+    @ApiOperation("取消点赞,传入作品id和用户id")
+    @RequestMapping(value = "/unlikes",method = RequestMethod.POST)
+    public Result<Void> unlikes(Integer id,Integer userId){
+        return productionService.unlikes(id,userId);
     }
 
     /**浏览作品**/
@@ -86,8 +95,8 @@ public class ProductionController {
 
     /**获取用户代表作**/
     @ApiOperation("获取用户代表作,传入用户id")
-    @RequestMapping(value = "/getMainProduction",method = RequestMethod.POST)
-    public Result<ProductionVO> getMainProduction(Integer userId){
+    @RequestMapping(value = "/getMainProduction",method = RequestMethod.GET)
+    public Result<List<ProductionVO>> getMainProduction(Integer userId){
         return productionService.getMainProduction(userId);
     }
 
@@ -104,5 +113,12 @@ public class ProductionController {
     @RequestMapping(value = "/getProductionById",method = RequestMethod.POST)
     public Result<ProductionVO> getProductionById(Integer id) {
         return productionService.getProductionById(id);
+    }
+
+    /**获取所有分类标签**/
+    @ApiOperation("获取所有分类标签")
+    @RequestMapping(value = "/listProductionTags",method = RequestMethod.GET)
+    public Result<List<ProductionTag>> listProductionTags() {
+        return productionService.listProductionTags();
     }
 }

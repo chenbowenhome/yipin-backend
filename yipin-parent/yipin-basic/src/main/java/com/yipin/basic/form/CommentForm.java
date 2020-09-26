@@ -18,9 +18,18 @@ public class CommentForm implements Serializable {
     /**
      * 作品id
      */
-    @ApiModelProperty(value = "作品id",required = true)
-    @NotNull(message = "作品id不能为空")
+    @ApiModelProperty(value = "作品id")
     private Integer productionId;
+    /**
+     * 话题文章id
+     */
+    @ApiModelProperty(value = "话题文章id")
+    private Integer topicArticleId;
+    /**
+     * 主评论id
+     */
+    @ApiModelProperty(value = "主评论id")
+    private Integer mainCommentId;
     /**
      * 父评论id
      */

@@ -7,6 +7,8 @@ import args.PageArg;
 import com.yipin.basic.entity.others.Slide;
 import com.yipin.basic.form.SlideForm;
 
+import java.util.List;
+
 public interface SlideService {
     /**新增一个轮播图**/
     Result<Void> addSlide(SlideForm slideForm);
@@ -16,4 +18,6 @@ public interface SlideService {
     Result<PageVO<Slide>> listSlide(PageArg arg);
     /**更新一个轮播图**/
     Result<Void> updateSlide(Integer id,SlideForm slideForm);
+    /**获取前三条轮播图信息**/
+    Result<List<Slide>> getThreeSlide();
 }

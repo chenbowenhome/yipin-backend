@@ -3,20 +3,26 @@ package com.yipin.basic.controller;
 import VO.PageVO;
 import VO.Result;
 import args.PageArg;
+import com.yipin.basic.VO.RankingUserVO;
+import com.yipin.basic.VO.RankingVO;
 import com.yipin.basic.VO.UserVO;
 import VO.Void;
 import args.data.AuthCode2Session;
 import args.data.WxUserInfo;
 import com.yipin.basic.config.WechatMiniprogramConfig;
+import com.yipin.basic.dao.ranking.RankingUserRepository;
 import com.yipin.basic.dao.userDao.UserArtRepository;
 import com.yipin.basic.dao.userDao.UserPerformanceRepository;
 import com.yipin.basic.dao.userDao.UserRepository;
+import com.yipin.basic.entity.ranking.RankingPeriod;
+import com.yipin.basic.entity.ranking.RankingUser;
 import com.yipin.basic.entity.user.User;
 import com.yipin.basic.entity.user.UserArt;
 import com.yipin.basic.entity.user.UserPerformance;
 import com.yipin.basic.form.UserForm;
 import args.WxLoginArg;
 import com.yipin.basic.form.UserMsgForm;
+import com.yipin.basic.service.RankingService;
 import com.yipin.basic.service.UserService;
 import com.yipin.basic.utils.InitUtils;
 import io.swagger.annotations.Api;
@@ -44,6 +50,8 @@ public class UserController {
     private UserArtRepository userArtRepository;
     @Autowired
     private UserPerformanceRepository userPerformanceRepository;
+    @Autowired
+    private RankingService rankingService;
 
     /**更新用户信息**/
     @ApiOperation("更新用户信息,传几个更新几个")
@@ -199,5 +207,26 @@ public class UserController {
     @RequestMapping(value = "/uploadImageTest",method = RequestMethod.POST)
     public Result<String> uploadImageTest(@RequestParam("file") MultipartFile file){
         return userService.uploadImageTest(file);
+    }
+
+    /**获取排名前20名用户**/
+    @ApiOperation("获取排名前20名用户")
+    @RequestMapping(value = "/findTheRanking",method = RequestMethod.GET)
+    public Result<RankingVO> findTheRanking(Integer period) {
+        return rankingService.findTheRanking(period);
+    }
+
+    /**获取所有期数**/
+    @ApiOperation("获取所有期数")
+    @RequestMapping(value = "/findAllPeriod",method = RequestMethod.GET)
+    public Result<List<RankingPeriod>> findAllPeriod(){
+        return rankingService.findAllPeriod();
+    }
+
+    /**获取目标期数用户前后五名**/
+    @ApiOperation("获取目标期数用户前后五名")
+    @RequestMapping(value = "/findUserRanking",method = RequestMethod.GET)
+    public Result<List<RankingUser>> findUserRanking(Integer userId, Integer period){
+        return rankingService.findUserRanking(userId,period);
     }
 }

@@ -36,6 +36,24 @@ public class ProductionForm implements Serializable {
     @NotNull(message = "公开状态不能为空")
     private Integer publishStatus;
     /**
+     * 评估状态
+     */
+    @ApiModelProperty(value = "评估状态，0为未评估，1为已评估",required = true,example = "0")
+    @NotNull(message = "评估状态不能为空")
+    private Integer evaluateStatus;
+    /**
+     * 是否设置为代表作
+     */
+    @ApiModelProperty(value = "是否为代表作，0为不是，1为是",required = true,example = "0")
+    @NotNull(message = "是否为代表作不能为空")
+    private Integer isMainProduction;
+    /**
+     * 分类标签id
+     */
+    @ApiModelProperty(value = "分类标签id",required = true)
+    @NotNull(message = "分类标签id不能为空")
+    private Integer tagId;
+    /**
      * 图片url
      */
     @ApiModelProperty(value = "图片url",required = true)

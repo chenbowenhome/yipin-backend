@@ -1,8 +1,12 @@
 package com.yipin.basic.config;
 
+import com.yipin.basic.dao.ranking.RankingPeriodRepository;
+import com.yipin.basic.dao.ranking.RankingUserRepository;
 import com.yipin.basic.dao.userDao.UserArtRepository;
 import com.yipin.basic.dao.userDao.UserPerformanceRepository;
 import com.yipin.basic.dao.userDao.UserRepository;
+import com.yipin.basic.entity.ranking.RankingPeriod;
+import com.yipin.basic.entity.ranking.RankingUser;
 import com.yipin.basic.entity.user.User;
 import com.yipin.basic.entity.user.UserArt;
 import com.yipin.basic.entity.user.UserPerformance;
@@ -13,6 +17,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +30,10 @@ public class Timer {
     private UserPerformanceRepository userPerformanceRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RankingPeriodRepository rankingPeriodRepository;
+    @Autowired
+    private RankingUserRepository rankingUserRepository;
 
     /**更新用户艺能**/
     @Scheduled(cron = "0 59 23 * * ?")
@@ -130,13 +139,45 @@ public class Timer {
     }
 
     /**更新用户品值排名**/
-    @Scheduled(cron = "0 57 23 ? * SUN")
+    @Scheduled(cron = "0 00 00 ? * MON")
     public void updateUserPerformanceOrder(){
         List<User> userList = userRepository.findUserByOrderByPerformanceNumDesc();
+        RankingPeriod rankingPeriod = rankingPeriodRepository.findLastRankingPeriod();
+        if (rankingPeriod == null){//如果为空就新建一个期数
+            RankingPeriod rp = new RankingPeriod();
+            rp.setPeriod(1);
+            Date startDate = new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(startDate);
+            calendar.add(Calendar.DATE,7);
+            Date endDate = calendar.getTime();
+            rp.setStartTime(startDate);
+            rp.setEndTime(endDate);
+            rankingPeriodRepository.save(rp);
+            rankingPeriod = rp;
+        }else {
+            RankingPeriod rp = new RankingPeriod();
+            rp.setPeriod(rankingPeriod.getPeriod() + 1);
+            Date startDate = new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(startDate);
+            calendar.add(Calendar.DATE,7);
+            Date endDate = calendar.getTime();
+            rp.setStartTime(startDate);
+            rp.setEndTime(endDate);
+            rankingPeriodRepository.save(rp);
+            rankingPeriod = rp;
+        }
         int index = 1;
         for (User user : userList) {
             user.setRanking(index);
+            RankingUser rankingUser = new RankingUser();
+            rankingUser.setUserId(user.getId());
+            rankingUser.setPeriod(rankingPeriod.getPeriod());
+            rankingUser.setCreateTime(new Date());
+            rankingUser.setRanking(index);
             userRepository.save(user);
+            rankingUserRepository.save(rankingUser);
             index++;
         }
     }

@@ -1,18 +1,21 @@
 package com.yipin.basic.controller.admin;
 
 import com.yipin.basic.VO.UserVO;
-import com.yipin.basic.dao.othersDao.AdminRepository;
-import com.yipin.basic.dao.othersDao.CommentRepository;
-import com.yipin.basic.dao.othersDao.DictionariesRepository;
-import com.yipin.basic.dao.othersDao.SlideRepository;
+import com.yipin.basic.dao.othersDao.*;
 import com.yipin.basic.dao.productionDao.ProductionRepository;
+import com.yipin.basic.dao.productionDao.ProductionTagRepository;
+import com.yipin.basic.dao.specialistDao.PaintTypeRepository;
 import com.yipin.basic.dao.specialistDao.SpecialistRepository;
 import com.yipin.basic.dao.userDao.UserArtRepository;
 import com.yipin.basic.dao.userDao.UserPerformanceRepository;
 import com.yipin.basic.dao.userDao.UserRepository;
 import com.yipin.basic.entity.others.Admin;
 import com.yipin.basic.entity.others.Slide;
+import com.yipin.basic.entity.others.TopicArticle;
 import com.yipin.basic.entity.production.Production;
+import com.yipin.basic.entity.production.ProductionTag;
+import com.yipin.basic.entity.specialist.PaintType;
+import com.yipin.basic.entity.specialist.Specialist;
 import com.yipin.basic.entity.user.User;
 import com.yipin.basic.entity.user.UserArt;
 import com.yipin.basic.entity.user.UserPerformance;
@@ -30,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -55,6 +59,14 @@ public class AdminPageController {
     private DictionariesRepository dictionariesRepository;
     @Autowired
     private SlideRepository slideRepository;
+    @Autowired
+    private LikesRepository likesRepository;
+    @Autowired
+    private PaintTypeRepository paintTypeRepository;
+    @Autowired
+    private ProductionTagRepository productionTagRepository;
+    @Autowired
+    private TopicArticleRepository topicArticleRepository;
 
     @GetMapping("/index")
     public String indexPage(HttpServletRequest request,Model model) {
@@ -89,8 +101,8 @@ public class AdminPageController {
         userVO.setUserPerformance(userPerformance);
         model.addAttribute("user",userVO);
         //查询代表作信息
-        Production production = productionRepository.findProductionById(user.getMainProductionId());
-        model.addAttribute("production",production);
+        List<Production> productions = productionRepository.findProductionByIsMainProductionAndUserIdOrderByCreateTimeDesc(1,user.getId());
+        model.addAttribute("production",productions);
         //查询用户公开作品信息
         List<Production> publishedProductionList = productionRepository.findProductionByPublishStatusAndUserIdOrderByCreateTimeDesc(1,id);
         //查询用户未公开作品信息
@@ -113,8 +125,12 @@ public class AdminPageController {
     public String commentListPage(HttpServletRequest request,@RequestParam(value = "id") Integer id,@PageableDefault(size = 10) Pageable pageable, Model model){
         Admin a = (Admin) request.getSession().getAttribute("user");
         model.addAttribute("admin",a);
-        model.addAttribute("production",productionRepository.findProductionById(id));
-        model.addAttribute("page",commentRepository.findCommentByProductionIdOrderByCreateTimeDesc(id,pageable));
+        Production production = productionRepository.findProductionById(id);
+        User user = userRepository.findUserById(production.getUserId());
+        model.addAttribute("user",user);
+        model.addAttribute("production",production);
+        model.addAttribute("page",commentRepository.findCommentByProductionIdOrderByLikesDesc(id,pageable));
+        System.out.println(userRepository.findUserListByProductionId(id,pageable));
         return "comment-list";
     }
 
@@ -130,7 +146,8 @@ public class AdminPageController {
     public String specialistListPage(HttpServletRequest request,@PageableDefault(size = 10) Pageable pageable, Model model){
         Admin a = (Admin) request.getSession().getAttribute("user");
         model.addAttribute("admin",a);
-        model.addAttribute("page",specialistRepository.findSpecialistByCheckStatusOrderByCreateTimeDesc(1,pageable));
+        Page<Specialist> specialists = specialistRepository.findSpecialistByCheckStatusOrderByCreateTimeDesc(1,pageable);
+        model.addAttribute("page",specialists);
         return "specialist-list";
     }
 
@@ -138,7 +155,18 @@ public class AdminPageController {
     public String specialistDetailPage(HttpServletRequest request,@RequestParam(value = "id") Integer id, Model model){
         Admin a = (Admin) request.getSession().getAttribute("user");
         model.addAttribute("admin",a);
-        model.addAttribute("photo",specialistRepository.findSpecialistById(id));
+        Specialist specialist = specialistRepository.findSpecialistById(id);
+        List<Integer> typeNums = specialist.getAdeptPaint();
+        List<String> types = new ArrayList<>();
+        for (Integer typeNum : typeNums) {
+            PaintType paintType = paintTypeRepository.findPaintTypeById(typeNum);
+            if (paintType != null) {
+                String type = paintType.getTypeName();
+                types.add(type);
+            }
+        }
+        model.addAttribute("types",types);
+        model.addAttribute("photo",specialist);
         return "specialist-detail";
     }
 
@@ -173,7 +201,7 @@ public class AdminPageController {
     public String slidePage(HttpServletRequest request,Model model) {
         Admin a = (Admin) request.getSession().getAttribute("user");
         model.addAttribute("admin",a);
-        List<Slide> slideList = slideRepository.findSlideByOrderByOrderNumDesc();
+        List<Slide> slideList = slideRepository.findSlideByOrderByOrderNumAsc();
         model.addAttribute("slideList",slideList);
         return "slide";
     }
@@ -183,5 +211,76 @@ public class AdminPageController {
         Admin a = (Admin) request.getSession().getAttribute("user");
         model.addAttribute("admin",a);
         return "add-slide";
+    }
+
+    @RequestMapping("/likes")
+    public String likesPage(HttpServletRequest request,@RequestParam(value = "id") Integer id,@PageableDefault(size = 10) Pageable pageable, Model model){
+        Admin a = (Admin) request.getSession().getAttribute("user");
+        model.addAttribute("admin",a);
+        Page<User> page = userRepository.findUserListByProductionId(id,pageable);
+        model.addAttribute("page",page);
+        model.addAttribute("productionId",id);
+        return "likes";
+    }
+
+    @GetMapping("/paint-type")
+    public String paintTypePage(HttpServletRequest request,Model model) {
+        Admin a = (Admin) request.getSession().getAttribute("user");
+        model.addAttribute("admin",a);
+        model.addAttribute("paintType",paintTypeRepository.findAll());
+        return "paint-type";
+    }
+
+    @GetMapping("/add-paint-type")
+    public String addPaintTypePage(HttpServletRequest request,Model model) {
+        Admin a = (Admin) request.getSession().getAttribute("user");
+        model.addAttribute("admin",a);
+        return "add-paint-type";
+    }
+
+    @GetMapping("/production-tag")
+    public String productionTagPage(HttpServletRequest request,Model model) {
+        Admin a = (Admin) request.getSession().getAttribute("user");
+        model.addAttribute("admin",a);
+        List<ProductionTag> productionTagList = productionTagRepository.findProductionTagByOrderByOrderNumAsc();
+        model.addAttribute("tags",productionTagList);
+        return "production-tag";
+    }
+
+    @GetMapping("/add-production-tag")
+    public String addProductionTagPage(HttpServletRequest request,Model model) {
+        Admin a = (Admin) request.getSession().getAttribute("user");
+        model.addAttribute("admin",a);
+        return "add-production-tag";
+    }
+
+    @GetMapping("/add-topicArticle")
+    public String addTopicArticlePage(HttpServletRequest request,Model model) {
+        Admin a = (Admin) request.getSession().getAttribute("user");
+        model.addAttribute("admin",a);
+        return "add-topicArticle";
+    }
+
+    @GetMapping("/topicArticle")
+    public String topicArticlePage(HttpServletRequest request,@PageableDefault(size = 10) Pageable pageable,Model model) {
+        Admin a = (Admin) request.getSession().getAttribute("user");
+        model.addAttribute("admin",a);
+        Page<TopicArticle> topicArticlePage = topicArticleRepository.findTopicArticleByOrderByCreateTimeDesc(pageable);
+        model.addAttribute("topicArticlePage",topicArticlePage);
+        return "topicArticle";
+    }
+
+    @RequestMapping("/topicArticle-detail")
+    public String topicArticleDetailPage(HttpServletRequest request,@RequestParam(value = "id") Integer id,@PageableDefault(size = 10) Pageable pageable, Model model,
+                                         RedirectAttributes attributes){
+        Admin a = (Admin) request.getSession().getAttribute("user");
+        model.addAttribute("admin",a);
+        TopicArticle topicArticle = topicArticleRepository.findTopicArticleById(id);
+        if (topicArticle == null){
+            attributes.addFlashAttribute("msg", "文章不存在！");
+            return "redirect:/admin/topicArticle";
+        }
+        model.addAttribute("topicArticle",topicArticle);
+        return "topicArticle-detail";
     }
 }

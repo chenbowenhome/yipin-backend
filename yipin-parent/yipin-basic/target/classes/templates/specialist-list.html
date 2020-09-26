@@ -231,6 +231,39 @@
                         </ul>
                     </li>
                     <li class="dropdown"><a data-toggle="dropdown" href="#">
+                        <span aria-hidden="true" class="se7en-pages"></span>画种管理<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/admin/add-paint-type">新增画种</a>
+                            </li>
+                            <li>
+                                <a href="/admin/paint-type">画种列表</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a data-toggle="dropdown" href="#">
+                        <span aria-hidden="true" class="se7en-pages"></span>话题管理<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/admin/add-topicArticle">发布新话题</a>
+                            </li>
+                            <li>
+                                <a href="/admin/topicArticle">话题列表</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a data-toggle="dropdown" href="#">
+                        <span aria-hidden="true" class="se7en-pages"></span>分类标签管理<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/admin/add-production-tag">新增分类标签</a>
+                            </li>
+                            <li>
+                                <a href="/admin/production-tag">分类标签列表</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a data-toggle="dropdown" href="#">
                         <span aria-hidden="true" class="se7en-pages"></span>专家管理<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
@@ -289,6 +322,9 @@
                             <th class="hidden-xs">
                                 教龄
                             </th>
+                            <th class="hidden-xs">
+                               擅长画种
+                            </th>
                             <th width="75">
                                 所属机构
                             </th>
@@ -301,7 +337,9 @@
                             <th class="hidden-xs">
                                 教师资格证书和获奖证书
                             </th>
-
+                            <th class="hidden-xs">
+                                查看用户信息
+                            </th>
                             </thead>
                             <tbody th:each="user : ${page.content}">
                             <tr>
@@ -322,6 +360,9 @@
                                 <td class="hidden-xs" th:text="${user.teachingAge}">
 
                                 </td>
+                                <td class="hidden-xs">
+                                    <a th:each="type : ${user.adeptPaint}" th:text="${type}"></a>
+                                </td>
                                 <td class="hidden-xs" th:text="${user.organization}">
 
                                 </td>
@@ -333,6 +374,12 @@
                                 </td>
                                 <td class="hidden-xs" >
                                     <a th:href="@{/admin/specialist-detail(id=${user.id})}">点击查看</a>
+                                </td>
+                                <td   class="actions hidden-xs">
+                                    <div class="action-buttons">
+                                        <a class="table-actions" th:href="@{/admin/user-detail(id=${user.userId})}"><i class="icon-eye-open"></i></a>
+                                        <a class="table-actions"><i class="icon-trash"></i></a>
+                                    </div>
                                 </td>
                             </tr>
 

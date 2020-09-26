@@ -12,12 +12,15 @@ import java.util.List;
 public interface ProductionRepository extends JpaRepository<Production,Integer> {
     List<Production> findProductionByPublishStatusAndUserIdOrderByCreateTimeDesc(Integer publish_status,Integer user_id);
     Production findProductionById(Integer id);
-    Page<Production> findProductionByPublishStatusAndUserIdOrderByCreateTimeDesc(Integer publish_status,Integer user_id,Pageable pageable);
-    @Query(value = "SELECT * FROM production p,user u WHERE p.id = u.main_production_id ORDER BY p.create_time DESC",nativeQuery = true)
-    Page<Production> findProduction(Pageable pageable);
-    @Query(value = "SELECT * FROM production p,user u WHERE p.id = u.main_production_id AND p.title LIKE ? ORDER BY p.create_time DESC",nativeQuery = true)
+    Page<Production> findProductionByPublishStatusAndUserIdAndDeleteStatusOrderByCreateTimeDesc(Integer publish_status,Integer user_id,Integer deleteStatus,Pageable pageable);
+    /**获取首页作品信息**/
+    @Query(value = "SELECT * FROM production WHERE is_main_production=1 AND delete_status=0 ORDER BY create_time DESC",nativeQuery = true)
+    Page<Production> findProductions(Pageable pageable);
+    /**根据标题查询作品信息**/
+    @Query(value = "SELECT * FROM production WHERE is_main_production_id=1 AND delete_status=0 AND title LIKE ? ORDER BY create_time DESC",nativeQuery = true)
     Page<Production> findProductionByTitleLikes(String title,Pageable pageable);
     Page<Production> findProductionByOrderByCreateTimeDesc(Pageable pageable);
-    Page<Production> findProductionByTitleLike(String title,Pageable pageable);
     List<Production> findProductionByPublishStatusAndUserIdAndEvaluateStatusOrderByCreateTimeDesc(Integer publishStatus,Integer userId,Integer evaluateStatus);
+    /**查询代表作信息**/
+    List<Production> findProductionByIsMainProductionAndUserIdOrderByCreateTimeDesc(Integer isMainProduction,Integer userId);
 }

@@ -5,6 +5,8 @@ import VO.Result;
 import args.PageArg;
 import com.yipin.basic.VO.UserVO;
 import VO.Void;
+import com.yipin.basic.dao.othersDao.ArtMsgRepository;
+import com.yipin.basic.entity.others.ArtMsg;
 import com.yipin.basic.utils.aliyunOss.AliyunOSSUtil;
 import com.yipin.basic.dao.productionDao.ProductionRepository;
 import com.yipin.basic.dao.userDao.FollowRepository;
@@ -61,6 +63,8 @@ public class UserServiceImpl implements UserService {
     //阿里云上传图片工具类
     @Autowired
     private AliyunOSSUtil aliyunOSSUtil;
+    @Autowired
+    private ArtMsgRepository artMsgRepository;
 
     /**
      * 更新用户信息
@@ -179,16 +183,21 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             return Result.newResult(ResultEnum.USER_NOT_EXIST);
         }
+        //TODO 判断是否评估是否发布
         if (production.getCheckStatus() == 0 || production.getEvaluateStatus() == 0 || production.getPublishStatus() == 0) {
             return Result.newResult(ResultEnum.PRODUCTION_ERROR);
         }
-        if (user.getMainProductionId() != null) {
-            Production production1 = productionRepository.findProductionById(user.getMainProductionId());
-            production1.setIsMainProduction(0);
-            productionRepository.save(production1);
+        if (production.getIsMainProduction() == 1){
+            return Result.newError("该作品已为代表作");
         }
-        user.setMainProductionId(productionId);
-        production.setIsMainProduction(1);
+        List<Integer> ids = user.getMainProductionId();
+        if (ids.size() < 5){
+            production.setIsMainProduction(1);
+            ids.add(production.getId());
+            user.setMainProductionId(ids);
+        }else {
+            return Result.newError("最多只能有五个代表作");
+        }
         userRepository.save(user);
         productionRepository.save(production);
         return Result.newSuccess();
@@ -278,12 +287,20 @@ public class UserServiceImpl implements UserService {
         if (user == null || fan == null) {
             return Result.newResult(ResultEnum.USER_NOT_EXIST);
         }
+        //生成消息
+        ArtMsg artMsg = new ArtMsg();
+        artMsg.setCreateTime(new Date());
+        artMsg.setMsgDetail("关注了你");
+        artMsg.setUserId(userId);
+        artMsg.setViewStatus(0);
+
         user.setFollowcount(user.getFollowcount() + 1);
         fan.setFanscount(fan.getFanscount() + 1);
         Follow follow = new Follow();
         follow.setUserId(userId);
         follow.setFollowUserId(followUserId);
         follow.setCreateTime(new Date());
+        artMsgRepository.save(artMsg);
         followRepository.save(follow);
         return Result.newSuccess();
     }

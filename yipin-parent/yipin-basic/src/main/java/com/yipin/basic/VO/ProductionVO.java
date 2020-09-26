@@ -60,6 +60,10 @@ public class ProductionVO implements Serializable {
      */
     private Integer isMainProduction;
     /**
+     * 标签名称
+     */
+    private String tagName;
+    /**
      * 用户信息
      */
     private UserVO userVO;

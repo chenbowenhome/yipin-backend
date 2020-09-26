@@ -2,98 +2,95 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e3963d1d-f1a4-42c2-8f97-bdf902552883" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/32e7b8e9-9d28-4364-8387-9e6c774ee62a.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/32e7b8e9-9d28-4364-8387-9e6c774ee62a.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/net/minidev/json-smart/2.3/json-smart-2.3.pom" beforeDir="false" afterPath="$PROJECT_DIR$/net/minidev/json-smart/2.3/json-smart-2.3.pom" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org/springframework/data/build/spring-data-parent/2.0.6.RELEASE/spring-data-parent-2.0.6.RELEASE.pom" beforeDir="false" afterPath="$PROJECT_DIR$/org/springframework/data/build/spring-data-parent/2.0.6.RELEASE/spring-data-parent-2.0.6.RELEASE.pom" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/net/minidev/json-smart/2.3/json-smart-2.3.pom" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/net/minidev/json-smart/2.3/json-smart-2.3.pom" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/org/springframework/data/build/spring-data-parent/2.0.6.RELEASE/spring-data-parent-2.0.6.RELEASE.pom" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/org/springframework/data/build/spring-data-parent/2.0.6.RELEASE/spring-data-parent-2.0.6.RELEASE.pom" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/BasicApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/BasicApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/VO/ProductionVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/VO/ProductionVO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/VO/UserVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/VO/UserVO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/config/InterceptorConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/config/InterceptorConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/config/WechatMiniprogramConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/config/WechatMiniprogramConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/config/Timer.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/config/Timer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/controller/CommentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/controller/ProductionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/controller/ProductionController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/controller/SlideController.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/controller/SlideController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/controller/SpecialistController.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/controller/SpecialistController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/controller/admin/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/controller/admin/AdminController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/controller/admin/AdminPageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/controller/admin/AdminPageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/dao/CommentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/dao/othersDao/CommentRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/dao/SlideRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/dao/othersDao/SlideRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/dao/othersDao/CommentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/dao/othersDao/CommentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/dao/othersDao/LikesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/dao/othersDao/LikesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/dao/othersDao/SlideRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/dao/othersDao/SlideRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/dao/productionDao/ProductionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/dao/productionDao/ProductionRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/dao/userDao/UserPerformanceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/dao/userDao/UserPerformanceRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/entity/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/entity/others/Comment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/entity/Slide.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/entity/others/Slide.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/dao/specialistDao/PaintTypeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/dao/specialistDao/PaintTypeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/dao/userDao/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/dao/userDao/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/entity/others/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/entity/others/Comment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/entity/others/Likes.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/entity/others/Likes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/entity/production/Production.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/entity/production/Production.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/entity/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/entity/user/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/interceptor/JwtInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/interceptor/JwtInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/form/CommentForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/form/CommentForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/form/ProductionForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/form/ProductionForm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/service/CommentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/service/ProductionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/service/ProductionService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/service/SlideService.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/service/SlideService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/service/SpecialistService.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/service/SpecialistService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/service/impl/CommentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/service/impl/CommentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/service/impl/ProductionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/service/impl/ProductionServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/service/impl/SlideServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/service/impl/SlideServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/service/impl/SpecialistServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/service/impl/SpecialistServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/service/impl/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/utils/InitUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/java/com/yipin/basic/utils/InitUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/resources/static/javascripts/jquery-ui.js" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/resources/static/javascripts/jquery-ui.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/resources/static/javascripts/jquery.validate.js" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/resources/static/javascripts/jquery.validate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/resources/static/javascripts/select2.js" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/resources/static/javascripts/select2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/add-slide.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/add-slide.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/admin-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/admin-list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/admin-register.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/admin-register.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/comment-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/comment-list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/dictionaries-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/dictionaries-list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/production-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/production-list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/slide.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/slide.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/specialist-detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/specialist-detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/specialist-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/specialist-list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/specialist.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/specialist.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/user-detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/user-detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/user-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/src/main/resources/templates/user-list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/BasicApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/BasicApplication.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/VO/ProductionVO.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/VO/ProductionVO.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/VO/UserVO.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/VO/UserVO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/config/InterceptorConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/config/InterceptorConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/config/WechatMiniprogramConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/config/WechatMiniprogramConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/config/Timer.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/config/Timer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/controller/CommentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/controller/CommentController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/controller/ProductionController.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/controller/ProductionController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/controller/SlideController.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/controller/SlideController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/controller/SpecialistController.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/controller/SpecialistController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/controller/UserController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/controller/admin/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/controller/admin/AdminController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/controller/admin/AdminPageController.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/controller/admin/AdminPageController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/dao/CommentRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/dao/SlideRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/dao/othersDao/CommentRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/dao/othersDao/CommentRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/dao/othersDao/LikesRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/dao/othersDao/LikesRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/dao/othersDao/SlideRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/dao/othersDao/SlideRepository.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/dao/productionDao/ProductionRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/dao/productionDao/ProductionRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/dao/userDao/UserPerformanceRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/dao/userDao/UserPerformanceRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/entity/Comment.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/entity/Slide.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/dao/specialistDao/PaintTypeRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/dao/specialistDao/PaintTypeRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/dao/userDao/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/dao/userDao/UserRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/entity/others/Comment.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/entity/others/Comment.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/entity/others/Likes.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/entity/others/Likes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/entity/production/Production.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/entity/production/Production.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/entity/user/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/entity/user/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/interceptor/JwtInterceptor.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/interceptor/JwtInterceptor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/form/CommentForm.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/form/CommentForm.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/form/ProductionForm.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/form/ProductionForm.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/service/CommentService.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/service/CommentService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/service/ProductionService.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/service/ProductionService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/service/SlideService.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/service/SlideService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/service/SpecialistService.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/service/SpecialistService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/service/UserService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/service/impl/CommentServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/service/impl/CommentServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/service/impl/ProductionServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/service/impl/ProductionServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/service/impl/SlideServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/service/impl/SlideServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/service/impl/SpecialistServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/service/impl/SpecialistServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/service/impl/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/service/impl/UserServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/utils/InitUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/com/yipin/basic/utils/InitUtils.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/static/javascripts/jquery-ui.js" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/static/javascripts/jquery-ui.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/static/javascripts/jquery.validate.js" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/static/javascripts/jquery.validate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/static/javascripts/select2.js" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/static/javascripts/select2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/templates/add-slide.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/templates/add-slide.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/templates/admin-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/templates/admin-list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/templates/admin-register.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/templates/admin-register.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/templates/comment-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/templates/comment-list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/templates/dictionaries-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/templates/dictionaries-list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/templates/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/templates/production-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/templates/production-list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/templates/slide.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/templates/slide.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/templates/specialist-detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/templates/specialist-detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/templates/specialist-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/templates/specialist-list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/templates/specialist.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/templates/specialist.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/templates/user-detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/templates/user-detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/classes/templates/user-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/classes/templates/user-list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/yipin-basic-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/yipin-basic-1.0-SNAPSHOT.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-basic/target/yipin-basic-1.0-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-basic/target/yipin-basic-1.0-SNAPSHOT.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-common/net/minidev/json-smart/2.3/json-smart-2.3.pom" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-common/net/minidev/json-smart/2.3/json-smart-2.3.pom" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-common/org/springframework/data/build/spring-data-parent/2.0.6.RELEASE/spring-data-parent-2.0.6.RELEASE.pom" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-common/org/springframework/data/build/spring-data-parent/2.0.6.RELEASE/spring-data-parent-2.0.6.RELEASE.pom" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yipin-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-common/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yipin-common/target/yipin-common-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/yipin-common/target/yipin-common-1.0-SNAPSHOT.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -133,7 +130,14 @@
         <item name="@39.105.6.158" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="art: schema" type="76f4a085:MysqlImplModel$Schema" />
-        <item name="slide: table" type="285a2a93:MysqlImplModel$Table" />
+        <item name="art_order_detail: table" type="285a2a93:MysqlImplModel$Table" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="@39.105.6.158" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="art: schema" type="76f4a085:MysqlImplModel$Schema" />
+        <item name="art_product: table" type="285a2a93:MysqlImplModel$Table" />
       </path>
     </expand>
     <select />
@@ -142,8 +146,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -181,7 +185,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/yipin-basic/src/main/resources/templates" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../社区圈项目/comunity_hbut_backend/社区圈项目" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -191,22 +195,22 @@
     <option name="notificationShown" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\resources\templates" />
-      <recent name="D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\resources\lib" />
-      <recent name="D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\form" />
-      <recent name="D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\resources\static" />
       <recent name="D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\resources\public" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.yipin.basic.VO" />
+      <recent name="com.yipin.basic.utils" />
       <recent name="com.yipin.basic.entity" />
       <recent name="com.yipin.basic.interceptor" />
       <recent name="com.yipin.basic.config" />
-      <recent name="args.data" />
-      <recent name="utils" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
+    <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\resources\templates" />
+      <recent name="D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\resources\static" />
+      <recent name="D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\resources\lib" />
+      <recent name="D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\form" />
       <recent name="D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\resources\public" />
     </key>
   </component>
@@ -243,12 +247,7 @@
               <path>
                 <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
                 <item name="root:@39.105.6.158" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-                <item name="com.intellij.database.console.session.MessageBusSession@1d6e34cc" type="9fbbdea:ServiceModel$ServiceNode" />
-              </path>
-              <path>
-                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-                <item name="root:@39.105.6.158" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-                <item name="com.intellij.database.console.session.MessageBusSession@4788f8b1" type="9fbbdea:ServiceModel$ServiceNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@17787d18" type="9fbbdea:ServiceModel$ServiceNode" />
               </path>
             </expand>
             <select />
@@ -321,6 +320,28 @@
       <workItem from="1600166860068" duration="6796000" />
       <workItem from="1600216419777" duration="3037000" />
       <workItem from="1600243616307" duration="2241000" />
+      <workItem from="1600253607748" duration="8478000" />
+      <workItem from="1600303212281" duration="2525000" />
+      <workItem from="1600323722610" duration="9724000" />
+      <workItem from="1600344701579" duration="5109000" />
+      <workItem from="1600390723134" duration="2313000" />
+      <workItem from="1600478980175" duration="7981000" />
+      <workItem from="1600498264004" duration="8423000" />
+      <workItem from="1600512791838" duration="3625000" />
+      <workItem from="1600563928192" duration="4186000" />
+      <workItem from="1600583837343" duration="857000" />
+      <workItem from="1600646685304" duration="957000" />
+      <workItem from="1600675226161" duration="11802000" />
+      <workItem from="1600755827067" duration="14788000" />
+      <workItem from="1600822585347" duration="2807000" />
+      <workItem from="1600849083788" duration="3132000" />
+      <workItem from="1600860408485" duration="4341000" />
+      <workItem from="1600929758547" duration="8674000" />
+      <workItem from="1600995987767" duration="2767000" />
+      <workItem from="1601016028978" duration="5600000" />
+      <workItem from="1601039235998" duration="2737000" />
+      <workItem from="1601085154147" duration="5019000" />
+      <workItem from="1601104269194" duration="608000" />
     </task>
     <servers />
   </component>
@@ -336,10 +357,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="361" y="71" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1598173058594" />
-    <state x="574" y="122" key="#com.intellij.ide.util.MemberChooser" timestamp="1599182174075">
+    <state x="574" y="122" key="#com.intellij.ide.util.MemberChooser" timestamp="1601021260705">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="574" y="122" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1599182174075" />
+    <state x="574" y="122" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1601021260705" />
     <state x="321" y="337" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1599997368244">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -348,58 +369,58 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1598586023766" />
-    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1599985840599">
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1600932445938">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1599985840599" />
-    <state width="1493" height="178" key="GridCell.Tab.0.bottom" timestamp="1600251653184">
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1600932445938" />
+    <state width="1493" height="176" key="GridCell.Tab.0.bottom" timestamp="1601092834773">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="178" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1600251653184" />
-    <state width="1493" height="178" key="GridCell.Tab.0.center" timestamp="1600251653184">
+    <state width="1493" height="176" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1601092834773" />
+    <state width="1493" height="176" key="GridCell.Tab.0.center" timestamp="1601092834773">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="178" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1600251653184" />
-    <state width="1493" height="178" key="GridCell.Tab.0.left" timestamp="1600251653184">
+    <state width="1493" height="176" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1601092834773" />
+    <state width="1493" height="176" key="GridCell.Tab.0.left" timestamp="1601092834773">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="178" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1600251653184" />
-    <state width="1493" height="178" key="GridCell.Tab.0.right" timestamp="1600251653184">
+    <state width="1493" height="176" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1601092834773" />
+    <state width="1493" height="176" key="GridCell.Tab.0.right" timestamp="1601092834773">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="178" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1600251653184" />
-    <state width="1493" height="178" key="GridCell.Tab.1.bottom" timestamp="1600219499078">
+    <state width="1493" height="176" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1601092834773" />
+    <state width="1493" height="176" key="GridCell.Tab.1.bottom" timestamp="1601092834774">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="178" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1600219499078" />
-    <state width="1493" height="178" key="GridCell.Tab.1.center" timestamp="1600219499078">
+    <state width="1493" height="176" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1601092834774" />
+    <state width="1493" height="176" key="GridCell.Tab.1.center" timestamp="1601092834774">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="178" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1600219499078" />
-    <state width="1493" height="178" key="GridCell.Tab.1.left" timestamp="1600219499078">
+    <state width="1493" height="176" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1601092834774" />
+    <state width="1493" height="176" key="GridCell.Tab.1.left" timestamp="1601092834773">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="178" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1600219499078" />
-    <state width="1493" height="178" key="GridCell.Tab.1.right" timestamp="1600219499078">
+    <state width="1493" height="176" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1601092834773" />
+    <state width="1493" height="176" key="GridCell.Tab.1.right" timestamp="1601092834774">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="178" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1600219499078" />
-    <state width="1493" height="261" key="GridCell.Tab.2.bottom" timestamp="1599574276059">
+    <state width="1493" height="176" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1601092834774" />
+    <state width="1493" height="261" key="GridCell.Tab.2.bottom" timestamp="1600698121502">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="261" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1599574276059" />
-    <state width="1493" height="261" key="GridCell.Tab.2.center" timestamp="1599574276059">
+    <state width="1493" height="261" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1600698121502" />
+    <state width="1493" height="261" key="GridCell.Tab.2.center" timestamp="1600698121502">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="261" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1599574276059" />
-    <state width="1493" height="261" key="GridCell.Tab.2.left" timestamp="1599574276059">
+    <state width="1493" height="261" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1600698121502" />
+    <state width="1493" height="261" key="GridCell.Tab.2.left" timestamp="1600698121501">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="261" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1599574276059" />
-    <state width="1493" height="261" key="GridCell.Tab.2.right" timestamp="1599574276059">
+    <state width="1493" height="261" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1600698121501" />
+    <state width="1493" height="261" key="GridCell.Tab.2.right" timestamp="1600698121502">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="261" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1599574276059" />
+    <state width="1493" height="261" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1600698121502" />
     <state x="299" y="67" key="Maven.ArtifactSearchDialog" timestamp="1599964397800">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -412,18 +433,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="668" y="302" width="340" height="235" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1/0.0.1536.824@0.0.1536.824" timestamp="1598789995972" />
-    <state x="483" y="155" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1600216889022">
+    <state x="349" y="67" key="com.intellij.database.dbimport.ImportDialog" timestamp="1601019774971">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="483" y="155" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.0.1536.824@0.0.1536.824" timestamp="1600216889022" />
+    <state x="349" y="67" key="com.intellij.database.dbimport.ImportDialog/0.0.1536.824@0.0.1536.824" timestamp="1601019774971" />
+    <state x="483" y="155" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1601086971301">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="483" y="155" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.0.1536.824@0.0.1536.824" timestamp="1601086971301" />
     <state x="631" y="303" key="com.intellij.database.view.ui.DbObjectDialog" timestamp="1598173016907">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="631" y="303" key="com.intellij.database.view.ui.DbObjectDialog/0.0.1536.824@0.0.1536.824" timestamp="1598173016907" />
-    <state x="449" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1600253660838">
+    <state x="449" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1601104268622">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="449" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1600253660838" />
+    <state x="449" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1601104268622" />
     <state x="506" y="323" key="com.intellij.jarRepository.RepositoryAttachDialog-SEARCH" timestamp="1599985515937">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -432,13 +457,13 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="178" y="107" key="new project wizard/0.0.1536.824@0.0.1536.824" timestamp="1597825193785" />
-    <state x="425" y="187" key="run.anything.popup" timestamp="1600164945124">
+    <state x="425" y="187" key="run.anything.popup" timestamp="1600502822183">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1600164945124" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1600089040228">
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1600502822183" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1601086617870">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1600089040228" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1601086617870" />
   </component>
 </project>
