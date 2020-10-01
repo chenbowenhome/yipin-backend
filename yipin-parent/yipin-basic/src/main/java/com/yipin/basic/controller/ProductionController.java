@@ -121,4 +121,12 @@ public class ProductionController {
     public Result<List<ProductionTag>> listProductionTags() {
         return productionService.listProductionTags();
     }
+
+    /**根据作品标题或者描述查询作品**/
+    @ApiOperation("根据作品标题或者描述查询作品")
+    @RequestMapping(value = "/findProductionByKey",method = RequestMethod.POST)
+    public Result<PageVO<ProductionVO>> findProductionByKey(String key,@RequestBody PageArg arg) {
+        arg.validate();
+        return productionService.findProductionByKey(key,arg);
+    }
 }

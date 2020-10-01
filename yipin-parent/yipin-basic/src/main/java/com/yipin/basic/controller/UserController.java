@@ -25,6 +25,7 @@ import com.yipin.basic.form.UserMsgForm;
 import com.yipin.basic.service.RankingService;
 import com.yipin.basic.service.UserService;
 import com.yipin.basic.utils.InitUtils;
+import enums.ResultEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
@@ -35,6 +36,7 @@ import utils.JSONUtils;
 import utils.OkHttpUtil;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -226,7 +228,44 @@ public class UserController {
     /**获取目标期数用户前后五名**/
     @ApiOperation("获取目标期数用户前后五名")
     @RequestMapping(value = "/findUserRanking",method = RequestMethod.GET)
-    public Result<List<RankingUser>> findUserRanking(Integer userId, Integer period){
+    public Result<List<RankingUserVO>> findUserRanking(Integer userId, Integer period){
         return rankingService.findUserRanking(userId,period);
     }
+
+    /**记录开始时间**/
+    @ApiOperation("记录开始时间，用户进入小程序后调用此接口")
+    @RequestMapping(value = "/startTime",method = RequestMethod.POST)
+    public Result<Void> startTime(Integer userId){
+        if (userId == null){
+            return Result.newResult(ResultEnum.PARAM_ERROR);
+        }
+        Date date = new Date();
+        UserArt userArt = userArtRepository.findLastUserArt(userId);
+        userArt.setStartTime(date);
+        userArtRepository.save(userArt);
+        return Result.newSuccess();
+    }
+
+    /**记录结束时间**/
+    @ApiOperation("记录结束时间，用户离开小程序后调用此接口")
+    @RequestMapping(value = "/endTime",method = RequestMethod.POST)
+    public Result<Void> endTime(Integer userId){
+        if (userId == null){
+            return Result.newResult(ResultEnum.PARAM_ERROR);
+        }
+        Date endTime = new Date();
+        UserArt userArt = userArtRepository.findLastUserArt(userId);
+        userArt.setEndTime(endTime);
+        Date startTime = userArt.getStartTime();
+        int day = endTime.getDay() - startTime.getDay();
+        int minutes = endTime.getMinutes() - startTime.getMinutes();
+        int allMinutes = day * 60 + minutes;
+        if (allMinutes > 0) {
+            userArt.setAllOnlineHours(userArt.getAllOnlineHours() + allMinutes);
+            userArt.setOnlineMinute(userArt.getOnlineMinute() + allMinutes);
+        }
+        userArtRepository.save(userArt);
+        return Result.newSuccess();
+    }
+
 }

@@ -18,7 +18,7 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     List<Integer> findUserId();
     Page<User> findUserByOrderByRegdateDesc(Pageable pageable);
     Page<User> findUserById(Integer id,Pageable pageable);
-    @Query(value = "SELECT * FROM user WHERE performance_num <> 0.00 ORDER BY performance_num DESC",nativeQuery = true)
+    @Query(value = "SELECT * FROM user ORDER BY performance_num DESC",nativeQuery = true)
     List<User> findUserByOrderByPerformanceNumDesc();
     @Query(value = "SELECT * FROM user WHERE id IN (SELECT user_id FROM likes WHERE production_id=?1)",nativeQuery = true)
     Page<User> findUserListByProductionId(Integer productionId,Pageable pageable);

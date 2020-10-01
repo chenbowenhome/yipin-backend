@@ -1,10 +1,12 @@
 package com.yipin.basic.config;
 
+import com.yipin.basic.dao.othersDao.DailySentenceRepository;
 import com.yipin.basic.dao.ranking.RankingPeriodRepository;
 import com.yipin.basic.dao.ranking.RankingUserRepository;
 import com.yipin.basic.dao.userDao.UserArtRepository;
 import com.yipin.basic.dao.userDao.UserPerformanceRepository;
 import com.yipin.basic.dao.userDao.UserRepository;
+import com.yipin.basic.entity.others.DailySentence;
 import com.yipin.basic.entity.ranking.RankingPeriod;
 import com.yipin.basic.entity.ranking.RankingUser;
 import com.yipin.basic.entity.user.User;
@@ -20,6 +22,7 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @Component //使spring管理
 @EnableScheduling //定时任务注解
@@ -34,6 +37,8 @@ public class Timer {
     private RankingPeriodRepository rankingPeriodRepository;
     @Autowired
     private RankingUserRepository rankingUserRepository;
+    @Autowired
+    private DailySentenceRepository dailySentenceRepository;
 
     /**更新用户艺能**/
     @Scheduled(cron = "0 59 23 * * ?")
@@ -170,15 +175,39 @@ public class Timer {
         }
         int index = 1;
         for (User user : userList) {
-            user.setRanking(index);
-            RankingUser rankingUser = new RankingUser();
-            rankingUser.setUserId(user.getId());
-            rankingUser.setPeriod(rankingPeriod.getPeriod());
-            rankingUser.setCreateTime(new Date());
-            rankingUser.setRanking(index);
-            userRepository.save(user);
-            rankingUserRepository.save(rankingUser);
-            index++;
+            if (user.getPerformanceNum().doubleValue() != 0.00) {
+                user.setRanking(index);
+                RankingUser rankingUser = new RankingUser();
+                rankingUser.setUserId(user.getId());
+                rankingUser.setPeriod(rankingPeriod.getPeriod());
+                rankingUser.setCreateTime(new Date());
+                rankingUser.setRanking(index);
+                userRepository.save(user);
+                rankingUserRepository.save(rankingUser);
+                index++;
+            }else{
+                user.setRanking(null);
+                userRepository.save(user);
+            }
+        }
+    }
+
+    /**更新每日一句**/
+    @Scheduled(cron = "0 47 08 ? * MON")
+    public void updateDailySentence(){
+        List<DailySentence> nowDailySentenceList = dailySentenceRepository.findDailySentenceByNowStatus(1);
+        if (nowDailySentenceList.size() != 0){
+            DailySentence nowDailySentence = nowDailySentenceList.get(0);
+            nowDailySentence.setNowStatus(0);
+            dailySentenceRepository.save(nowDailySentence);
+        }
+        List<DailySentence> dailySentenceList = dailySentenceRepository.findDailySentenceByNowStatus(0);
+        if (dailySentenceList.size() != 0){
+            Random random = new Random();
+            Integer index = random.nextInt(dailySentenceList.size());
+            DailySentence dailySentence = dailySentenceList.get(index);
+            dailySentence.setNowStatus(1);
+            dailySentenceRepository.save(dailySentence);
         }
     }
 }

@@ -23,4 +23,7 @@ public interface ProductionRepository extends JpaRepository<Production,Integer> 
     List<Production> findProductionByPublishStatusAndUserIdAndEvaluateStatusOrderByCreateTimeDesc(Integer publishStatus,Integer userId,Integer evaluateStatus);
     /**查询代表作信息**/
     List<Production> findProductionByIsMainProductionAndUserIdOrderByCreateTimeDesc(Integer isMainProduction,Integer userId);
+    /**根据标题或者描述查询作品**/
+    @Query(value = "SELECT * FROM production WHERE (title LIKE ?1 OR description LIKE ?1) AND delete_status=0 ORDER BY create_time DESC",nativeQuery = true)
+    Page<Production> findProductionByKeyLikes(String key,Pageable pageable);
 }

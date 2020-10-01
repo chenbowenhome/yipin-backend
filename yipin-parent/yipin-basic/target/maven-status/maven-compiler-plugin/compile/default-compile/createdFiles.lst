@@ -43,6 +43,7 @@ com\yipin\basic\VO\TopicArticleVO.class
 com\yipin\basic\dao\userDao\UserArtRepository.class
 com\yipin\basic\service\SlideService.class
 com\yipin\basic\form\AdminRegisterForm.class
+com\yipin\basic\dao\othersDao\DailySentenceRepository.class
 com\yipin\basic\service\impl\AdminServiceImpl.class
 com\yipin\basic\controller\SpecialistController.class
 com\yipin\basic\form\ProductionForm.class
@@ -63,6 +64,7 @@ com\yipin\basic\VO\ProductionVO.class
 com\yipin\basic\entity\others\Comment.class
 com\yipin\basic\entity\others\ArtMsg.class
 com\yipin\basic\config\WebSecurityConfig.class
+com\yipin\basic\entity\order\ArtProduct.class
 com\yipin\basic\dao\othersDao\ImgUrlRepository.class
 com\yipin\basic\service\impl\UserServiceImpl.class
 com\yipin\basic\entity\production\ProductionAssessment.class
@@ -73,8 +75,10 @@ com\yipin\basic\form\CommentForm.class
 com\yipin\basic\dao\specialistDao\SpecialistRepository.class
 com\yipin\basic\controller\MsgController.class
 com\yipin\basic\dao\userDao\UserPerformanceRepository.class
+com\yipin\basic\entity\others\DailySentence.class
 com\yipin\basic\service\impl\MsgServiceImpl.class
 com\yipin\basic\entity\others\TopicArticle.class
+com\yipin\basic\entity\order\ArtOrderDetail.class
 com\yipin\basic\entity\user\User.class
 com\yipin\basic\config\Timer.class
 com\yipin\basic\controller\TopicArticleController.class

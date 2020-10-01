@@ -8,6 +8,7 @@ import com.yipin.basic.VO.ProductionVO;
 import com.yipin.basic.entity.production.Production;
 import com.yipin.basic.entity.production.ProductionTag;
 import com.yipin.basic.form.ProductionForm;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -38,4 +39,6 @@ public interface ProductionService {
     Result<ProductionVO> getProductionById(Integer id);
     /**获取所有分类标签**/
     Result<List<ProductionTag>> listProductionTags();
+    /**根据作品标题或者描述查询作品**/
+    Result<PageVO<ProductionVO>> findProductionByKey(String key, PageArg arg);
 }

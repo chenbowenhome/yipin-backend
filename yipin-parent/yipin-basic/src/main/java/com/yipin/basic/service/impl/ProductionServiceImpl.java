@@ -537,5 +537,45 @@ public class ProductionServiceImpl implements ProductionService {
         return Result.newSuccess(productionTagList);
     }
 
+    /**根据作品标题或者描述查询作品**/
+    @Override
+    public Result<PageVO<ProductionVO>> findProductionByKey(String key, PageArg arg) {
+        Pageable pageable = PageRequest.of(arg.getPageNo() - 1, arg.getPageSize());
+        Page<Production> productionPage = productionRepository.findProductionByKeyLikes("%" + key + "%",pageable);
+
+        //开始包装ProductionVO
+        List<Production> productionList = productionPage.getContent();
+        List<ProductionVO> productionVOList = new ArrayList<>();
+        for (Production production : productionList) {
+            ProductionVO productionVO = new ProductionVO();
+            BeanUtils.copyProperties(production, productionVO);
+            UserVO userVO = userService.getUserMsg(production.getUserId()).getData();
+            if (userVO == null) {
+                return Result.newResult(ResultEnum.USER_NOT_EXIST);
+            }
+            //获取分类标签名称
+            ProductionTag productionTag = productionTagRepository.findProductionTagById(production.getTagId());
+            String tagName = null;
+            if (productionTag == null){
+                tagName = "该标签已被删除";
+            }else{
+                tagName = productionTag.getTagName();
+            }
+            productionVO.setTagName(tagName);
+            productionVO.setUserVO(userVO);
+            productionVOList.add(productionVO);
+        }
+        int total = productionPage.getTotalPages();
+
+        //构建pageVo对象
+        PageVO<ProductionVO> pageVo = PageVO.<ProductionVO>builder()
+                .totalPage(total)
+                .pageNo(arg.getPageNo())
+                .pageSize(arg.getPageSize())
+                .rows(productionVOList)
+                .build();
+        return Result.newSuccess(pageVo);
+    }
+
 
 }

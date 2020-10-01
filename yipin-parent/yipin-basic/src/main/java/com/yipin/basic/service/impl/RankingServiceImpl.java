@@ -67,7 +67,7 @@ public class RankingServiceImpl implements RankingService {
 
     /**获取目标期数用户前后五名**/
     @Override
-    public Result<List<RankingUser>> findUserRanking(Integer userId,Integer period){
+    public Result<List<RankingUserVO>> findUserRanking(Integer userId,Integer period){
         if (userId == null || period == null){
             return Result.newResult(ResultEnum.PARAM_ERROR);
         }
@@ -85,6 +85,20 @@ public class RankingServiceImpl implements RankingService {
             left = ranking - 5;
         }
         List<RankingUser> rankingUserList = rankingUserRepository.findUserRanking(period,left,num);
-        return Result.newSuccess(rankingUserList);
+        List<RankingUserVO> rankingUserVOList = new ArrayList<>();
+        for (RankingUser user : rankingUserList) {
+            RankingPeriod rankingPeriod = rankingPeriodRepository.findRankingPeriodByPeriod(period);
+            UserArt userArt = userArtRepository.findLastUserArt(userId);
+            User u = userRepository.findUserById(user.getUserId());
+            RankingUserVO rankingUserVO = new RankingUserVO();
+            BeanUtils.copyProperties(user,rankingUserVO);
+            rankingUserVO.setAvatar(u.getAvatar());
+            rankingUserVO.setNickname(u.getNickname());
+            rankingUserVO.setPerformanceNum(u.getPerformanceNum());
+            rankingUserVO.setRankingPeriod(rankingPeriod);
+            rankingUserVO.setUserArt(userArt);
+            rankingUserVOList.add(rankingUserVO);
+        }
+        return Result.newSuccess(rankingUserVOList);
     }
 }

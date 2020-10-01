@@ -53,4 +53,8 @@ public class UserArt {
      */
     private Date updateTime;
 
+    private Date startTime;
+
+    private Date endTime;
+
 }
