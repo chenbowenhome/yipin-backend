@@ -2,6 +2,7 @@ package com.yipin.basic.controller;
 
 import VO.PageVO;
 import VO.Result;
+import VO.Void;
 import args.PageArg;
 import com.yipin.basic.VO.MsgVO;
 import com.yipin.basic.entity.others.ArtMsg;
@@ -36,5 +37,12 @@ public class MsgController {
     @RequestMapping(value = "/getNotViewNum",method = RequestMethod.GET)
     public Result<Integer> getNotViewNum(Integer userId) {
         return msgService.getNotViewNum(userId);
+    }
+
+    /**删除消息**/
+    @ApiOperation("删除消息")
+    @RequestMapping(value = "/deleteMsg",method = RequestMethod.POST)
+    public Result<Void> deleteMsg(Integer id) {
+        return msgService.deleteMsg(id);
     }
 }

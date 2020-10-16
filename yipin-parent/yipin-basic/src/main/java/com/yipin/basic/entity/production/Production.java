@@ -83,4 +83,8 @@ public class Production implements Serializable {
      * 删除状态
      */
     private Integer deleteStatus;
+    /**
+     * 收藏数量
+     */
+    private Integer collectNums;
 }

@@ -3,6 +3,7 @@ package com.yipin.basic.controller.admin;
 import com.yipin.basic.dao.othersDao.ImgUrlRepository;
 import com.yipin.basic.entity.others.ImgUrl;
 import com.yipin.basic.service.UserService;
+import com.yipin.basic.utils.others.ImageAlgorithms;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.yipin.basic.utils.others.CompareHist;
 
+import java.io.File;
 import java.util.List;
 
 @Controller
@@ -48,11 +50,15 @@ public class TestController {
         {
             colorStatsNormal[i] = (int)(arr[i] * 10000.0 / total) / 100.0;
         }
+        List<String> imgUrls = ImageAlgorithms.shiYan(path,file.getOriginalFilename());
         ImgUrl imgUrl = new ImgUrl();
         imgUrl.setUrl(path);
         imgUrl.setImgSize(file.getSize());
         imgUrl.setRelativeUrl("/images/" + file.getOriginalFilename());
         imgUrlRepository.save(imgUrl);
+        model.addAttribute("viewRanking",ImageAlgorithms.viewRanking(path));//视觉效果等级
+        model.addAttribute("angel",ImageAlgorithms.getAngel());//构图
+        model.addAttribute("imgUrlList",imgUrls);
         model.addAttribute("imgs",imgUrlRepository.findAll());
         model.addAttribute("imgUrl","/images/" + file.getOriginalFilename());
         model.addAttribute("img",colorStatsNormal);
@@ -76,7 +82,14 @@ public class TestController {
         {
             colorStatsNormal[i] = (int)(arr[i] * 10000.0 / total) / 100.0;
         }
+
+        File file = new File(path);
+        List<String> imgUrls = ImageAlgorithms.shiYan(path,file.getName());
+        model.addAttribute("imgUrlList",imgUrls);
+
         List<ImgUrl> imgUrl = imgUrlRepository.findAllByUrl(path);
+        model.addAttribute("viewRanking",ImageAlgorithms.viewRanking(path));//视觉效果等级
+        model.addAttribute("angel",ImageAlgorithms.getAngel());
         model.addAttribute("imgs",imgUrlRepository.findAll());
         model.addAttribute("imgUrl",url);
         model.addAttribute("img",colorStatsNormal);

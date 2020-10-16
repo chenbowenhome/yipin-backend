@@ -55,14 +55,6 @@ public class CommentController {
         return commentService.listTopicArticleComments(topicArticleId,arg);
     }
 
-    /**分页获取评论子评论信息**/
-    @ApiOperation("分页获取评论子评论信息")
-    @RequestMapping(value = "/listReplyComments", method = RequestMethod.POST)
-    public Result<PageVO<CommentVO>> listReplyComments(Integer mainCommentId,@RequestBody PageArg arg) {
-        arg.validate();
-        return commentService.listReplyComments(mainCommentId,arg);
-    }
-
     /**
      * 删除一条评论
      **/

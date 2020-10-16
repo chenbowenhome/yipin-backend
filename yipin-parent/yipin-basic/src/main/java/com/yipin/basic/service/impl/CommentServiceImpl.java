@@ -5,17 +5,17 @@ import VO.Result;
 import VO.Void;
 import args.PageArg;
 import com.yipin.basic.VO.CommentVO;
+import com.yipin.basic.dao.othersDao.ArtActivityRepository;
 import com.yipin.basic.dao.othersDao.ArtMsgRepository;
 import com.yipin.basic.dao.othersDao.CommentRepository;
 import com.yipin.basic.dao.othersDao.LikesRepository;
-import com.yipin.basic.dao.othersDao.TopicArticleRepository;
 import com.yipin.basic.dao.productionDao.ProductionRepository;
 import com.yipin.basic.dao.userDao.UserPerformanceRepository;
 import com.yipin.basic.dao.userDao.UserRepository;
+import com.yipin.basic.entity.others.ArtActivity;
 import com.yipin.basic.entity.others.ArtMsg;
 import com.yipin.basic.entity.others.Comment;
 import com.yipin.basic.entity.others.Likes;
-import com.yipin.basic.entity.others.TopicArticle;
 import com.yipin.basic.entity.production.Production;
 import com.yipin.basic.entity.user.User;
 import com.yipin.basic.entity.user.UserPerformance;
@@ -27,7 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
@@ -52,7 +51,7 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private LikesRepository likesRepository;
     @Autowired
-    private TopicArticleRepository topicArticleRepository;
+    private ArtActivityRepository artActivityRepository;
     @Autowired
     private ArtMsgRepository artMsgRepository;
 
@@ -63,47 +62,34 @@ public class CommentServiceImpl implements CommentService {
         if (token == null || "".equals(token)){
             return Result.newResult(ResultEnum.AUTHENTICATION_ERROR);
         }
-        if (commentForm.getProductionId() == null && commentForm.getTopicArticleId() == null){
+
+        if (commentForm.getProductionId() == null && commentForm.getActivityId() == null){
             return Result.newResult(ResultEnum.PARAM_ERROR);
         }
-        if (commentForm.getParentCommentId() != null){
-            Comment comment = commentRepository.findCommentById(commentForm.getParentCommentId());
-            if (comment == null || comment.getDeleteStatus()){
-                return Result.newError("评论已被删除，无法回复该评论");
-            }
-        }
+
         Production production = productionRepository.findProductionById(commentForm.getProductionId());
-        TopicArticle topicArticle = topicArticleRepository.findTopicArticleById(commentForm.getTopicArticleId());
-        if (production == null && topicArticle == null){
-            return Result.newError("话题或者作品不存在");
+        ArtActivity artActivity = artActivityRepository.findArtActivityById(commentForm.getActivityId());
+        if (production == null && artActivity == null){
+            return Result.newError("活动或者作品不存在");
         }
         if (production != null) {
             //生成消息
             ArtMsg artMsg = new ArtMsg();
             artMsg.setCreateTime(new Date());
             artMsg.setMsgDetail("在你的作品 "+ production.getTitle() +" 下评论："+ commentForm.getContent());
-            artMsg.setUserId(production.getUserId());
+            artMsg.setUserId(commentForm.getUserId());
+            artMsg.setReceiveUserId(production.getUserId());
             artMsg.setViewStatus(0);
-            //用户品值参数增加
+            //用户品值参数增加，作品评论数增加
             production.setComments(production.getComments() + 1);
             UserPerformance userPerformance = userPerformanceRepository.findLastUserPerformance(production.getUserId());
             userPerformance.setCommentNums(userPerformance.getCommentNums() + 1);
             artMsgRepository.save(artMsg);
             userPerformanceRepository.save(userPerformance);
         }
-        if (topicArticle != null){
-            topicArticle.setComments(topicArticle.getComments() + 1);
-            topicArticleRepository.save(topicArticle);
-        }
-        if (commentForm.getMainCommentId() != null && commentForm.getParentCommentId() == null){
-            Comment c = commentRepository.findCommentById(commentForm.getMainCommentId());
-            //生成消息
-            ArtMsg artMsg = new ArtMsg();
-            artMsg.setCreateTime(new Date());
-            artMsg.setMsgDetail("回复了你的评论："+ c.getContent() +" "+ commentForm.getContent());
-            artMsg.setUserId(c.getUserId());
-            artMsg.setViewStatus(0);
-            artMsgRepository.save(artMsg);
+        if (artActivity != null){
+            artActivity.setComments(artActivity.getComments() + 1);
+            artActivityRepository.save(artActivity);
         }
         if (commentForm.getParentCommentId() != null){
             Comment c = commentRepository.findCommentById(commentForm.getParentCommentId());
@@ -111,7 +97,8 @@ public class CommentServiceImpl implements CommentService {
             ArtMsg artMsg = new ArtMsg();
             artMsg.setCreateTime(new Date());
             artMsg.setMsgDetail("回复了你的评论："+ c.getContent() +" "+ commentForm.getContent());
-            artMsg.setUserId(c.getUserId());
+            artMsg.setUserId(commentForm.getUserId());
+            artMsg.setReceiveUserId(c.getUserId());
             artMsg.setViewStatus(0);
             artMsgRepository.save(artMsg);
         }
@@ -121,12 +108,6 @@ public class CommentServiceImpl implements CommentService {
         comment.setUpdateTime(new Date());
         comment.setDeleteStatus(false);
         comment.setLikes(0);
-        comment.setKidCommentNums(0);
-        Comment c = commentRepository.findCommentById(commentForm.getMainCommentId());
-        if (c != null){
-            c.setKidCommentNums(c.getKidCommentNums() + 1);
-            commentRepository.save(c);
-        }
         commentRepository.save(comment);
         return Result.newSuccess();
     }
@@ -138,34 +119,25 @@ public class CommentServiceImpl implements CommentService {
             return Result.newResult(ResultEnum.PARAM_ERROR);
         }
         Pageable pageable = PageRequest.of(arg.getPageNo() - 1,arg.getPageSize());
-        Page<Comment> commentPage = commentRepository.findCommentByProductionIdAndMainCommentIdOrderByLikesDesc(productionId,null,pageable);
+        Page<Comment> commentPage = commentRepository.findCommentByProductionIdOrderByLikesDesc(productionId,pageable);
         List<Comment> commentList = commentPage.getContent();
         List<CommentVO> commentVOList = new ArrayList<>();
+        //包装评论视图层
         for (Comment comment : commentList) {
             CommentVO commentVO = new CommentVO();
-            List<Comment> replyCommentList = commentRepository.findCommentByMainCommentIdOrderByLikesDesc(comment.getId());
             User user = userRepository.findUserById(comment.getUserId());
             BeanUtils.copyProperties(comment,commentVO);
-            commentVO.setAvatar(user.getAvatar());
-            commentVO.setNickname(user.getNickname());
-            List<CommentVO> replyCommentsVO = new ArrayList<>();
-            for (Comment c : replyCommentList) {
-                CommentVO replyCommentVO = new CommentVO();
-                BeanUtils.copyProperties(c,replyCommentVO);
-                User user1 = userRepository.findUserById(c.getUserId());
-                if (c.getParentCommentId() != null){
-                    Comment parentComment = commentRepository.findCommentById(c.getParentCommentId());
-                    if (parentComment != null) {
-                        User parentUser = userRepository.findUserById(parentComment.getUserId());
-                        replyCommentVO.setParentCommentNickname(parentUser.getNickname());
-                    }
+            if (comment.getParentCommentId() != null){
+                User parentUser = userRepository.findUserById(comment.getParentCommentId());
+                if (parentUser != null){
+                    commentVO.setParentCommentNickname(parentUser.getNickname());
                 }
-                replyCommentVO.setNickname(user1.getNickname());
-                replyCommentVO.setAvatar(user1.getAvatar());
-                replyCommentsVO.add(replyCommentVO);
             }
-            commentVO.setReplyCommentList(replyCommentsVO);
-            commentVOList.add(commentVO);
+            if (user != null) {
+                commentVO.setAvatar(user.getAvatar());
+                commentVO.setNickname(user.getNickname());
+                commentVOList.add(commentVO);
+            }
         }
 
         PageVO<CommentVO> pageVo = PageVO.<CommentVO>builder()
@@ -177,79 +149,36 @@ public class CommentServiceImpl implements CommentService {
         return Result.newSuccess(pageVo);
     }
 
-    /**分页获取话题文章评论信息**/
+    /**分页获取活动评论信息**/
     @Override
     public Result<PageVO<CommentVO>> listTopicArticleComments(Integer topicArticleId,PageArg arg) {
         if (topicArticleId == null){
             return Result.newResult(ResultEnum.PARAM_ERROR);
         }
         Pageable pageable = PageRequest.of(arg.getPageNo() - 1,arg.getPageSize());
-        Page<Comment> commentPage = commentRepository.findCommentByTopicArticleIdAndMainCommentIdOrderByLikesDesc(topicArticleId,null,pageable);
+        Page<Comment> commentPage = commentRepository.findCommentByActivityIdOrderByLikesDesc(topicArticleId,pageable);
         List<Comment> commentList = commentPage.getContent();
         List<CommentVO> commentVOList = new ArrayList<>();
-        for (Comment comment : commentList) {
-            CommentVO commentVO = new CommentVO();
-            List<Comment> replyCommentList = commentRepository.findCommentByMainCommentIdOrderByLikesDesc(comment.getId());
-            User user = userRepository.findUserById(comment.getUserId());
-            BeanUtils.copyProperties(comment,commentVO);
-            commentVO.setAvatar(user.getAvatar());
-            commentVO.setNickname(user.getNickname());
-            List<CommentVO> replyCommentsVO = new ArrayList<>();
-            for (Comment c : replyCommentList) {
-                CommentVO replyCommentVO = new CommentVO();
-                BeanUtils.copyProperties(c,replyCommentVO);
-                User user1 = userRepository.findUserById(c.getUserId());
-                if (c.getParentCommentId() != null){
-                    Comment parentComment = commentRepository.findCommentById(c.getParentCommentId());
-                    if (parentComment != null) {
-                        User parentUser = userRepository.findUserById(parentComment.getUserId());
-                        replyCommentVO.setParentCommentNickname(parentUser.getNickname());
-                    }
-                }
-                replyCommentVO.setNickname(user1.getNickname());
-                replyCommentVO.setAvatar(user1.getAvatar());
-                replyCommentsVO.add(replyCommentVO);
-            }
-            commentVO.setReplyCommentList(replyCommentsVO);
-            commentVOList.add(commentVO);
-        }
-
-        PageVO<CommentVO> pageVo = PageVO.<CommentVO>builder()
-                .totalPage(commentPage.getTotalPages())
-                .pageNo(arg.getPageNo())
-                .pageSize(arg.getPageSize())
-                .rows(commentVOList)
-                .build();
-        return Result.newSuccess(pageVo);
-    }
-
-    /**分页获取评论子评论信息**/
-    @Override
-    public Result<PageVO<CommentVO>> listReplyComments(Integer mainCommentId, PageArg arg) {
-        if (mainCommentId == null){
-            return Result.newResult(ResultEnum.PARAM_ERROR);
-        }
-        Pageable pageable = PageRequest.of(arg.getPageNo() - 1,arg.getPageSize());
-        Page<Comment> replyCommentPage = commentRepository.findCommentByMainCommentIdOrderByLikesDesc(mainCommentId,pageable);
-        List<Comment> commentList = replyCommentPage.getContent();
-        List<CommentVO> commentVOList = new ArrayList<>();
+        //包装评论视图层
         for (Comment comment : commentList) {
             CommentVO commentVO = new CommentVO();
             User user = userRepository.findUserById(comment.getUserId());
             BeanUtils.copyProperties(comment,commentVO);
             if (comment.getParentCommentId() != null){
-                Comment parentComment = commentRepository.findCommentById(comment.getParentCommentId());
-                if (parentComment != null) {
-                    User parentUser = userRepository.findUserById(parentComment.getUserId());
+                User parentUser = userRepository.findUserById(comment.getParentCommentId());
+                if (parentUser != null){
                     commentVO.setParentCommentNickname(parentUser.getNickname());
                 }
             }
-            commentVO.setNickname(user.getNickname());
-            commentVO.setAvatar(user.getAvatar());
-            commentVOList.add(commentVO);
+            if (user != null) {
+                commentVO.setAvatar(user.getAvatar());
+                commentVO.setNickname(user.getNickname());
+                commentVOList.add(commentVO);
+            }
         }
+
         PageVO<CommentVO> pageVo = PageVO.<CommentVO>builder()
-                .totalPage(replyCommentPage.getTotalPages())
+                .totalPage(commentPage.getTotalPages())
                 .pageNo(arg.getPageNo())
                 .pageSize(arg.getPageSize())
                 .rows(commentVOList)
@@ -273,9 +202,9 @@ public class CommentServiceImpl implements CommentService {
             return Result.newError("评论不存在或者已被删除");
         }
         Production production = productionRepository.findProductionById(comment.getProductionId());
-        TopicArticle topicArticle = topicArticleRepository.findTopicArticleById(comment.getTopicArticleId());
+        ArtActivity topicArticle = artActivityRepository.findArtActivityById(comment.getActivityId());
         if (production == null && topicArticle == null){
-            return Result.newError("作品或者话题不存在");
+            return Result.newError("作品或者活动不存在");
         }
         if (production != null) {
             production.setComments(production.getComments() - 1);
@@ -283,9 +212,10 @@ public class CommentServiceImpl implements CommentService {
         }
         if (topicArticle != null){
             topicArticle.setComments(topicArticle.getComments() - 1);
-            topicArticleRepository.save(topicArticle);
+            artActivityRepository.save(topicArticle);
         }
-        commentRepository.delete(comment);
+        comment.setDeleteStatus(true);
+        commentRepository.save(comment);
         return Result.newSuccess();
     }
 
@@ -328,6 +258,7 @@ public class CommentServiceImpl implements CommentService {
         artMsg.setCreateTime(new Date());
         artMsg.setMsgDetail("为你的评论："+ comment.getContent() +" 点赞");
         artMsg.setUserId(userId);
+        artMsg.setReceiveUserId(comment.getUserId());
         artMsg.setViewStatus(0);
 
         comment.setLikes(comment.getLikes() + 1);

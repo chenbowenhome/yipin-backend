@@ -46,20 +46,12 @@ public class Comment implements Serializable {
      */
     private Boolean deleteStatus;
     /**
-     * 主评论id
-     */
-    private Integer mainCommentId;
-    /**
      * 点赞数
      */
     private Integer likes;
     /**
-     * 子评论个数
-     */
-    private Integer kidCommentNums;
-    /**
      * 话题文章id
      */
-    private Integer topicArticleId;
+    private Integer activityId;
 
 }

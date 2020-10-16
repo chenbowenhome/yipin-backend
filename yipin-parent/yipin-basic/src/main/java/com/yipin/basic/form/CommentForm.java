@@ -24,12 +24,7 @@ public class CommentForm implements Serializable {
      * 话题文章id
      */
     @ApiModelProperty(value = "话题文章id")
-    private Integer topicArticleId;
-    /**
-     * 主评论id
-     */
-    @ApiModelProperty(value = "主评论id")
-    private Integer mainCommentId;
+    private Integer activityId;
     /**
      * 父评论id
      */

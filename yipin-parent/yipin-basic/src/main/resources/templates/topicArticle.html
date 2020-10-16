@@ -295,14 +295,14 @@
     <div class="container-fluid main-content">
         <div class="page-title">
             <h1>
-                话题管理
+                活动管理
             </h1>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="widget-container">
                     <div class="heading">
-                        <i class="icon-shield"></i>话题列表
+                        <i class="icon-shield"></i>活动列表
                     </div>
                     <div class="alert alert-danger" th:unless="${#strings.isEmpty(msg)}">
                         <button class="close" data-dismiss="alert" type="button">&times;</button><a th:text="${msg}"></a>
@@ -311,22 +311,40 @@
                         <table class="table table-bordered table-striped" >
                             <thead>
                             <th>
-                                话题id
+                                活动id
                             </th>
                             <th class="hidden-xs">
-                                话题图片
+                                活动图片
                             </th>
                             <th class="hidden-xs">
-                                话题标题
+                                活动标题
                             </th>
                             <th class="hidden-xs">
-                                话题创建时间
+                                创建时间
                             </th>
                             <th class="hidden-xs">
-                                话题更新时间
+                                活动开始时间
                             </th>
                             <th class="hidden-xs">
-
+                                活动结束时间
+                            </th>
+                            <th class="hidden-xs">
+                                活动报名费用
+                            </th>
+                            <th class="hidden-xs">
+                                参加人数
+                            </th>
+                            <th class="hidden-xs">
+                                浏览数
+                            </th>
+                            <th class="hidden-xs">
+                                点赞数
+                            </th>
+                            <th class="hidden-xs">
+                                评论数
+                            </th>
+                            <th class="hidden-xs">
+                                活动是否结束
                             </th>
                             </thead>
                             <tbody th:each="topic : ${topicArticlePage}">
@@ -344,8 +362,32 @@
                                 <td class="hidden-xs" th:text="${topic.createTime}">
 
                                 </td>
-                                <td class="hidden-xs" th:text="${topic.updateTime}">
+                                <td class="hidden-xs" th:text="${topic.startTime}">
 
+                                </td>
+                                <td class="hidden-xs" th:text="${topic.endTime}">
+
+                                </td>
+                                <td class="hidden-xs" th:text="${topic.cost}">
+
+                                </td>
+                                <td class="hidden-xs" th:text="${topic.participants}">
+
+                                </td>
+                                <td class="hidden-xs" th:text="${topic.views}">
+
+                                </td>
+                                <td class="hidden-xs" th:text="${topic.likes}">
+
+                                </td>
+                                <td class="hidden-xs" th:text="${topic.comments}">
+
+                                </td>
+                                <td >
+                                    <span th:if="${topic.isEnd} eq '0'"
+                                          class="label label-success">未结束</span>
+                                    <span th:if="${topic.isEnd} eq '1'"
+                                          class="label label-danger">已结束</span>
                                 </td>
 
                                 <td class="actions">

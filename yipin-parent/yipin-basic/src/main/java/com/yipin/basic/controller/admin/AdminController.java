@@ -1,26 +1,26 @@
 package com.yipin.basic.controller.admin;
 
 import com.yipin.basic.dao.othersDao.AdminRepository;
+import com.yipin.basic.dao.othersDao.ArtActivityRepository;
 import com.yipin.basic.dao.othersDao.CommentRepository;
 import com.yipin.basic.dao.othersDao.SlideRepository;
-import com.yipin.basic.dao.othersDao.TopicArticleRepository;
 import com.yipin.basic.dao.productionDao.ProductionRepository;
 import com.yipin.basic.dao.productionDao.ProductionTagRepository;
 import com.yipin.basic.dao.specialistDao.PaintTypeRepository;
 import com.yipin.basic.dao.specialistDao.SpecialistRepository;
 import com.yipin.basic.dao.userDao.UserRepository;
 import com.yipin.basic.entity.others.Admin;
+import com.yipin.basic.entity.others.ArtActivity;
 import com.yipin.basic.entity.others.Comment;
 import com.yipin.basic.entity.others.Slide;
-import com.yipin.basic.entity.others.TopicArticle;
 import com.yipin.basic.entity.production.Production;
 import com.yipin.basic.entity.production.ProductionTag;
 import com.yipin.basic.entity.specialist.PaintType;
 import com.yipin.basic.entity.specialist.Specialist;
 import com.yipin.basic.entity.user.User;
 import com.yipin.basic.form.AdminRegisterForm;
-import com.yipin.basic.form.TopicArticleForm;
-import com.yipin.basic.service.TopicArticleService;
+import com.yipin.basic.form.ArtActivityForm;
+import com.yipin.basic.service.ArtActivityService;
 import com.yipin.basic.service.UserService;
 import com.yipin.basic.utils.MarkdownUtils;
 import org.springframework.beans.BeanUtils;
@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -63,9 +65,9 @@ public class AdminController {
     @Autowired
     private ProductionTagRepository productionTagRepository;
     @Autowired
-    private TopicArticleService topicArticleService;
+    private ArtActivityService artActivityService;
     @Autowired
-    private TopicArticleRepository topicArticleRepository;
+    private ArtActivityRepository artActivityRepository;
 
     @PostMapping("/addAdminUser")
     public String addAdminUser(AdminRegisterForm adminRegisterForm, RedirectAttributes attributes) {
@@ -140,7 +142,8 @@ public class AdminController {
             }
             userRepository.save(user);
         }
-        productionRepository.deleteById(id);
+        production.setDeleteStatus(1);
+        productionRepository.save(production);
         attributes.addFlashAttribute("msg", "成功删除作品！");
         return "redirect:/admin/production-list";
     }
@@ -300,16 +303,24 @@ public class AdminController {
     }
 
     @PostMapping("/topicArticle/add")
-    public String addTopicArticle(@RequestParam("title") String title,@RequestParam("content") String content,@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes attributes) {
+    public String addTopicArticle(@RequestParam("title") String title,
+                                  @RequestParam("content") String content,
+                                  @DateTimeFormat(pattern = "yy-mm-dd") @RequestParam("startTime") Date startTime,
+                                  @DateTimeFormat(pattern = "yy-mm-dd") @RequestParam("endTime") Date endTime,
+                                  @RequestParam("cost") BigDecimal cost,
+                                  @RequestParam("file") MultipartFile file,
+                                  RedirectAttributes attributes) {
         String url = userService.uploadImage(file).getData().get("imageUrl");
-        TopicArticleForm topicArticleForm = new TopicArticleForm();
+        ArtActivityForm topicArticleForm = new ArtActivityForm();
         topicArticleForm.setTitle(title);
         topicArticleForm.setContent(MarkdownUtils.markdownToHtmlExtensions(content));
         topicArticleForm.setTopicImage(url);
-        topicArticleService.addTopicArticle(topicArticleForm);
+        topicArticleForm.setEndTime(endTime);
+        topicArticleForm.setStartTime(startTime);
+        topicArticleForm.setCost(cost);
+        artActivityService.addTopicArticle(topicArticleForm);
         attributes.addFlashAttribute("msg", "成功添加！");
-        return "redirect:/admin/add-topicArticle";
+        return "redirect:/admin/topicArticle";
     }
 
     /**
@@ -318,12 +329,12 @@ public class AdminController {
     @PostMapping("/topicArticle/delete")
     public String deleteTopicArticle(@RequestParam Integer id,
                                       RedirectAttributes attributes) {
-        TopicArticle topicArticle = topicArticleRepository.findTopicArticleById(id);
+        ArtActivity topicArticle = artActivityRepository.findArtActivityById(id);
         if (topicArticle == null) {
             attributes.addFlashAttribute("msg", "话题信息不存在！");
             return "redirect:/admin/topicArticle";
         }
-        topicArticleRepository.delete(topicArticle);
+        artActivityRepository.delete(topicArticle);
         attributes.addFlashAttribute("msg", "成功删除！");
         return "redirect:/admin/topicArticle";
     }

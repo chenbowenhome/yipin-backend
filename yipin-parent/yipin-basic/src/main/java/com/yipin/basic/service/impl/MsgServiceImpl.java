@@ -2,6 +2,7 @@ package com.yipin.basic.service.impl;
 
 import VO.PageVO;
 import VO.Result;
+import VO.Void;
 import args.PageArg;
 import com.yipin.basic.VO.CommentVO;
 import com.yipin.basic.VO.MsgVO;
@@ -10,6 +11,7 @@ import com.yipin.basic.dao.userDao.UserRepository;
 import com.yipin.basic.entity.others.ArtMsg;
 import com.yipin.basic.entity.user.User;
 import com.yipin.basic.service.MsgService;
+import enums.ResultEnum;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,7 +35,7 @@ public class MsgServiceImpl implements MsgService {
     @Override
     public Result<PageVO<MsgVO>> listAllMsg(Integer userId, PageArg arg) {
         Pageable pageable = PageRequest.of(arg.getPageNo() - 1,arg.getPageSize());
-        Page<ArtMsg> artMsgPage = msgRepository.findArtMsgByUserIdOrderByCreateTimeDesc(userId,pageable);
+        Page<ArtMsg> artMsgPage = msgRepository.findArtMsgByReceiveUserIdOrderByCreateTimeDesc(userId,pageable);
         List<ArtMsg> artMsgList = artMsgPage.getContent();
         List<MsgVO> msgVOList = new ArrayList<>();
         for (ArtMsg artMsg : artMsgList) {
@@ -44,7 +46,7 @@ public class MsgServiceImpl implements MsgService {
             msgVO.setAvatar(user.getAvatar());
             msgVOList.add(msgVO);
         }
-        List<ArtMsg> artMsgs = msgRepository.findArtMsgByViewStatusAndUserId(0,userId);
+        List<ArtMsg> artMsgs = msgRepository.findArtMsgByViewStatusAndReceiveUserId(0,userId);
         for (ArtMsg artMsg : artMsgs) {
             artMsg.setViewStatus(1);
             msgRepository.save(artMsg);
@@ -61,7 +63,21 @@ public class MsgServiceImpl implements MsgService {
     /**获取未读消息数目**/
     @Override
     public Result<Integer> getNotViewNum(Integer userId) {
-        Integer num = msgRepository.findArtMsgByViewStatusAndUserId(0,userId).size();
+        Integer num = msgRepository.findArtMsgByViewStatusAndReceiveUserId(0,userId).size();
         return Result.newSuccess(num);
+    }
+
+    /**删除消息**/
+    @Override
+    public Result<Void> deleteMsg(Integer id) {
+        if (id == null){
+            return Result.newResult(ResultEnum.PARAM_ERROR);
+        }
+        ArtMsg artMsg = msgRepository.findArtMsgById(id);
+        if (artMsg == null){
+            return Result.newError("消息不存在");
+        }
+        msgRepository.delete(artMsg);
+        return Result.newSuccess();
     }
 }

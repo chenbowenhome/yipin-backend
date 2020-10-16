@@ -13,4 +13,5 @@ public interface SpecialistRepository extends JpaRepository<Specialist,Integer> 
     List<Specialist> findSpecialistByCheckStatus(Integer userId);
     Page<Specialist> findSpecialistByCheckStatusOrderByCreateTimeDesc(Integer checkStatus,Pageable pageable);
     Specialist findSpecialistById(Integer id);
+    Specialist findSpecialistByUserId(Integer userId);
 }

@@ -15,4 +15,6 @@ public interface RankingService {
     Result<List<RankingPeriod>> findAllPeriod();
     /**获取目标期数用户前后五名**/
     Result<List<RankingUserVO>> findUserRanking(Integer userId, Integer period);
+    /**获取用户参加的期数**/
+    Result<List<Integer>> getUserPeriod(Integer userId);
 }

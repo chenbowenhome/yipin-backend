@@ -3,21 +3,18 @@ package com.yipin.basic.service.impl;
 import VO.PageVO;
 import VO.Result;
 import args.PageArg;
+import com.yipin.basic.VO.ProductionVO;
 import com.yipin.basic.VO.UserVO;
 import VO.Void;
 import com.yipin.basic.dao.othersDao.ArtMsgRepository;
+import com.yipin.basic.dao.productionDao.ProductionTagRepository;
+import com.yipin.basic.dao.userDao.*;
 import com.yipin.basic.entity.others.ArtMsg;
+import com.yipin.basic.entity.production.ProductionTag;
+import com.yipin.basic.entity.user.*;
 import com.yipin.basic.utils.aliyunOss.AliyunOSSUtil;
 import com.yipin.basic.dao.productionDao.ProductionRepository;
-import com.yipin.basic.dao.userDao.FollowRepository;
-import com.yipin.basic.dao.userDao.UserArtRepository;
-import com.yipin.basic.dao.userDao.UserPerformanceRepository;
-import com.yipin.basic.dao.userDao.UserRepository;
 import com.yipin.basic.entity.production.Production;
-import com.yipin.basic.entity.user.Follow;
-import com.yipin.basic.entity.user.User;
-import com.yipin.basic.entity.user.UserArt;
-import com.yipin.basic.entity.user.UserPerformance;
 import com.yipin.basic.form.UserForm;
 import com.yipin.basic.form.UserMsgForm;
 import com.yipin.basic.service.UserService;
@@ -65,6 +62,12 @@ public class UserServiceImpl implements UserService {
     private AliyunOSSUtil aliyunOSSUtil;
     @Autowired
     private ArtMsgRepository artMsgRepository;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ProductionTagRepository productionTagRepository;
+    @Autowired
+    private UserProductionCollectionsRepository userProductionCollectionsRepository;
 
     /**
      * 更新用户信息
@@ -172,7 +175,7 @@ public class UserServiceImpl implements UserService {
             return Result.newResult(ResultEnum.AUTHENTICATION_ERROR);
         }
 
-        if (productionId == null) {
+        if (productionId == null || userId == null) {
             return Result.newResult(ResultEnum.PARAM_ERROR);
         }
         Production production = productionRepository.findProductionById(productionId);
@@ -182,6 +185,9 @@ public class UserServiceImpl implements UserService {
         }
         if (user == null) {
             return Result.newResult(ResultEnum.USER_NOT_EXIST);
+        }
+        if (userId != production.getUserId()){
+            return Result.newError("只能设置自己的作品为代表作");
         }
         //TODO 判断是否评估是否发布
         if (production.getCheckStatus() == 0 || production.getEvaluateStatus() == 0 || production.getPublishStatus() == 0) {
@@ -292,6 +298,7 @@ public class UserServiceImpl implements UserService {
         artMsg.setCreateTime(new Date());
         artMsg.setMsgDetail("关注了你");
         artMsg.setUserId(userId);
+        artMsg.setReceiveUserId(followUserId);
         artMsg.setViewStatus(0);
 
         user.setFollowcount(user.getFollowcount() + 1);
@@ -397,6 +404,95 @@ public class UserServiceImpl implements UserService {
                 .pageNo(arg.getPageNo())
                 .pageSize(arg.getPageSize())
                 .rows(userVOList)
+                .build();
+        return Result.newSuccess(pageVo);
+    }
+
+    /**收藏作品**/
+    @Override
+    public Result<Void> collectProduction(Integer userId, Integer productionId) {
+        if (userId == null || productionId == null){
+            return Result.newResult(ResultEnum.PARAM_ERROR);
+        }
+        Production production = productionRepository.findProductionById(productionId);
+        if (production == null){
+            return Result.newResult(ResultEnum.NO_GOODS_MSG);
+        }
+        UserProductionCollections u = userProductionCollectionsRepository.findUserProductionCollectionsByUserIdAndProductionId(userId,productionId);
+        if (u != null){
+            return Result.newError("作品已收藏，无需重复收藏");
+        }
+        production.setCollectNums(production.getCollectNums() + 1);
+        UserProductionCollections userProductionCollections = new UserProductionCollections();
+        userProductionCollections.setUserId(userId);
+        userProductionCollections.setProductionId(productionId);
+        userProductionCollections.setCreateTime(new Date());
+        productionRepository.save(production);
+        userProductionCollectionsRepository.save(userProductionCollections);
+        return Result.newSuccess();
+    }
+
+    /**取消收藏作品**/
+    @Override
+    public Result<Void> cancelCollectProduction(Integer userId, Integer productionId) {
+        if (userId == null || productionId == null){
+            return Result.newResult(ResultEnum.PARAM_ERROR);
+        }
+        Production production = productionRepository.findProductionById(productionId);
+        if (production == null){
+            return Result.newResult(ResultEnum.NO_GOODS_MSG);
+        }
+        UserProductionCollections u = userProductionCollectionsRepository.findUserProductionCollectionsByUserIdAndProductionId(userId,productionId);
+        if (u == null){
+            return Result.newError("还未收藏该作品");
+        }
+        production.setCollectNums(production.getCollectNums() + 1);
+        productionRepository.save(production);
+        userProductionCollectionsRepository.delete(u);
+        return Result.newSuccess();
+    }
+
+    /**获取用户收藏的作品**/
+    @Override
+    public Result<PageVO<ProductionVO>> listCollections(Integer userId,PageArg arg) {
+        if (userId == null){
+            return Result.newResult(ResultEnum.PARAM_ERROR);
+        }
+        Pageable pageable = PageRequest.of(arg.getPageNo() - 1,arg.getPageSize());
+        Page<Production> productionPage = productionRepository.findUserProductionCollections(userId,pageable);
+        //开始包装ProductionVO
+        List<Production> productionList = productionPage.getContent();
+        List<ProductionVO> productionVOList = new ArrayList<>();
+        for (Production production : productionList) {
+            ProductionVO productionVO = new ProductionVO();
+            BeanUtils.copyProperties(production, productionVO);
+            UserVO userVO = userService.getUserMsg(production.getUserId()).getData();
+            if (userVO == null) {
+                continue;
+            }
+            //获取分类标签名称
+            ProductionTag productionTag = productionTagRepository.findProductionTagById(production.getUserId());
+            String tagName = null;
+            if (productionTag == null) {
+                tagName = "该标签已被删除";
+            } else {
+                tagName = productionTag.getTagName();
+            }
+            //获取用户艺能
+            UserArt userArt = userArtRepository.findLastUserArt(userVO.getId());
+            userVO.setUserArt(userArt);
+            productionVO.setTagName(tagName);
+            productionVO.setUserVO(userVO);
+            productionVOList.add(productionVO);
+        }
+        int total = productionPage.getTotalPages();
+
+        //构建pageVo对象
+        PageVO<ProductionVO> pageVo = PageVO.<ProductionVO>builder()
+                .totalPage(total)
+                .pageNo(arg.getPageNo())
+                .pageSize(arg.getPageSize())
+                .rows(productionVOList)
                 .build();
         return Result.newSuccess(pageVo);
     }

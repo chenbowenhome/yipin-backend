@@ -4,12 +4,13 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "topic_article")
-public class TopicArticle implements Serializable {
+@Table(name = "art_activity")
+public class ArtActivity implements Serializable {
     /**
      * ID
      */
@@ -17,15 +18,15 @@ public class TopicArticle implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     /**
-     * 文章内容
+     * 活动内容
      */
     private String content;
     /**
-     * 文章图片
+     * 活动图片
      */
     private String topicImage;
     /**
-     * 文章标题
+     * 活动标题
      */
     private String title;
     /**
@@ -40,8 +41,27 @@ public class TopicArticle implements Serializable {
      * 点赞数
      */
     private Integer likes;
+    /**
+     * 活动开始时间
+     */
+    private Date startTime;
+    /**
+     * 活动结束时间
+     */
+    private Date endTime;
+    /**
+     * 活动参加人数
+     */
+    private Integer participants;
+    /**
+     * 活动费用
+     */
+    private BigDecimal cost;
+    /**
+     * 是否结束，0为未结束，1为已结束，默认为0
+     */
+    private Integer isEnd;
 
     private Date createTime;
 
-    private Date updateTime;
 }

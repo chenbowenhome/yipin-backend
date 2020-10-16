@@ -64,6 +64,14 @@ public class ProductionVO implements Serializable {
      */
     private String tagName;
     /**
+     * 收藏数量
+     */
+    private Integer collectNums;
+    /**
+     * 是否被收藏，0为未收藏，1为已经被收藏
+     */
+    private Integer isCollected;
+    /**
      * 用户信息
      */
     private UserVO userVO;

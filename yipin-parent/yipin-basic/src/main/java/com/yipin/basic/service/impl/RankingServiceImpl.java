@@ -88,7 +88,7 @@ public class RankingServiceImpl implements RankingService {
         List<RankingUserVO> rankingUserVOList = new ArrayList<>();
         for (RankingUser user : rankingUserList) {
             RankingPeriod rankingPeriod = rankingPeriodRepository.findRankingPeriodByPeriod(period);
-            UserArt userArt = userArtRepository.findLastUserArt(userId);
+            UserArt userArt = userArtRepository.findLastUserArt(user.getUserId());
             User u = userRepository.findUserById(user.getUserId());
             RankingUserVO rankingUserVO = new RankingUserVO();
             BeanUtils.copyProperties(user,rankingUserVO);
@@ -100,5 +100,15 @@ public class RankingServiceImpl implements RankingService {
             rankingUserVOList.add(rankingUserVO);
         }
         return Result.newSuccess(rankingUserVOList);
+    }
+
+    /**获取用户参加的期数**/
+    @Override
+    public Result<List<Integer>> getUserPeriod(Integer userId) {
+        if (userId == null){
+            return Result.newResult(ResultEnum.PARAM_ERROR);
+        }
+        List<Integer> periods = rankingUserRepository.findPeriods(userId);
+        return Result.newSuccess(periods);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ArtMsgRepository extends JpaRepository<ArtMsg,Integer> {
-    Page<ArtMsg> findArtMsgByUserIdOrderByCreateTimeDesc(Integer userId,Pageable pageable);
-    List<ArtMsg> findArtMsgByViewStatusAndUserId(Integer viewStatus,Integer userId);
+    Page<ArtMsg> findArtMsgByReceiveUserIdOrderByCreateTimeDesc(Integer receiveUserId,Pageable pageable);
+    List<ArtMsg> findArtMsgByViewStatusAndReceiveUserId(Integer viewStatus,Integer receiveUserId);
+    ArtMsg findArtMsgById(Integer id);
 }

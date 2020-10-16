@@ -120,8 +120,7 @@
                         <input  type="submit" class="btn btn-success" style="display: none">
                     </form>
 
-                    <a>评估结果：</a>
-                    <img th:src="@{${imgUrl}}" width="200px">
+                    <img th:src="@{${imgUrl}}" width="180px">
                     <ul>
                         <li th:text="'红：' + ${img[0]}"></li>
                         <li th:text="'绿：' + ${img[1]}"></li>
@@ -133,6 +132,11 @@
                         <li th:text="'白：' + ${img[7]}"></li>
                     </ul>
                 </div>
+                    <a th:text="'角度：' + ${angel}"> </a>
+                    <div>
+                      <img  width="180px" th:each="url : ${imgUrlList}"   th:src="${url}"/>
+                    </div>
+                    <a th:text="'视觉效果等级：' + ${viewRanking}"> </a>
                 </div>
             </div>
         </div>

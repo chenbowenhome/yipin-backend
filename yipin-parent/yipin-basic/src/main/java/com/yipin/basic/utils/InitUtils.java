@@ -5,7 +5,9 @@ import com.yipin.basic.entity.user.UserArt;
 import com.yipin.basic.entity.user.UserPerformance;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class InitUtils {
 
@@ -25,12 +27,14 @@ public class InitUtils {
         user.setPerformanceNum(new BigDecimal(0.00));
         user.setProductionNum(0);
         user.setIsSpecialist(0);
+        List<Integer> ids = new ArrayList<>();
+        user.setMainProductionId(ids);
         return user;
     }
 
     /**初始化用户艺能参数**/
     public static UserArt InitUserArt(UserArt userArt){
-        userArt.setCherry(0);
+        userArt.setCherry(1);
         userArt.setStrawberry(0);
         userArt.setApple(0);
         userArt.setOnlineMinute(0);

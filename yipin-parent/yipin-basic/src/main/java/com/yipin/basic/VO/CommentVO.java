@@ -34,11 +34,7 @@ public class CommentVO implements Serializable {
     /**
      * 话题文章id
      */
-    private Integer topicArticleId;
-    /**
-     * 主评论id
-     */
-    private Integer mainCommentId;
+    private Integer activityId;
     /**
      * 父评论id
      */
@@ -64,15 +60,7 @@ public class CommentVO implements Serializable {
      */
     private Boolean deleteStatus;
     /**
-     * 回复该评论的列表
-     */
-    private List<CommentVO> replyCommentList;
-    /**
      * 点赞数
      */
     private Integer likes;
-    /**
-     * 子评论个数
-     */
-    private Integer kidCommentNums;
 }

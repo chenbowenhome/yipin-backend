@@ -10,8 +10,8 @@ import com.yipin.basic.dao.userDao.UserArtRepository;
 import com.yipin.basic.dao.userDao.UserPerformanceRepository;
 import com.yipin.basic.dao.userDao.UserRepository;
 import com.yipin.basic.entity.others.Admin;
+import com.yipin.basic.entity.others.ArtActivity;
 import com.yipin.basic.entity.others.Slide;
-import com.yipin.basic.entity.others.TopicArticle;
 import com.yipin.basic.entity.production.Production;
 import com.yipin.basic.entity.production.ProductionTag;
 import com.yipin.basic.entity.specialist.PaintType;
@@ -66,7 +66,7 @@ public class AdminPageController {
     @Autowired
     private ProductionTagRepository productionTagRepository;
     @Autowired
-    private TopicArticleRepository topicArticleRepository;
+    private ArtActivityRepository artActivityRepository;
 
     @GetMapping("/index")
     public String indexPage(HttpServletRequest request,Model model) {
@@ -265,7 +265,7 @@ public class AdminPageController {
     public String topicArticlePage(HttpServletRequest request,@PageableDefault(size = 10) Pageable pageable,Model model) {
         Admin a = (Admin) request.getSession().getAttribute("user");
         model.addAttribute("admin",a);
-        Page<TopicArticle> topicArticlePage = topicArticleRepository.findTopicArticleByOrderByCreateTimeDesc(pageable);
+        Page<ArtActivity> topicArticlePage = artActivityRepository.findArtActivityByOrderByCreateTimeDesc(pageable);
         model.addAttribute("topicArticlePage",topicArticlePage);
         return "topicArticle";
     }
@@ -275,7 +275,7 @@ public class AdminPageController {
                                          RedirectAttributes attributes){
         Admin a = (Admin) request.getSession().getAttribute("user");
         model.addAttribute("admin",a);
-        TopicArticle topicArticle = topicArticleRepository.findTopicArticleById(id);
+        ArtActivity topicArticle = artActivityRepository.findArtActivityById(id);
         if (topicArticle == null){
             attributes.addFlashAttribute("msg", "文章不存在！");
             return "redirect:/admin/topicArticle";

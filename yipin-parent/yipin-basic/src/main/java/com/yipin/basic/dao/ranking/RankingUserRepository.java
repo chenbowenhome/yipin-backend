@@ -12,4 +12,6 @@ public interface RankingUserRepository extends JpaRepository<RankingUser,Integer
     @Query(value = "SELECT * FROM ranking_user WHERE period=?1 ORDER BY ranking ASC LIMIT ?2,?3",nativeQuery = true)
     List<RankingUser> findUserRanking(Integer period,Integer num,Integer right);
     RankingUser findRankingUserByUserIdAndPeriod(Integer userId,Integer period);
+    @Query(value = "SELECT period FROM ranking_user WHERE user_id = ?1 ORDER BY period ASC",nativeQuery = true)
+    List<Integer> findPeriods(Integer userId);
 }

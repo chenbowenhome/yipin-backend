@@ -3,6 +3,7 @@ package com.yipin.basic.service;
 import VO.PageVO;
 import VO.Result;
 import args.PageArg;
+import com.yipin.basic.VO.ProductionVO;
 import com.yipin.basic.VO.UserVO;
 import VO.Void;
 import com.yipin.basic.entity.user.User;
@@ -41,6 +42,12 @@ public interface UserService {
     Result<PageVO<UserVO>> listFollowUsers(Integer userId, PageArg arg);
     /**获取用户粉丝列表**/
     Result<PageVO<UserVO>> listFanUsers(Integer userId,PageArg arg);
+    /**收藏作品**/
+    Result<Void> collectProduction(Integer userId,Integer productionId);
+    /**取消收藏作品**/
+    Result<Void> cancelCollectProduction(Integer userId,Integer productionId);
+    /**获取用户收藏的作品**/
+    Result<PageVO<ProductionVO>> listCollections(Integer userId,PageArg arg);
 
     Result<String> uploadImageTest(MultipartFile file);
 }

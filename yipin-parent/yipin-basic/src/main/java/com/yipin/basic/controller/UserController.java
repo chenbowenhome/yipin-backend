@@ -3,6 +3,7 @@ package com.yipin.basic.controller;
 import VO.PageVO;
 import VO.Result;
 import args.PageArg;
+import com.yipin.basic.VO.ProductionVO;
 import com.yipin.basic.VO.RankingUserVO;
 import com.yipin.basic.VO.RankingVO;
 import com.yipin.basic.VO.UserVO;
@@ -232,6 +233,13 @@ public class UserController {
         return rankingService.findUserRanking(userId,period);
     }
 
+    /**获取用户参加的期数**/
+    @ApiOperation("获取用户参加的期数")
+    @RequestMapping(value = "/getUserPeriod",method = RequestMethod.GET)
+    public Result<List<Integer>> getUserPeriod(Integer userId) {
+        return rankingService.getUserPeriod(userId);
+    }
+
     /**记录开始时间**/
     @ApiOperation("记录开始时间，用户进入小程序后调用此接口")
     @RequestMapping(value = "/startTime",method = RequestMethod.POST)
@@ -260,12 +268,32 @@ public class UserController {
         int day = endTime.getDay() - startTime.getDay();
         int minutes = endTime.getMinutes() - startTime.getMinutes();
         int allMinutes = day * 60 + minutes;
-        if (allMinutes > 0) {
+        if (allMinutes > 0 && allMinutes <= 5) {
             userArt.setAllOnlineHours(userArt.getAllOnlineHours() + allMinutes);
             userArt.setOnlineMinute(userArt.getOnlineMinute() + allMinutes);
         }
         userArtRepository.save(userArt);
         return Result.newSuccess();
+    }
+
+    /**收藏作品**/
+    @ApiOperation("收藏作品")
+    @RequestMapping(value = "/collectProduction",method = RequestMethod.POST)
+    Result<Void> collectProduction(Integer userId,Integer productionId){
+        return userService.collectProduction(userId,productionId);
+    }
+    /**取消收藏作品**/
+    @ApiOperation("取消收藏作品")
+    @RequestMapping(value = "/cancelCollectProduction",method = RequestMethod.POST)
+    Result<Void> cancelCollectProduction(Integer userId,Integer productionId){
+        return userService.cancelCollectProduction(userId,productionId);
+    }
+    /**获取用户收藏的作品**/
+    @ApiOperation("获取用户收藏的作品")
+    @RequestMapping(value = "/listCollections",method = RequestMethod.POST)
+    Result<PageVO<ProductionVO>> listCollections(Integer userId,@RequestBody PageArg arg){
+        arg.validate();
+        return userService.listCollections(userId,arg);
     }
 
 }

@@ -36,9 +36,13 @@ public interface ProductionService {
     /**根据标题搜索作品**/
     Result<PageVO<ProductionVO>> searchProduction(String title,PageArg arg);
     /**根据id获取作品信息**/
-    Result<ProductionVO> getProductionById(Integer id);
+    Result<ProductionVO> getProductionById(Integer id,Integer userId);
     /**获取所有分类标签**/
     Result<List<ProductionTag>> listProductionTags();
     /**根据作品标题或者描述查询作品**/
     Result<PageVO<ProductionVO>> findProductionByKey(String key, PageArg arg);
+    /**删除用户自己的作品**/
+    Result<Void> deleteProductionById(Integer userId,Integer productionId);
+    /**取消代表作**/
+    Result<Void> cancelMainProduction(Integer userId,Integer productionId);
 }

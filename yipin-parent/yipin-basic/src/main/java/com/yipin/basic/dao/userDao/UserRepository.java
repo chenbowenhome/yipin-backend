@@ -22,4 +22,10 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     List<User> findUserByOrderByPerformanceNumDesc();
     @Query(value = "SELECT * FROM user WHERE id IN (SELECT user_id FROM likes WHERE production_id=?1)",nativeQuery = true)
     Page<User> findUserListByProductionId(Integer productionId,Pageable pageable);
+    /**获取专家信息**/
+    @Query(value = "SELECT * FROM user WHERE is_specialist=1 ORDER BY performance_num DESC LIMIT 10",nativeQuery = true)
+    List<User> findSpecialist();
+    /**获取全部专家信息**/
+    @Query(value = "SELECT * FROM user WHERE is_specialist=1 ORDER BY performance_num DESC",nativeQuery = true)
+    Page<User> findSpecialistByPage(Pageable pageable);
 }

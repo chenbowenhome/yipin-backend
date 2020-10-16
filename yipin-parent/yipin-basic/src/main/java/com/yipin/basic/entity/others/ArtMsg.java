@@ -20,6 +20,10 @@ public class ArtMsg implements Serializable {
      */
     private Integer userId;
     /**
+     * 接收信息的用户id
+     */
+    private Integer receiveUserId;
+    /**
      * 消息内容
      */
     private String msgDetail;

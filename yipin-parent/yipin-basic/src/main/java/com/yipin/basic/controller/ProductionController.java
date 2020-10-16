@@ -5,9 +5,12 @@ import VO.Result;
 import VO.Void;
 import args.PageArg;
 import com.yipin.basic.VO.ProductionVO;
+import com.yipin.basic.entity.production.Production;
 import com.yipin.basic.entity.production.ProductionTag;
+import com.yipin.basic.entity.user.User;
 import com.yipin.basic.form.ProductionForm;
 import com.yipin.basic.service.ProductionService;
+import enums.ResultEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,8 +114,8 @@ public class ProductionController {
     /**根据id获取作品信息**/
     @ApiOperation("根据id获取作品信息")
     @RequestMapping(value = "/getProductionById",method = RequestMethod.POST)
-    public Result<ProductionVO> getProductionById(Integer id) {
-        return productionService.getProductionById(id);
+    public Result<ProductionVO> getProductionById(Integer id,Integer userId) {
+        return productionService.getProductionById(id,userId);
     }
 
     /**获取所有分类标签**/
@@ -128,5 +131,23 @@ public class ProductionController {
     public Result<PageVO<ProductionVO>> findProductionByKey(String key,@RequestBody PageArg arg) {
         arg.validate();
         return productionService.findProductionByKey(key,arg);
+    }
+
+    /**
+     * 删除用户自己的作品
+     **/
+    @ApiOperation("删除用户自己的作品")
+    @RequestMapping(value = "/deleteProductionById",method = RequestMethod.POST)
+    public Result<Void> deleteProductionById(Integer userId, Integer productionId) {
+        return productionService.deleteProductionById(userId,productionId);
+    }
+
+    /**
+     * 取消代表作
+     **/
+    @ApiOperation("取消代表作")
+    @RequestMapping(value = "/cancelMainProduction",method = RequestMethod.POST)
+    public Result<Void> cancelMainProduction(Integer userId, Integer productionId) {
+        return productionService.cancelMainProduction(userId,productionId);
     }
 }

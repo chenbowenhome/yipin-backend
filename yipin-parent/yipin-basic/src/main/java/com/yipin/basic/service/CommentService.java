@@ -15,8 +15,6 @@ public interface CommentService {
     Result<PageVO<CommentVO>> listComments(Integer productionId, PageArg arg);
     /**分页获取话题文章评论信息**/
     Result<PageVO<CommentVO>> listTopicArticleComments(Integer topicArticleId,PageArg arg);
-    /**分页获取评论子评论信息**/
-    Result<PageVO<CommentVO>> listReplyComments(Integer mainCommentId,PageArg arg);
     /**删除一条评论**/
     Result<Void> deleteComment(Integer id);
     /**更新一条评论**/

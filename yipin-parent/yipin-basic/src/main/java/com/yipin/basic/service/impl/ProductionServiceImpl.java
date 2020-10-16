@@ -13,6 +13,7 @@ import com.yipin.basic.dao.productionDao.ProductionRepository;
 import com.yipin.basic.dao.productionDao.ProductionTagRepository;
 import com.yipin.basic.dao.userDao.UserArtRepository;
 import com.yipin.basic.dao.userDao.UserPerformanceRepository;
+import com.yipin.basic.dao.userDao.UserProductionCollectionsRepository;
 import com.yipin.basic.dao.userDao.UserRepository;
 import com.yipin.basic.entity.others.ArtMsg;
 import com.yipin.basic.entity.others.Likes;
@@ -21,6 +22,7 @@ import com.yipin.basic.entity.production.ProductionTag;
 import com.yipin.basic.entity.user.User;
 import com.yipin.basic.entity.user.UserArt;
 import com.yipin.basic.entity.user.UserPerformance;
+import com.yipin.basic.entity.user.UserProductionCollections;
 import com.yipin.basic.form.ProductionForm;
 import com.yipin.basic.service.ProductionService;
 import com.yipin.basic.service.UserService;
@@ -61,6 +63,8 @@ public class ProductionServiceImpl implements ProductionService {
     private ProductionTagRepository productionTagRepository;
     @Autowired
     private ArtMsgRepository artMsgRepository;
+    @Autowired
+    private UserProductionCollectionsRepository userProductionCollectionsRepository;
 
     /**
      * 分页查询代表作
@@ -79,16 +83,19 @@ public class ProductionServiceImpl implements ProductionService {
             BeanUtils.copyProperties(production, productionVO);
             UserVO userVO = userService.getUserMsg(production.getUserId()).getData();
             if (userVO == null) {
-                return Result.newResult(ResultEnum.USER_NOT_EXIST);
+                continue;
             }
             //获取分类标签名称
-            ProductionTag productionTag = productionTagRepository.findProductionTagById(production.getTagId());
+            ProductionTag productionTag = productionTagRepository.findProductionTagById(production.getUserId());
             String tagName = null;
-            if (productionTag == null){
+            if (productionTag == null) {
                 tagName = "该标签已被删除";
-            }else{
+            } else {
                 tagName = productionTag.getTagName();
             }
+            //获取用户艺能
+            UserArt userArt = userArtRepository.findLastUserArt(userVO.getId());
+            userVO.setUserArt(userArt);
             productionVO.setTagName(tagName);
             productionVO.setUserVO(userVO);
             productionVOList.add(productionVO);
@@ -139,13 +146,13 @@ public class ProductionServiceImpl implements ProductionService {
         if (production.getPublishStatus() == 1) {
             user.setProductionNum(user.getProductionNum() + 1);
         }
-        if (production.getEvaluateStatus() == 1){
+        if (production.getEvaluateStatus() == 1) {
             user.setAssessments(user.getAssessments() + 1);
         }
-        if (ids.size() >= 5){
+        if (ids.size() >= 5) {
             production.setIsMainProduction(0);
-        }else{
-            if (production.getIsMainProduction() == 1){
+        } else {
+            if (production.getIsMainProduction() == 1) {
                 ids.add(production.getId());
                 user.setMainProductionId(ids);
             }
@@ -208,7 +215,7 @@ public class ProductionServiceImpl implements ProductionService {
         User user = userRepository.findUserById(production.getUserId());
         user.setProductionNum(user.getProductionNum() - 1);
         //如果为代表作，则取消代表作状态
-        if (production.getIsMainProduction() == 1){
+        if (production.getIsMainProduction() == 1) {
             production.setIsMainProduction(0);
             List<Integer> ids = user.getMainProductionId();
             ids.remove(production.getId());
@@ -230,7 +237,7 @@ public class ProductionServiceImpl implements ProductionService {
 
         Pageable pageable = PageRequest.of(arg.getPageNo() - 1, arg.getPageSize());
         Page<Production> productionPage = productionRepository
-                .findProductionByPublishStatusAndUserIdAndDeleteStatusOrderByCreateTimeDesc(1, userId,0, pageable); //查询用户未删除且已发布的作品
+                .findProductionByPublishStatusAndUserIdAndDeleteStatusOrderByCreateTimeDesc(1, userId, 0, pageable); //查询用户未删除且已发布的作品
 
         //开始包装ProductionVO
         List<Production> productionList = productionPage.getContent();
@@ -238,6 +245,13 @@ public class ProductionServiceImpl implements ProductionService {
         for (Production production : productionList) {
             ProductionVO productionVO = new ProductionVO();
             BeanUtils.copyProperties(production, productionVO);
+            //判断是否被用户收藏
+            UserProductionCollections u = userProductionCollectionsRepository.findUserProductionCollectionsByUserIdAndProductionId(userId,production.getId());
+            if (u != null){
+                productionVO.setIsCollected(1);
+            }else{
+                productionVO.setIsCollected(0);
+            }
             UserVO userVO = userService.getUserMsg(production.getUserId()).getData();
             if (userVO == null) {
                 return Result.newResult(ResultEnum.USER_NOT_EXIST);
@@ -245,9 +259,9 @@ public class ProductionServiceImpl implements ProductionService {
             //获取分类标签名称
             ProductionTag productionTag = productionTagRepository.findProductionTagById(production.getTagId());
             String tagName = null;
-            if (productionTag == null){
+            if (productionTag == null) {
                 tagName = "该标签已被删除";
-            }else{
+            } else {
                 tagName = productionTag.getTagName();
             }
             productionVO.setTagName(tagName);
@@ -282,7 +296,7 @@ public class ProductionServiceImpl implements ProductionService {
 
         Pageable pageable = PageRequest.of(arg.getPageNo() - 1, arg.getPageSize());
         Page<Production> productionPage = productionRepository
-                .findProductionByPublishStatusAndUserIdAndDeleteStatusOrderByCreateTimeDesc(0, userId,0, pageable);
+                .findProductionByPublishStatusAndUserIdAndDeleteStatusOrderByCreateTimeDesc(0, userId, 0, pageable);
 
         //开始包装ProductionVO
         List<Production> productionList = productionPage.getContent();
@@ -290,6 +304,12 @@ public class ProductionServiceImpl implements ProductionService {
         for (Production production : productionList) {
             ProductionVO productionVO = new ProductionVO();
             BeanUtils.copyProperties(production, productionVO);
+            UserProductionCollections u = userProductionCollectionsRepository.findUserProductionCollectionsByUserIdAndProductionId(userId,production.getId());
+            if (u != null){
+                productionVO.setIsCollected(1);
+            }else{
+                productionVO.setIsCollected(0);
+            }
             UserVO userVO = userService.getUserMsg(production.getUserId()).getData();
             if (userVO == null) {
                 return Result.newResult(ResultEnum.USER_NOT_EXIST);
@@ -297,9 +317,9 @@ public class ProductionServiceImpl implements ProductionService {
             //获取分类标签名称
             ProductionTag productionTag = productionTagRepository.findProductionTagById(production.getTagId());
             String tagName = null;
-            if (productionTag == null){
+            if (productionTag == null) {
                 tagName = "该标签已被删除";
-            }else{
+            } else {
                 tagName = productionTag.getTagName();
             }
             productionVO.setTagName(tagName);
@@ -322,7 +342,7 @@ public class ProductionServiceImpl implements ProductionService {
      * 为作品点赞
      **/
     @Override
-    public Result<Void> likes(Integer id,Integer userId) {
+    public Result<Void> likes(Integer id, Integer userId) {
         String token = (String) request.getAttribute("claims_user");
         if (token == null || "".equals(token)) {
             return Result.newResult(ResultEnum.AUTHENTICATION_ERROR);
@@ -331,11 +351,11 @@ public class ProductionServiceImpl implements ProductionService {
             return Result.newResult(ResultEnum.PARAM_ERROR);
         }
         Production production = productionRepository.findProductionById(id);
-        if (production == null) {
+        if (production == null || production.getDeleteStatus() == 1) {
             return Result.newResult(ResultEnum.NO_GOODS_MSG);
         }
-        Likes l = likesRepository.findLikesByUserIdAndProductionId(userId,id);
-        if (l != null){
+        Likes l = likesRepository.findLikesByUserIdAndProductionId(userId, id);
+        if (l != null) {
             return Result.newError("已点赞，无需重复点赞");
         }
         //被点赞用户
@@ -351,8 +371,9 @@ public class ProductionServiceImpl implements ProductionService {
         //生成消息
         ArtMsg artMsg = new ArtMsg();
         artMsg.setCreateTime(new Date());
-        artMsg.setMsgDetail("为你的作品："+ production.getTitle() +" 点赞");
+        artMsg.setMsgDetail("为你的作品：" + production.getTitle() + " 点赞");
         artMsg.setUserId(userId);
+        artMsg.setReceiveUserId(production.getUserId());
         artMsg.setViewStatus(0);
 
         //生成点赞信息
@@ -372,7 +393,7 @@ public class ProductionServiceImpl implements ProductionService {
      * 为取消点赞
      **/
     @Override
-    public Result<Void> unlikes(Integer id,Integer userId) {
+    public Result<Void> unlikes(Integer id, Integer userId) {
         String token = (String) request.getAttribute("claims_user");
         if (token == null || "".equals(token)) {
             return Result.newResult(ResultEnum.AUTHENTICATION_ERROR);
@@ -381,11 +402,11 @@ public class ProductionServiceImpl implements ProductionService {
             return Result.newResult(ResultEnum.PARAM_ERROR);
         }
         Production production = productionRepository.findProductionById(id);
-        if (production == null) {
+        if (production == null || production.getDeleteStatus() == 1) {
             return Result.newResult(ResultEnum.NO_GOODS_MSG);
         }
-        Likes likes = likesRepository.findLikesByUserIdAndProductionId(userId,id);
-        if (likes == null){
+        Likes likes = likesRepository.findLikesByUserIdAndProductionId(userId, id);
+        if (likes == null) {
             return Result.newError("您还未点赞");
         }
         //被点赞用户
@@ -415,7 +436,7 @@ public class ProductionServiceImpl implements ProductionService {
             return Result.newResult(ResultEnum.PARAM_ERROR);
         }
         Production production = productionRepository.findProductionById(id);
-        if (production == null) {
+        if (production == null || production.getDeleteStatus() == 1) {
             return Result.newResult(ResultEnum.NO_GOODS_MSG);
         }
         production.setViews(production.getViews() + 1);
@@ -437,17 +458,17 @@ public class ProductionServiceImpl implements ProductionService {
         if (user.getMainProductionId().isEmpty()) {
             return Result.newError("您还未设置代表作");
         }
-        List<Production> productions = productionRepository.findProductionByIsMainProductionAndUserIdOrderByCreateTimeDesc(1,userId);
+        List<Production> productions = productionRepository.findProductionByIsMainProductionAndUserIdOrderByCreateTimeDesc(1, userId);
         List<ProductionVO> productionVOList = new ArrayList<>();
         for (Production production : productions) {
             ProductionVO productionVO = new ProductionVO();
-            BeanUtils.copyProperties(production,productionVO);
+            BeanUtils.copyProperties(production, productionVO);
             //获取分类标签名称
             ProductionTag productionTag = productionTagRepository.findProductionTagById(production.getTagId());
             String tagName = null;
-            if (productionTag == null){
+            if (productionTag == null) {
                 tagName = "该标签已被删除";
-            }else{
+            } else {
                 tagName = productionTag.getTagName();
             }
             productionVO.setTagName(tagName);
@@ -475,9 +496,9 @@ public class ProductionServiceImpl implements ProductionService {
             //获取分类标签名称
             ProductionTag productionTag = productionTagRepository.findProductionTagById(production.getTagId());
             String tagName = null;
-            if (productionTag == null){
+            if (productionTag == null) {
                 tagName = "该标签已被删除";
-            }else{
+            } else {
                 tagName = productionTag.getTagName();
             }
             productionVO.setTagName(tagName);
@@ -497,12 +518,12 @@ public class ProductionServiceImpl implements ProductionService {
      * 根据id获取作品信息
      **/
     @Override
-    public Result<ProductionVO> getProductionById(Integer id) {
+    public Result<ProductionVO> getProductionById(Integer id,Integer userId) {
         if (id == null) {
             return Result.newResult(ResultEnum.PARAM_ERROR);
         }
         Production production = productionRepository.findProductionById(id);
-        if (production == null) {
+        if (production == null || production.getDeleteStatus() == 1) {
             return Result.newResult(ResultEnum.NO_GOODS_MSG);
         }
         User user = userRepository.findUserById(production.getUserId());
@@ -514,15 +535,24 @@ public class ProductionServiceImpl implements ProductionService {
         UserVO userVO = new UserVO();
         ProductionVO productionVO = new ProductionVO();
         BeanUtils.copyProperties(production, productionVO);
+        //判断用户是否收藏
+        if (userId != null) {
+            UserProductionCollections u = userProductionCollectionsRepository.findUserProductionCollectionsByUserIdAndProductionId(userId, production.getId());
+            if (u != null) {
+                productionVO.setIsCollected(1);
+            } else {
+                productionVO.setIsCollected(0);
+            }
+        }
         BeanUtils.copyProperties(user, userVO);
         userVO.setUserArt(userArt);
         userVO.setUserPerformance(userPerformance);
         //获取分类标签名称
         ProductionTag productionTag = productionTagRepository.findProductionTagById(production.getTagId());
         String tagName = null;
-        if (productionTag == null){
+        if (productionTag == null) {
             tagName = "该标签已被删除";
-        }else{
+        } else {
             tagName = productionTag.getTagName();
         }
         productionVO.setTagName(tagName);
@@ -530,18 +560,22 @@ public class ProductionServiceImpl implements ProductionService {
         return Result.newSuccess(productionVO);
     }
 
-    /**获取所有分类标签**/
+    /**
+     * 获取所有分类标签
+     **/
     @Override
     public Result<List<ProductionTag>> listProductionTags() {
         List<ProductionTag> productionTagList = productionTagRepository.findProductionTagByOrderByOrderNumAsc();
         return Result.newSuccess(productionTagList);
     }
 
-    /**根据作品标题或者描述查询作品**/
+    /**
+     * 根据作品标题或者描述查询作品
+     **/
     @Override
     public Result<PageVO<ProductionVO>> findProductionByKey(String key, PageArg arg) {
         Pageable pageable = PageRequest.of(arg.getPageNo() - 1, arg.getPageSize());
-        Page<Production> productionPage = productionRepository.findProductionByKeyLikes("%" + key + "%",pageable);
+        Page<Production> productionPage = productionRepository.findProductionByKeyLikes("%" + key + "%", pageable);
 
         //开始包装ProductionVO
         List<Production> productionList = productionPage.getContent();
@@ -556,9 +590,9 @@ public class ProductionServiceImpl implements ProductionService {
             //获取分类标签名称
             ProductionTag productionTag = productionTagRepository.findProductionTagById(production.getTagId());
             String tagName = null;
-            if (productionTag == null){
+            if (productionTag == null) {
                 tagName = "该标签已被删除";
-            }else{
+            } else {
                 tagName = productionTag.getTagName();
             }
             productionVO.setTagName(tagName);
@@ -575,6 +609,65 @@ public class ProductionServiceImpl implements ProductionService {
                 .rows(productionVOList)
                 .build();
         return Result.newSuccess(pageVo);
+    }
+
+    /**
+     * 删除用户自己的作品
+     **/
+    @Override
+    public Result<Void> deleteProductionById(Integer userId, Integer productionId) {
+        if (userId == null || productionId == null) {
+            return Result.newResult(ResultEnum.PARAM_ERROR);
+        }
+        Production production = productionRepository.findProductionById(productionId);
+        if (production == null || production.getDeleteStatus() == 1) {
+            return Result.newResult(ResultEnum.NO_GOODS_MSG);
+        }
+        if (production.getUserId() != userId) {
+            return Result.newError("只能删除自己的作品");
+        }
+        User user = userRepository.findUserById(userId);
+        production.setDeleteStatus(1);
+        if (production.getPublishStatus() == 1) {
+            user.setProductionNum(user.getProductionNum() - 1);
+        }
+        if (production.getIsMainProduction() == 1) {
+            production.setIsMainProduction(0);
+            List<Integer> ids = user.getMainProductionId();
+            ids.remove(production.getId());
+            user.setMainProductionId(ids);
+        }
+        userRepository.save(user);
+        productionRepository.save(production);
+        return Result.newSuccess();
+    }
+
+    /**
+     * 取消代表作
+     **/
+    @Override
+    public Result<Void> cancelMainProduction(Integer userId, Integer productionId) {
+        if (userId == null || productionId == null) {
+            return Result.newResult(ResultEnum.PARAM_ERROR);
+        }
+        Production production = productionRepository.findProductionById(productionId);
+        if (production == null || production.getDeleteStatus() == 1) {
+            return Result.newResult(ResultEnum.NO_GOODS_MSG);
+        }
+        if (production.getIsMainProduction() == 0) {
+            return Result.newError("该作品不是代表作");
+        }
+        if (production.getUserId() != userId) {
+            return Result.newError("只能取消自己的作品");
+        }
+        User user = userRepository.findUserById(userId);
+        production.setIsMainProduction(0);
+        List<Integer> ids = user.getMainProductionId();
+        ids.remove(production.getId());
+        user.setMainProductionId(ids);
+        userRepository.save(user);
+        productionRepository.save(production);
+        return Result.newSuccess();
     }
 
 
