@@ -3,6 +3,8 @@
 采用框架：
 * 小程序系统：springboot+jpa+mysql
 * 后台系统：thymeleaf
+* 主模块：yipin-basic
+* 工具模块：yipin-common
 
 ## 9/26：
 * 小程序系统进度：
