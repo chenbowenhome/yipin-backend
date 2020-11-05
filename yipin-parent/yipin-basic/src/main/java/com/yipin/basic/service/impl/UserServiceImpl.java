@@ -12,7 +12,6 @@ import com.yipin.basic.dao.userDao.*;
 import com.yipin.basic.entity.others.ArtMsg;
 import com.yipin.basic.entity.production.ProductionTag;
 import com.yipin.basic.entity.user.*;
-import com.yipin.basic.utils.aliyunOss.AliyunOSSUtil;
 import com.yipin.basic.dao.productionDao.ProductionRepository;
 import com.yipin.basic.entity.production.Production;
 import com.yipin.basic.form.UserForm;
@@ -25,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,8 +31,8 @@ import utils.JwtUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -52,14 +50,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private FollowRepository followRepository;
     @Autowired
-    private RedisTemplate redisTemplate;
-    @Autowired
     private JwtUtil jwtUtil;
     @Autowired
     private HttpServletRequest request;
-    //阿里云上传图片工具类
-    @Autowired
-    private AliyunOSSUtil aliyunOSSUtil;
     @Autowired
     private ArtMsgRepository artMsgRepository;
     @Autowired
@@ -222,13 +215,21 @@ public class UserServiceImpl implements UserService {
         try {
             if (file != null) {
                 if (!"".equals(filename.trim())) {
-                    File newFile = new File(filename);
-                    FileOutputStream os = new FileOutputStream(newFile);
-                    os.write(file.getBytes());
-                    os.close();
-                    file.transferTo(newFile);
-                    // 上传到OSS
-                    uploadUrl = aliyunOSSUtil.upLoad(newFile);
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                    String dateStr = format.format(new Date());
+                    String fileUrl = (dateStr + "/" + UUID.randomUUID().toString().replace("-", "") + "-" + filename);
+                    File newFile = new File("/root/art/images/" + fileUrl);
+                    if (!newFile.getParentFile().exists()) {
+                        newFile.getParentFile().mkdirs();
+                    }
+                    try {
+                        file.transferTo(newFile);
+                        uploadUrl = "https://www.yipin-art.xyz/images/" + fileUrl;
+                    } catch (IllegalStateException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }

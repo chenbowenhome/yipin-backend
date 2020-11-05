@@ -192,8 +192,8 @@ public class Timer {
         }
     }
 
-    /**更新每日一句**/
-    @Scheduled(cron = "0 47 08 ? * MON")
+     /**更新每日一句**/
+    @Scheduled(cron = "0 55 23 * * ?")
     public void updateDailySentence(){
         List<DailySentence> nowDailySentenceList = dailySentenceRepository.findDailySentenceByNowStatus(1);
         if (nowDailySentenceList.size() != 0){

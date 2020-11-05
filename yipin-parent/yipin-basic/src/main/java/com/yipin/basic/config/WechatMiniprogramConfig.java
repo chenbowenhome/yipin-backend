@@ -10,8 +10,8 @@ public class WechatMiniprogramConfig {
 
 
     /** 小程序 appid */
-    public static String APPID = "wx8e671db1c4e2f394";
+    public static String APPID = "wx8ea7478b63d61736";
 
     /** 小程序 secret */
-    public static String SECRET = "131c726bff5fb154cb8ee0161937b473";
+    public static String SECRET = "069f9a3e6b3fb93f975d78b173da9302";
 }

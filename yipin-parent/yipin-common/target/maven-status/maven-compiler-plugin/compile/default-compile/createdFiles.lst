@@ -1,4 +1,5 @@
 utils\JwtUtil.class
+utils\Utils.class
 args\WxLoginArg.class
 enums\ResultEnum.class
 utils\JSONUtils.class
@@ -13,5 +14,6 @@ args\data\WxUserInfo.class
 utils\OkHttpUtil$InstanceHolder.class
 args\data\AuthCode2Session.class
 args\PageArg.class
+args\WXConst.class
 utils\IdWorker.class
 VO\PageVO.class

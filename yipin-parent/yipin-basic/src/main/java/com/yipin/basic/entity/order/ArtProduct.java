@@ -44,4 +44,16 @@ public class ArtProduct implements Serializable {
      * 支付类型
      */
     private Integer payType;
+    /**
+     * 商品库存
+     */
+    private Integer productRepertory;
+    /**
+     * 商品类型，0为实体商品（有库存），1为虚拟类商品（无库存）
+     */
+    private Integer productType;
+    /**
+     * 商品小图
+     */
+    private String productImg;
 }

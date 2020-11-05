@@ -24,6 +24,8 @@ public enum ResultEnum {
     FRIEND_ALREADY_EXIST(13,"好友已添加，无需重复添加"),
     REMOTE_ERROR(14, "远程调用失败"),
     PRODUCTION_ERROR(15,"该作品不能设置为代表作，可能原因：未审核、未评估、未发布"),
+    PAY_ERROR(16,"支付失败"),
+    ORDER_NOT_EXIT(17,"订单不存在"),
     ;
 
     @Getter

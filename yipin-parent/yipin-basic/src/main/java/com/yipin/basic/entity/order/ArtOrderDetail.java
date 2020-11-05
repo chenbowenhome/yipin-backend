@@ -30,14 +30,6 @@ public class ArtOrderDetail implements Serializable {
      * 支付总金额
      */
     private BigDecimal payAmount;
-    /**
-     * 订单状态
-     */
-    private Integer orderStatus;
-    /**
-     * 支付状态
-     */
-    private Integer payStatus;
 
     private Date createTime;
 
@@ -50,4 +42,20 @@ public class ArtOrderDetail implements Serializable {
      * 被打赏的人的id
      */
     private Integer rewardUserId;
+    /**
+     * 此次订单的id
+     */
+    private String orderId;
+    /**
+     * 商品名称
+     */
+    private String productName;
+    /**
+     * 商品价格
+     */
+    private BigDecimal productPrice;
+    /**
+     * 商品数量
+     */
+    private Integer productAmount;
 }

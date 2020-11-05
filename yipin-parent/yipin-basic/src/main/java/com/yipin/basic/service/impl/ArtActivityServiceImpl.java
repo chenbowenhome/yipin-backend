@@ -85,7 +85,8 @@ public class ArtActivityServiceImpl implements ArtActivityService {
     @Override
     public Result<PageVO<ArtActivityVO>> listTopicArticle(Integer userId, PageArg arg) {
         Pageable pageable = PageRequest.of(arg.getPageNo() - 1, arg.getPageSize());
-        Page<ArtActivity> artActivityPage = artActivityRepository.findArtActivityByOrderByCreateTimeDesc(pageable);
+        //查找非轮播图的活动
+        Page<ArtActivity> artActivityPage = artActivityRepository.findArtActivityBySlideStatusOrderByCreateTimeDesc(0,pageable);
         List<ArtActivity> artActivityList = artActivityPage.getContent();
         List<ArtActivityVO> artActivityVOList = new ArrayList<>();
         for (ArtActivity artActivity : artActivityList) {
@@ -110,6 +111,28 @@ public class ArtActivityServiceImpl implements ArtActivityService {
         return Result.newSuccess(pageVo);
     }
 
+    /**
+     * 获取活动轮播图
+     **/
+    @Override
+    public Result<List<ArtActivityVO>> listTopicArticleSlide(Integer userId) {
+        //查找轮播图的活动
+        List<ArtActivity> artActivityList = artActivityRepository.findArtActivityBySlideStatusOrderByCreateTimeDesc(0);
+        List<ArtActivityVO> artActivityVOList = new ArrayList<>();
+        for (ArtActivity artActivity : artActivityList) {
+            ArtActivityVO artActivityVO = new ArtActivityVO();
+            ArtActivityParticipants artActivityParticipants = artActivityParticipantsRepository.findArtActivityParticipantsByUserIdAndArtActivityId(userId, artActivity.getId());
+            BeanUtils.copyProperties(artActivity, artActivityVO);
+            artActivityVO.setContent(null);
+            if (artActivityParticipants != null) {
+                artActivityVO.setIsJoin(1);
+            } else {
+                artActivityVO.setIsJoin(0);
+            }
+            artActivityVOList.add(artActivityVO);
+        }
+        return Result.newSuccess(artActivityVOList);
+    }
     /**
      * 报名参加活动
      **/

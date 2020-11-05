@@ -13,12 +13,14 @@ import args.data.WxUserInfo;
 import com.yipin.basic.config.WechatMiniprogramConfig;
 import com.yipin.basic.dao.ranking.RankingUserRepository;
 import com.yipin.basic.dao.userDao.UserArtRepository;
+import com.yipin.basic.dao.userDao.UserMoneyRepository;
 import com.yipin.basic.dao.userDao.UserPerformanceRepository;
 import com.yipin.basic.dao.userDao.UserRepository;
 import com.yipin.basic.entity.ranking.RankingPeriod;
 import com.yipin.basic.entity.ranking.RankingUser;
 import com.yipin.basic.entity.user.User;
 import com.yipin.basic.entity.user.UserArt;
+import com.yipin.basic.entity.user.UserMoney;
 import com.yipin.basic.entity.user.UserPerformance;
 import com.yipin.basic.form.UserForm;
 import args.WxLoginArg;
@@ -37,6 +39,7 @@ import utils.JSONUtils;
 import utils.OkHttpUtil;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +54,8 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private UserArtRepository userArtRepository;
+    @Autowired
+    private UserMoneyRepository userMoneyRepository;
     @Autowired
     private UserPerformanceRepository userPerformanceRepository;
     @Autowired
@@ -73,7 +78,7 @@ public class UserController {
     /**小程序登陆注册接口**/
     @ApiOperation(value = "小程序登陆注册接口", notes = "该接口返回 token")
     @PostMapping("/wxlogin")
-    public Result<UserVO> login(@Valid @RequestBody WxLoginArg wxLoginArg,
+    public Result<UserVO> login(@Valid @RequestBody WxLoginArg wxLoginArg,@RequestParam(required = false) String phone,
                                     HttpServletResponse response) {
         // 小程序登陆
         // auth.code2Session 地址
@@ -109,6 +114,9 @@ public class UserController {
             }
             User user = new User();
             InitUtils.InitUser(user);
+            if (phone != null){
+                user.setMobile(phone);
+            }
             user.setOpenid(authCode2Session.getOpenid());
             user.setNickname(wxUserInfo.getNickname());
             user.setAvatar(wxUserInfo.getAvatarUrl());
@@ -124,6 +132,13 @@ public class UserController {
             userArt.setUserId(queryUser.getId());
             InitUtils.InitUserPerformance(userPerformance);
             userPerformance.setUserId(queryUser.getId());
+            //创建用户未币表
+            UserMoney userMoney = new UserMoney();
+            userMoney.setUserId(user.getId());
+            userMoney.setMoney(new BigDecimal(0.0));
+            userMoney.setUpdateTime(new Date());
+
+            userMoneyRepository.save(userMoney);
             queryUserPerformance = userPerformanceRepository.save(userPerformance);
             queryUserArt = userArtRepository.save(userArt);
         }
@@ -294,6 +309,17 @@ public class UserController {
     Result<PageVO<ProductionVO>> listCollections(Integer userId,@RequestBody PageArg arg){
         arg.validate();
         return userService.listCollections(userId,arg);
+    }
+
+    /**获取用户未币信息**/
+    @ApiOperation("获取用户未币信息")
+    @RequestMapping(value = "/getUserMoney",method = RequestMethod.GET)
+    Result<UserMoney> getUserMoney(Integer userId){
+        if (userId == null){
+            return Result.newResult(ResultEnum.PARAM_ERROR);
+        }
+        UserMoney userMoney = userMoneyRepository.findUserMoneyByUserId(userId);
+        return Result.newSuccess(userMoney);
     }
 
 }

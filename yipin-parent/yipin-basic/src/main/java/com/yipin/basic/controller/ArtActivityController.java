@@ -12,10 +12,8 @@ import com.yipin.basic.service.ArtActivityService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,7 +32,7 @@ public class ArtActivityController {
      **/
     @ApiOperation("通过id获取活动")
     @RequestMapping(value = "/getArticleById", method = RequestMethod.GET)
-    public Result<ArtActivityVO> getArticleById(Integer id,Integer userId) {
+    public Result<ArtActivityVO> getArticleById(@RequestParam(required = false) Integer id, Integer userId) {
         return artActivityService.getArticleById(id,userId);
     }
 
@@ -43,9 +41,18 @@ public class ArtActivityController {
      **/
     @ApiOperation("分页获取最新活动")
     @RequestMapping(value = "/listTopicArticle", method = RequestMethod.POST)
-    public Result<PageVO<ArtActivityVO>> listTopicArticle(Integer userId, @RequestBody PageArg arg) {
+    public Result<PageVO<ArtActivityVO>> listTopicArticle(@RequestParam(required = false) Integer userId, @RequestBody PageArg arg) {
         arg.validate();
         return artActivityService.listTopicArticle(userId, arg);
+    }
+
+    /**
+     * 获取活动轮播图
+     **/
+    @ApiOperation("获取活动轮播图")
+    @RequestMapping(value = "/listTopicArticleSlide", method = RequestMethod.POST)
+    public Result<List<ArtActivityVO>> listTopicArticleSlide(@RequestParam(required = false) Integer userId) {
+        return artActivityService.listTopicArticleSlide(userId);
     }
 
     /**

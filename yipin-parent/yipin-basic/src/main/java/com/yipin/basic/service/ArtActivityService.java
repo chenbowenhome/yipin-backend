@@ -7,6 +7,8 @@ import args.PageArg;
 import com.yipin.basic.VO.ArtActivityVO;
 import com.yipin.basic.form.ArtActivityForm;
 
+import java.util.List;
+
 public interface ArtActivityService {
     /**通过id获取活动详情**/
     Result<ArtActivityVO> getArticleById(Integer id,Integer userId);
@@ -20,4 +22,6 @@ public interface ArtActivityService {
     Result<Void> likeActivity(Integer artActivityId);
     /**为活动取消点赞**/
     Result<Void> unlikeActivity(Integer artActivityId);
+    /**获取活动轮播图**/
+    Result<List<ArtActivityVO>> listTopicArticleSlide(Integer userId);
 }

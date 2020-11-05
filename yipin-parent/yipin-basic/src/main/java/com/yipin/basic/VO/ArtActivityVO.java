@@ -1,11 +1,13 @@
 package com.yipin.basic.VO;
 
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class ArtActivityVO implements Serializable {
@@ -59,6 +61,14 @@ public class ArtActivityVO implements Serializable {
     private Integer isEnd;
 
     private Date createTime;
+    /**
+     * 商品id
+     */
+    private String activityProductId;
+    /**
+     * 活动附属商品ids
+     */
+    private List<String> othersProductIds; //TODO 这里需要改为商品集合
     /**
      * 判断用户是否参加该活动
      */

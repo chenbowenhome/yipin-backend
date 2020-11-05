@@ -1,15 +1,20 @@
 package com.yipin.basic.entity.others;
 
+import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.Data;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
 @Table(name = "art_activity")
+@TypeDef(name = "json", typeClass = JsonStringType.class)
 public class ArtActivity implements Serializable {
     /**
      * ID
@@ -63,5 +68,19 @@ public class ArtActivity implements Serializable {
     private Integer isEnd;
 
     private Date createTime;
+    /**
+     * 商品id
+     */
+    private String activityProductId;
+    /**
+     * 活动附属商品ids
+     */
+    @Type( type = "json" )
+    @Column( columnDefinition = "json" )
+    private List<String> othersProductIds;
+    /**
+     * 是否为轮播图显示的活动，0为不是，1为是
+     */
+    private Integer slideStatus;
 
 }
