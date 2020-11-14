@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(tags = "作品相关接口")
+@Api(tags = "作品相关接口(首页、作品详情页面、个人页面)")
 @RestController
 @RequestMapping("/production")
 public class ProductionController {
@@ -31,7 +31,7 @@ public class ProductionController {
     private ProductionService productionService;
 
     /**分页查询代表作**/
-    @ApiOperation("首页分页查询代表作，按上传时间排序")
+    @ApiOperation("首页分页查询用户发布的作品，按上传时间排序(首页)")
     @RequestMapping(value = "/listPublishedProduction",method = RequestMethod.POST)
     public Result<PageVO<ProductionVO>> listPublishedProduction(@RequestBody PageArg arg){
         arg.validate();
@@ -39,28 +39,28 @@ public class ProductionController {
     }
 
     /**上传作品信息,可选择保存或者直接发布**/
-    @ApiOperation("上传作品信息,可选择不公开或者公开")
+    @ApiOperation("上传作品信息,可选择不公开或者公开(上传作品页面)")
     @RequestMapping(value = "/uploadProduction",method = RequestMethod.POST)
     public Result<Void> uploadProduction(@Valid @RequestBody ProductionForm productionForm){
         return productionService.uploadProduction(productionForm);
     }
 
     /**将未公开的作品公开**/
-    @ApiOperation("将未公开的作品公开")
+    @ApiOperation("将未公开的作品公开(传入作品id)")
     @RequestMapping(value = "/publishProduction",method = RequestMethod.POST)
     public Result<Void> publishProduction(Integer id){
         return productionService.publishProduction(id);
     }
 
     /**将公开的作品设置为隐私**/
-    @ApiOperation("将公开的作品设置为隐私")
+    @ApiOperation("将公开的作品设置为隐私(传入作品id)")
     @RequestMapping(value = "/privateProduction",method = RequestMethod.POST)
     public Result<Void> privateProduction(Integer id) {
         return productionService.privateProduction(id);
     }
 
     /**分页查询用户已公开的全部作品**/
-    @ApiOperation("分页查询用户已公开的全部作品")
+    @ApiOperation("分页查询用户已公开的全部作品(用户个人页面公开作品模块)")
     @RequestMapping(value = "/listUserPublishedProduction",method = RequestMethod.POST)
     public Result<PageVO<ProductionVO>> listUserPublishedProduction(@RequestBody PageArg arg,Integer userId){
         arg.validate();
@@ -68,7 +68,7 @@ public class ProductionController {
     }
 
     /**分页查询用户还没公开的作品**/
-    @ApiOperation("分页查询用户还没公开的作品")
+    @ApiOperation("分页查询用户还没公开的作品(用户个人页面私密作品模块)")
     @RequestMapping(value = "/listUserUnPublishedProduction",method = RequestMethod.POST)
     public Result<PageVO<ProductionVO>> listUserUnPublishedProduction(@RequestBody PageArg arg,Integer userId){
         arg.validate();
@@ -76,7 +76,7 @@ public class ProductionController {
     }
 
     /**为作品点赞**/
-    @ApiOperation("为作品点赞,传入作品id和用户id")
+    @ApiOperation("为作品点赞,传入作品id和点赞用户id")
     @RequestMapping(value = "/likes",method = RequestMethod.POST)
     public Result<Void> likes(Integer id,Integer userId){
         return productionService.likes(id,userId);
@@ -97,18 +97,10 @@ public class ProductionController {
     }
 
     /**获取用户代表作**/
-    @ApiOperation("获取用户代表作,传入用户id")
+    @ApiOperation("获取用户代表作,传入用户id(个人页面)")
     @RequestMapping(value = "/getMainProduction",method = RequestMethod.GET)
     public Result<List<ProductionVO>> getMainProduction(Integer userId){
         return productionService.getMainProduction(userId);
-    }
-
-    /**根据标题搜索作品**/
-    @ApiOperation("根据标题搜索代表作品")
-    @RequestMapping(value = "/searchProduction",method = RequestMethod.POST)
-    public Result<PageVO<ProductionVO>> searchProduction(String title,@RequestBody PageArg arg){
-        arg.validate();
-        return productionService.searchProduction(title,arg);
     }
 
     /**根据id获取作品信息**/
@@ -136,7 +128,7 @@ public class ProductionController {
     /**
      * 删除用户自己的作品
      **/
-    @ApiOperation("删除用户自己的作品")
+    @ApiOperation("删除用户自己的作品(传入用户id和作品id)")
     @RequestMapping(value = "/deleteProductionById",method = RequestMethod.POST)
     public Result<Void> deleteProductionById(Integer userId, Integer productionId) {
         return productionService.deleteProductionById(userId,productionId);

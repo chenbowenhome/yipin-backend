@@ -44,7 +44,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-@Api(tags = "用户相关接口")
+@Api(tags = "用户相关接口(个人页面)")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -62,7 +62,7 @@ public class UserController {
     private RankingService rankingService;
 
     /**更新用户信息**/
-    @ApiOperation("更新用户信息,传几个更新几个")
+    @ApiOperation("更新用户信息,传几个更新几个(修改用户信息)")
     @RequestMapping(value = "/updateUserMsg",method = RequestMethod.POST)
     public Result<Void> updateUserMsg(Integer userId, @RequestBody UserForm userForm){
         return userService.updateUserMsg(userId,userForm);
@@ -157,21 +157,21 @@ public class UserController {
     }
 
     /**完善用户信息**/
-    @ApiOperation(value = "完善用户信息")
+    @ApiOperation(value = "完善用户信息(新注册的用户需要完善用户的信息)")
     @PostMapping("/completeUserMsg")
     public Result<Void> completeUserMsg(Integer userId,@Valid @RequestBody UserMsgForm userMsgForm){
         return userService.completeUserMsg(userId,userMsgForm);
     }
 
     /**代表作设置接口**/
-    @ApiOperation(value = "代表作设置接口", notes = "传用户id和被设置为代表作的作品id")
+    @ApiOperation(value = "代表作设置接口(设置用户的代表作)", notes = "传用户id和被设置为代表作的作品id")
     @PostMapping("/setMainProduction")
     public Result<Void> setMainProduction(Integer userId,Integer productionId){
         return userService.setMainProduction(userId,productionId);
     }
 
     /**上传图片文件到阿里云服务器，返回图片url**/
-    @ApiOperation("上传图片文件到阿里云服务器，返回图片url,最多2MB,图片格式最好为png，jpg")
+    @ApiOperation("上传图片到服务器，返回图片url,最多10MB,图片格式最好为png，jpg")
     @RequestMapping(value = "/uploadImage",method = RequestMethod.POST)
     public Result<Map<String,String>> uploadImage(@RequestParam("file") MultipartFile file){
         return userService.uploadImage(file);
@@ -184,14 +184,14 @@ public class UserController {
     }
 
     /**获取前三名用户信息**/
-    @ApiOperation("获取前三名用户信息")
+    @ApiOperation("获取前三名用户信息(首页获取前三名用户的信息)")
     @RequestMapping(value = "/findTheTopThree",method = RequestMethod.GET)
     public Result<List<UserVO>> findTheTopThree() {
         return userService.findTheTopThree();
     }
 
     /**关注用户**/
-    @ApiOperation("关注用户")
+    @ApiOperation("关注用户(传入用户id与被关注用户的id)")
     @RequestMapping(value = "/followUser",method = RequestMethod.POST)
     public Result<Void> followUser(Integer userId,Integer followUserId){
         return userService.followUser(userId,followUserId);
@@ -205,7 +205,7 @@ public class UserController {
     }
 
     /**获取用户关注列表**/
-    @ApiOperation("获取用户关注列表")
+    @ApiOperation("获取用户的关注列表")
     @RequestMapping(value = "/listFollowUsers",method = RequestMethod.POST)
     public Result<PageVO<UserVO>> listFollowUsers(Integer userId,@RequestBody PageArg arg){
         arg.validate();
@@ -213,7 +213,7 @@ public class UserController {
     }
 
     /**获取用户粉丝列表**/
-    @ApiOperation("获取用户粉丝列表")
+    @ApiOperation("获取用户的粉丝列表")
     @RequestMapping(value = "/listFanUsers",method = RequestMethod.POST)
     public Result<PageVO<UserVO>> listFanUsers(Integer userId,@RequestBody PageArg arg){
         arg.validate();
@@ -221,21 +221,21 @@ public class UserController {
     }
 
     /**上传图片测试**/
-    @ApiOperation("上传图片测试")
+    @ApiOperation("上传图片测试（测试接口，非前台接口）")
     @RequestMapping(value = "/uploadImageTest",method = RequestMethod.POST)
     public Result<String> uploadImageTest(@RequestParam("file") MultipartFile file){
         return userService.uploadImageTest(file);
     }
 
     /**获取排名前20名用户**/
-    @ApiOperation("获取排名前20名用户")
+    @ApiOperation("获取排名前20名用户(传入当前期数)")
     @RequestMapping(value = "/findTheRanking",method = RequestMethod.GET)
     public Result<RankingVO> findTheRanking(Integer period) {
         return rankingService.findTheRanking(period);
     }
 
     /**获取所有期数**/
-    @ApiOperation("获取所有期数")
+    @ApiOperation("获取所有期数(就是该排名目前进行到了第几期)")
     @RequestMapping(value = "/findAllPeriod",method = RequestMethod.GET)
     public Result<List<RankingPeriod>> findAllPeriod(){
         return rankingService.findAllPeriod();

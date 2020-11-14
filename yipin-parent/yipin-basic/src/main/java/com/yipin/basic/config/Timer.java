@@ -195,19 +195,19 @@ public class Timer {
      /**更新每日一句**/
     @Scheduled(cron = "0 55 23 * * ?")
     public void updateDailySentence(){
-        List<DailySentence> nowDailySentenceList = dailySentenceRepository.findDailySentenceByNowStatus(1);
-        if (nowDailySentenceList.size() != 0){
-            DailySentence nowDailySentence = nowDailySentenceList.get(0);
-            nowDailySentence.setNowStatus(0);
-            dailySentenceRepository.save(nowDailySentence);
-        }
-        List<DailySentence> dailySentenceList = dailySentenceRepository.findDailySentenceByNowStatus(0);
+        List<DailySentence> dailySentenceList = dailySentenceRepository.findDailySentenceByNowStatus(1);
         if (dailySentenceList.size() != 0){
-            Random random = new Random();
-            Integer index = random.nextInt(dailySentenceList.size());
-            DailySentence dailySentence = dailySentenceList.get(index);
-            dailySentence.setNowStatus(1);
-            dailySentenceRepository.save(dailySentence);
+            for (DailySentence dailySentence : dailySentenceList) {
+                dailySentence.setNowStatus(0);
+                dailySentenceRepository.save(dailySentence);
+            }
+        }
+        List<DailySentence> nowDailySentenceList = dailySentenceRepository.findTop20DailySentence();
+        if (nowDailySentenceList.size() != 0){
+            for (DailySentence dailySentence : nowDailySentenceList) {
+                dailySentence.setNowStatus(1);
+                dailySentenceRepository.save(dailySentence);
+            }
         }
     }
 }

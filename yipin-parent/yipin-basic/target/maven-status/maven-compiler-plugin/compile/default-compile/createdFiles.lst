@@ -3,6 +3,7 @@ com\yipin\basic\service\CommentService.class
 com\yipin\basic\dao\othersDao\ArtMsgRepository.class
 com\yipin\basic\utils\others\CompareHist.class
 com\yipin\basic\VO\RankingUserVO.class
+com\yipin\basic\controller\ShareController.class
 com\yipin\basic\service\ArtActivityService.class
 com\yipin\basic\dao\ranking\RankingUserRepository.class
 com\yipin\basic\entity\others\Admin.class
@@ -25,6 +26,7 @@ com\yipin\basic\form\UserMsgForm.class
 com\yipin\basic\service\impl\SpecialistServiceImpl.class
 com\yipin\basic\entity\user\Follow.class
 com\yipin\basic\form\ArtActivityForm.class
+com\yipin\basic\dao\userDao\UserProductCartRepository.class
 com\yipin\basic\controller\admin\AdminController.class
 com\yipin\basic\entity\order\ArtOrder.class
 com\yipin\basic\service\RankingService.class
@@ -43,6 +45,7 @@ com\yipin\basic\service\SpecialistService.class
 com\yipin\basic\entity\others\ArtActivityParticipants.class
 com\yipin\basic\controller\ArtActivityController.class
 com\yipin\basic\dao\master\MasterRepository.class
+com\yipin\basic\dao\othersDao\ArtActivityTranspondRepository.class
 com\yipin\basic\utils\aliyunOss\AliyunOSSUtil.class
 com\yipin\basic\service\impl\SlideServiceImpl.class
 com\yipin\basic\dao\othersDao\CommentRepository.class
@@ -65,7 +68,6 @@ com\yipin\basic\entity\user\UserArt.class
 com\yipin\basic\dao\userDao\UserRepository.class
 com\yipin\basic\config\InterceptorConfig.class
 com\yipin\basic\utils\others\ImageAlgorithms.class
-com\yipin\basic\utils\ImageUploadUtils.class
 com\yipin\basic\VO\MsgVO.class
 com\yipin\basic\dao\userDao\UserProductionCollectionsRepository.class
 com\yipin\basic\entity\specialist\PaintType.class
@@ -77,6 +79,7 @@ com\yipin\basic\controller\SlideController.class
 com\yipin\basic\dao\othersDao\DictionariesRepository.class
 com\yipin\basic\dao\productionDao\ProductionRepository.class
 com\yipin\basic\VO\ProductionVO.class
+com\yipin\basic\entity\others\ArtActivityTranspond.class
 com\yipin\basic\entity\others\Comment.class
 com\yipin\basic\entity\others\ArtMsg.class
 com\yipin\basic\service\impl\OrderServiceImpl.class
@@ -108,6 +111,7 @@ com\yipin\basic\service\MasterService.class
 com\yipin\basic\entity\order\ArtOrderDetail.class
 com\yipin\basic\entity\user\User.class
 com\yipin\basic\config\Timer.class
+com\yipin\basic\VO\ShoppingCartVO.class
 com\yipin\basic\config\WechatMiniprogramConfig.class
 com\yipin\basic\service\impl\ProductionServiceImpl.class
 com\yipin\basic\utils\MarkdownUtils.class
@@ -122,6 +126,7 @@ com\yipin\basic\service\UserService.class
 com\yipin\basic\entity\production\Production.class
 com\yipin\basic\utils\aliyunOss\AliyunOSSConfigConstant.class
 com\yipin\basic\dao\othersDao\AdminRepository.class
+com\yipin\basic\entity\user\UserProductCart.class
 com\yipin\basic\controller\admin\AdminPageController.class
 com\yipin\basic\entity\user\UserMoney.class
 com\yipin\basic\service\impl\RankingServiceImpl.class

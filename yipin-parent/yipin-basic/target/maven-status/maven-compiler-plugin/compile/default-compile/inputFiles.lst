@@ -5,6 +5,7 @@ D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\dao\othersDao\DailySentenceRepository.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\dao\othersDao\DictionariesRepository.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\VO\CommentVO.java
+D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\entity\others\ArtActivityTranspond.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\entity\others\Likes.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\entity\user\UserPerformance.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\form\AdminRegisterForm.java
@@ -38,7 +39,6 @@ D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\dao\othersDao\LikesRepository.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\service\impl\MasterServiceImpl.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\service\ProductionService.java
-D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\utils\ImageUploadUtils.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\dao\specialistDao\SpecialistRepository.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\controller\MasterController.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\config\OrderCheckScheduler.java
@@ -68,10 +68,12 @@ D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\controller\UserController.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\dao\order\OrderRepository.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\form\UserForm.java
+D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\dao\userDao\UserProductCartRepository.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\service\impl\ArtActivityServiceImpl.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\controller\OrderController.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\dao\othersDao\ArtActivityParticipantsRepository.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\form\SpecialistForm.java
+D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\VO\ShoppingCartVO.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\dao\ranking\RankingPeriodRepository.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\dao\userDao\UserProductionCollectionsRepository.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\controller\MsgController.java
@@ -85,6 +87,7 @@ D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\entity\others\DailySentence.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\service\SlideService.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\config\WechatMiniprogramConfig.java
+D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\controller\ShareController.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\dao\userDao\UserArtRepository.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\utils\InitUtils.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\entity\production\ProductionAssessment.java
@@ -112,6 +115,7 @@ D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\controller\admin\AdminController.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\service\impl\MsgServiceImpl.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\form\ProductionForm.java
+D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\entity\user\UserProductCart.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\service\RankingService.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\VO\MsgVO.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\service\SpecialistService.java
@@ -124,3 +128,4 @@ D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\entity\specialist\PaintType.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\form\SlideForm.java
 D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\dao\order\ProductRepository.java
+D:\MyLearningProject\艺品小程序\yipin-backend\yipin-parent\yipin-basic\src\main\java\com\yipin\basic\dao\othersDao\ArtActivityTranspondRepository.java

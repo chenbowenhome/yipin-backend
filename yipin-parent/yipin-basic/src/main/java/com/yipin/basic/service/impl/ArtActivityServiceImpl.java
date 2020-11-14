@@ -7,9 +7,11 @@ import args.PageArg;
 import com.yipin.basic.VO.ArtActivityVO;
 import com.yipin.basic.dao.othersDao.ArtActivityParticipantsRepository;
 import com.yipin.basic.dao.othersDao.ArtActivityRepository;
+import com.yipin.basic.dao.othersDao.DailySentenceRepository;
 import com.yipin.basic.dao.userDao.UserRepository;
 import com.yipin.basic.entity.others.ArtActivity;
 import com.yipin.basic.entity.others.ArtActivityParticipants;
+import com.yipin.basic.entity.others.DailySentence;
 import com.yipin.basic.entity.user.User;
 import com.yipin.basic.form.ArtActivityForm;
 import com.yipin.basic.service.ArtActivityService;
@@ -36,6 +38,8 @@ public class ArtActivityServiceImpl implements ArtActivityService {
     private UserRepository userRepository;
     @Autowired
     private ArtActivityParticipantsRepository artActivityParticipantsRepository;
+    @Autowired
+    private DailySentenceRepository dailySentenceRepository;
 
     /**
      * 通过id获取活动详情
@@ -133,6 +137,21 @@ public class ArtActivityServiceImpl implements ArtActivityService {
         }
         return Result.newSuccess(artActivityVOList);
     }
+
+    @Override
+    public Result<PageVO<DailySentence>> listAllDailySentence(PageArg arg) {
+        Pageable pageable = PageRequest.of(arg.getPageNo() - 1,arg.getPageSize());
+        Page<DailySentence> dailySentencePage = dailySentenceRepository.findAll(pageable);
+        //构建pageVo对象
+        PageVO<DailySentence> pageVo = PageVO.<DailySentence>builder()
+                .totalPage(dailySentencePage.getTotalPages())
+                .pageNo(arg.getPageNo())
+                .pageSize(arg.getPageSize())
+                .rows(dailySentencePage.getContent())
+                .build();
+        return Result.newSuccess(pageVo);
+    }
+
     /**
      * 报名参加活动
      **/

@@ -11,4 +11,5 @@ public interface ArtActivityRepository extends JpaRepository<ArtActivity,Integer
     ArtActivity findArtActivityById(Integer id);
     Page<ArtActivity> findArtActivityBySlideStatusOrderByCreateTimeDesc(Integer slideStatus,Pageable pageable);
     List<ArtActivity> findArtActivityBySlideStatusOrderByCreateTimeDesc(Integer slideStatus);
+    Page<ArtActivity> findArtActivityByOrderByCreateTimeDesc(Pageable pageable);
 }

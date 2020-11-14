@@ -48,6 +48,6 @@ public interface UserService {
     Result<Void> cancelCollectProduction(Integer userId,Integer productionId);
     /**获取用户收藏的作品**/
     Result<PageVO<ProductionVO>> listCollections(Integer userId,PageArg arg);
-
+    /**将商品加入购物车**/
     Result<String> uploadImageTest(MultipartFile file);
 }

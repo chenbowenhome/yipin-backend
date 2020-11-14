@@ -5,6 +5,7 @@ import VO.Result;
 import VO.Void;
 import args.PageArg;
 import com.yipin.basic.VO.ArtActivityVO;
+import com.yipin.basic.entity.others.DailySentence;
 import com.yipin.basic.form.ArtActivityForm;
 
 import java.util.List;
@@ -24,4 +25,6 @@ public interface ArtActivityService {
     Result<Void> unlikeActivity(Integer artActivityId);
     /**获取活动轮播图**/
     Result<List<ArtActivityVO>> listTopicArticleSlide(Integer userId);
+    /**查找全部每日一句**/
+    Result<PageVO<DailySentence>> listAllDailySentence(PageArg arg);
 }

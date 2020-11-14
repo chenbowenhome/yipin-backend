@@ -1,11 +1,13 @@
 package com.yipin.basic.entity.others;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+@ApiModel(value = "点赞表")
 @Data
 @Entity
 @Table(name = "likes")

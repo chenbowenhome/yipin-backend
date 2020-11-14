@@ -1,5 +1,6 @@
 package com.yipin.basic.entity.user;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -7,6 +8,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+@ApiModel(value = "用户未币表")
 @Data
 @Entity
 @Table(name = "user_money")

@@ -23,7 +23,7 @@ public class CommentForm implements Serializable {
     /**
      * 话题文章id
      */
-    @ApiModelProperty(value = "话题文章id")
+    @ApiModelProperty(value = "活动id")
     private Integer activityId;
     /**
      * 父评论id

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Api(tags = "分享相关接口")
+@Api(tags = "分享相关接口(活动分享页面)")
 @RestController
 @RequestMapping("/share")
 public class ShareController {
@@ -27,7 +27,7 @@ public class ShareController {
     private UserMoneyRepository userMoneyRepository;
 
     /**创建一个分享**/
-    @ApiOperation("创建一个分享")
+    @ApiOperation("创建一个分享(当第一个用户分享后调用此接口，传入用户id)")
     @RequestMapping(value = "/createShare",method = RequestMethod.POST)
     public Result<Void> createShare(Integer userId){
         if (userId == null){
@@ -45,7 +45,7 @@ public class ShareController {
     }
 
     /**用户接收此分享并且在活动页面下单**/
-    @ApiOperation("用户接收此分享并且在活动页面下单")
+    @ApiOperation("用户接收此分享并且在活动页面下单(当第二个用户接收到第一个用户的分享链接并且购买物品后调用此接口，传入分享id和用户自己的id)")
     @RequestMapping(value = "/finishShare",method = RequestMethod.POST)
     public Result<Void> finishShare(Integer shareId,Integer userId){
         if (shareId == null || userId == null){

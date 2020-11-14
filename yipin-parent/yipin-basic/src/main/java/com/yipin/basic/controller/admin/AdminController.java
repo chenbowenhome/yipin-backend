@@ -1,18 +1,12 @@
 package com.yipin.basic.controller.admin;
 
-import com.yipin.basic.dao.othersDao.AdminRepository;
-import com.yipin.basic.dao.othersDao.ArtActivityRepository;
-import com.yipin.basic.dao.othersDao.CommentRepository;
-import com.yipin.basic.dao.othersDao.SlideRepository;
+import com.yipin.basic.dao.othersDao.*;
 import com.yipin.basic.dao.productionDao.ProductionRepository;
 import com.yipin.basic.dao.productionDao.ProductionTagRepository;
 import com.yipin.basic.dao.specialistDao.PaintTypeRepository;
 import com.yipin.basic.dao.specialistDao.SpecialistRepository;
 import com.yipin.basic.dao.userDao.UserRepository;
-import com.yipin.basic.entity.others.Admin;
-import com.yipin.basic.entity.others.ArtActivity;
-import com.yipin.basic.entity.others.Comment;
-import com.yipin.basic.entity.others.Slide;
+import com.yipin.basic.entity.others.*;
 import com.yipin.basic.entity.production.Production;
 import com.yipin.basic.entity.production.ProductionTag;
 import com.yipin.basic.entity.specialist.PaintType;
@@ -68,6 +62,8 @@ public class AdminController {
     private ArtActivityService artActivityService;
     @Autowired
     private ArtActivityRepository artActivityRepository;
+    @Autowired
+    private DailySentenceRepository dailySentenceRepository;
 
     @PostMapping("/addAdminUser")
     public String addAdminUser(AdminRegisterForm adminRegisterForm, RedirectAttributes attributes) {
@@ -338,4 +334,39 @@ public class AdminController {
         attributes.addFlashAttribute("msg", "成功删除！");
         return "redirect:/admin/topicArticle";
     }
+
+    /**
+     * 删除每日一句
+     **/
+    @PostMapping("/dailySentence/delete")
+    public String deletedailySentence(@RequestParam Integer id,
+                                     RedirectAttributes attributes) {
+        DailySentence dailySentence = dailySentenceRepository.findDailySentenceById(id);
+        if (dailySentence == null) {
+            attributes.addFlashAttribute("msg", "句子信息不存在！");
+            return "redirect:/admin/dailySentence";
+        }
+        dailySentenceRepository.delete(dailySentence);
+        attributes.addFlashAttribute("msg", "成功删除！");
+        return "redirect:/admin/dailySentence";
+    }
+
+    /**
+     * 上传每日一句
+     **/
+    @PostMapping("/dailySentence/add")
+    public String adDailySentence(@RequestParam("file") MultipartFile file, @RequestParam("content") String content,
+                           RedirectAttributes attributes) {
+        DailySentence dailySentence = new DailySentence();
+        dailySentence.setNowStatus(0);
+        dailySentence.setContent(content);
+        dailySentence.setCreateTime(new Date());
+        String url = userService.uploadImage(file).getData().get("imageUrl");
+        System.out.println(url);
+        dailySentence.setImgUrl(url);
+        dailySentenceRepository.save(dailySentence);
+        attributes.addFlashAttribute("msg", "成功添加每日一句！");
+        return "redirect:/admin/dailySentence";
+    }
+
 }

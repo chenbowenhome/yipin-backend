@@ -4,6 +4,7 @@ import VO.PageVO;
 import VO.Result;
 import VO.Void;
 import args.PageArg;
+import com.yipin.basic.VO.ShoppingCartVO;
 import com.yipin.basic.entity.order.ArtOrder;
 import com.yipin.basic.entity.order.ArtOrderDetail;
 import com.yipin.basic.entity.order.ArtProduct;
@@ -26,4 +27,12 @@ public interface OrderService {
     Result<PageVO<ArtOrder>> listOrder(Integer userId,PageArg arg);
     /**查询订单状态**/
     Result<JSONObject> findOrderStatus(String orderId);
+    /**将商品加入购物车**/
+    Result<Void> putToShoppingCart(Integer userId, List<OrderForm> orderFormList);
+    /**列出用户购物车内所有商品**/
+    Result<PageVO<ShoppingCartVO>> listShoppingCartProduct(Integer userId,PageArg arg);
+    /**购买购物车内的商品**/
+    Result<Void> buyShoppingCartProduct(List<Integer> ids);
+    /**移除购物车内的商品**/
+    Result<Void> removeShoppingCartProduct(List<Integer> ids);
 }

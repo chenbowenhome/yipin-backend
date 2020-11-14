@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(tags = "消息相关接口")
+@Api(tags = "消息相关接口(消息盒子，左上角)")
 @RestController
 @RequestMapping("/msg")
 public class MsgController {
@@ -25,7 +25,7 @@ public class MsgController {
 
 
     /**分页获取全部消息**/
-    @ApiOperation("分页获取全部消息")
+    @ApiOperation("分页获取该用户的全部消息")
     @RequestMapping(value = "/listAllMsg",method = RequestMethod.POST)
     public Result<PageVO<MsgVO>> listAllMsg(Integer userId, @RequestBody PageArg arg) {
         arg.validate();

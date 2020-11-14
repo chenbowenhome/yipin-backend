@@ -5,21 +5,25 @@ import VO.Result;
 import VO.Void;
 import args.PageArg;
 import com.yipin.basic.VO.ArtActivityVO;
+import com.yipin.basic.VO.ShoppingCartVO;
 import com.yipin.basic.config.OrderCheckScheduler;
 import com.yipin.basic.config.OrderDelayDTO;
 import com.yipin.basic.dao.order.OrderDetailRepository;
 import com.yipin.basic.dao.order.OrderRepository;
 import com.yipin.basic.dao.order.ProductRepository;
+import com.yipin.basic.dao.userDao.UserProductCartRepository;
 import com.yipin.basic.dao.userDao.UserRepository;
 import com.yipin.basic.entity.order.ArtOrder;
 import com.yipin.basic.entity.order.ArtOrderDetail;
 import com.yipin.basic.entity.order.ArtProduct;
 import com.yipin.basic.entity.user.User;
+import com.yipin.basic.entity.user.UserProductCart;
 import com.yipin.basic.form.OrderForm;
 import com.yipin.basic.service.OrderService;
 import com.yipin.basic.utils.PayUtils;
 import enums.ResultEnum;
 import net.sf.json.JSONObject;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,7 +40,7 @@ import java.util.*;
 @Transactional
 public class OrderServiceImpl implements OrderService {
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
     private ProductRepository productRepository;
     @Autowired
@@ -47,6 +51,8 @@ public class OrderServiceImpl implements OrderService {
     private IdWorker idWorker;
     @Autowired
     private OrderCheckScheduler orderCheckScheduler;
+    @Autowired
+    private UserProductCartRepository userProductCartRepository;
 
     /**选择商品并且下单，默认支付状态为0未支付**/
     @Override
@@ -228,6 +234,80 @@ public class OrderServiceImpl implements OrderService {
     public Result<JSONObject> findOrderStatus(String orderId) {
         JSONObject json = PayUtils.verifyOrderStatus(orderId);
         return Result.newSuccess(json);
+    }
+
+    /**将商品加入购物车**/
+    @Override
+    public Result<Void> putToShoppingCart(Integer userId, List<OrderForm> orderFormList) {
+        if (userId == null){
+            return Result.newResult(ResultEnum.PARAM_ERROR);
+        }
+        for (OrderForm orderForm : orderFormList) {
+            UserProductCart userProductCart = new UserProductCart();
+            userProductCart.setArtProductId(orderForm.getArtProductId());
+            userProductCart.setProductNums(orderForm.getProductAmount());
+            userProductCart.setUserId(userId);
+            userProductCart.setUpdateTime(new Date());
+            userProductCart.setIsEnd(0);
+            userProductCartRepository.save(userProductCart);
+        }
+        return Result.newSuccess();
+    }
+
+    /**列出用户购物车内所有商品**/
+    @Override
+    public Result<PageVO<ShoppingCartVO>> listShoppingCartProduct(Integer userId,PageArg arg) {
+        if (userId == null){
+            return Result.newResult(ResultEnum.PARAM_ERROR);
+        }
+        Pageable pageable = PageRequest.of(arg.getPageNo() - 1,arg.getPageSize());
+        Page<UserProductCart> userProductCartPage = userProductCartRepository.findUserProductCartByUserIdAndIsEndOrderByUpdateTimeDesc(userId,0,pageable);
+        List<UserProductCart> userProductCartList = userProductCartPage.getContent();
+        List<ShoppingCartVO> shoppingCartVOList = new ArrayList<>();
+        for (UserProductCart userProductCart : userProductCartList) {
+            ShoppingCartVO shoppingCartVO = new ShoppingCartVO();
+            ArtProduct artProduct = productRepository.findArtProductById(userProductCart.getArtProductId());
+            if (artProduct != null){
+                BeanUtils.copyProperties(artProduct,shoppingCartVO);
+                shoppingCartVO.setArtProductId(userProductCart.getArtProductId());
+                shoppingCartVO.setId(userProductCart.getId());
+                shoppingCartVO.setProductNums(userProductCart.getProductNums());
+                shoppingCartVOList.add(shoppingCartVO);
+            }
+        }
+        //构建pageVo对象
+        PageVO<ShoppingCartVO> pageVo = PageVO.<ShoppingCartVO>builder()
+                .totalPage(userProductCartPage.getTotalPages())
+                .pageNo(arg.getPageNo())
+                .pageSize(arg.getPageSize())
+                .rows(shoppingCartVOList)
+                .build();
+        return Result.newSuccess(pageVo);
+    }
+
+    /**购买购物车内的商品**/
+    @Override
+    public Result<Void> buyShoppingCartProduct(List<Integer> ids) {
+        for (Integer id : ids) {
+            UserProductCart userProductCart = userProductCartRepository.findUserProductCartById(id);
+            if (userProductCart != null){
+                userProductCart.setIsEnd(1);
+                userProductCartRepository.save(userProductCart);
+            }
+        }
+        return Result.newSuccess();
+    }
+
+    /**移除购物车内的商品**/
+    @Override
+    public Result<Void> removeShoppingCartProduct(List<Integer> ids) {
+        for (Integer id : ids) {
+            UserProductCart userProductCart = userProductCartRepository.findUserProductCartById(id);
+            if (userProductCart != null){
+                userProductCartRepository.delete(userProductCart);
+            }
+        }
+        return Result.newSuccess();
     }
 
 

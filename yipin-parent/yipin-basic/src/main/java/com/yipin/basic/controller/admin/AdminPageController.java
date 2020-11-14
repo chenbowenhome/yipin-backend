@@ -11,6 +11,7 @@ import com.yipin.basic.dao.userDao.UserPerformanceRepository;
 import com.yipin.basic.dao.userDao.UserRepository;
 import com.yipin.basic.entity.others.Admin;
 import com.yipin.basic.entity.others.ArtActivity;
+import com.yipin.basic.entity.others.DailySentence;
 import com.yipin.basic.entity.others.Slide;
 import com.yipin.basic.entity.production.Production;
 import com.yipin.basic.entity.production.ProductionTag;
@@ -67,6 +68,8 @@ public class AdminPageController {
     private ProductionTagRepository productionTagRepository;
     @Autowired
     private ArtActivityRepository artActivityRepository;
+    @Autowired
+    private DailySentenceRepository dailySentenceRepository;
 
     @GetMapping("/index")
     public String indexPage(HttpServletRequest request,Model model) {
@@ -282,5 +285,23 @@ public class AdminPageController {
         }
         model.addAttribute("topicArticle",topicArticle);
         return "topicArticle-detail";
+    }
+
+    @RequestMapping("/dailySentence")
+    public String dailySentencePage(HttpServletRequest request,@PageableDefault(size = 10) Pageable pageable, Model model,
+                                         RedirectAttributes attributes){
+        Admin a = (Admin) request.getSession().getAttribute("user");
+        model.addAttribute("admin",a);
+        Page<DailySentence> dailySentence = dailySentenceRepository.findAll(pageable);
+        model.addAttribute("page",dailySentence);
+        return "dailySentence";
+    }
+
+    @RequestMapping("/add-dailySentence")
+    public String addDailySentencePage(HttpServletRequest request,Model model,
+                                    RedirectAttributes attributes){
+        Admin a = (Admin) request.getSession().getAttribute("user");
+        model.addAttribute("admin",a);
+        return "add-dailySentence";
     }
 }
