@@ -24,7 +24,7 @@ public class Master implements Serializable {
     @ApiModelProperty("大师名字")
     private String masterName;
     /**
-     * 大师头像
+     * 大师头像.
      */
     @ApiModelProperty("大师头像")
     private String masterAvatar;

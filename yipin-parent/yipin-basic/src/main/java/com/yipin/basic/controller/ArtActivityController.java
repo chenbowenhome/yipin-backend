@@ -32,7 +32,7 @@ public class ArtActivityController {
      **/
     @ApiOperation("通过id获取活动(传入活动的id，返回活动的详细信息)")
     @RequestMapping(value = "/getArticleById", method = RequestMethod.GET)
-    public Result<ArtActivityVO> getArticleById(@RequestParam(required = false) Integer id, Integer userId) {
+    public Result<ArtActivityVO> getArticleById(Integer id,@RequestParam(required = false) Integer userId) {
         return artActivityService.getArticleById(id,userId);
     }
 

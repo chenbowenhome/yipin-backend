@@ -121,7 +121,7 @@ public class ArtActivityServiceImpl implements ArtActivityService {
     @Override
     public Result<List<ArtActivityVO>> listTopicArticleSlide(Integer userId) {
         //查找轮播图的活动
-        List<ArtActivity> artActivityList = artActivityRepository.findArtActivityBySlideStatusOrderByCreateTimeDesc(0);
+        List<ArtActivity> artActivityList = artActivityRepository.findArtActivityBySlideStatusOrderByCreateTimeDesc(1);
         List<ArtActivityVO> artActivityVOList = new ArrayList<>();
         for (ArtActivity artActivity : artActivityList) {
             ArtActivityVO artActivityVO = new ArtActivityVO();

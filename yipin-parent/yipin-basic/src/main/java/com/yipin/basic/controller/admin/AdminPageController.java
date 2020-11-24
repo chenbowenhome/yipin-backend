@@ -1,6 +1,8 @@
 package com.yipin.basic.controller.admin;
 
 import com.yipin.basic.VO.UserVO;
+import com.yipin.basic.dao.master.MasterProductionRepository;
+import com.yipin.basic.dao.master.MasterRepository;
 import com.yipin.basic.dao.othersDao.*;
 import com.yipin.basic.dao.productionDao.ProductionRepository;
 import com.yipin.basic.dao.productionDao.ProductionTagRepository;
@@ -9,6 +11,7 @@ import com.yipin.basic.dao.specialistDao.SpecialistRepository;
 import com.yipin.basic.dao.userDao.UserArtRepository;
 import com.yipin.basic.dao.userDao.UserPerformanceRepository;
 import com.yipin.basic.dao.userDao.UserRepository;
+import com.yipin.basic.entity.master.Master;
 import com.yipin.basic.entity.others.Admin;
 import com.yipin.basic.entity.others.ArtActivity;
 import com.yipin.basic.entity.others.DailySentence;
@@ -70,6 +73,10 @@ public class AdminPageController {
     private ArtActivityRepository artActivityRepository;
     @Autowired
     private DailySentenceRepository dailySentenceRepository;
+    @Autowired
+    private MasterRepository masterRepository;
+    @Autowired
+    private MasterProductionRepository masterProductionRepository;
 
     @GetMapping("/index")
     public String indexPage(HttpServletRequest request,Model model) {
@@ -274,7 +281,7 @@ public class AdminPageController {
     }
 
     @RequestMapping("/topicArticle-detail")
-    public String topicArticleDetailPage(HttpServletRequest request,@RequestParam(value = "id") Integer id,@PageableDefault(size = 10) Pageable pageable, Model model,
+    public String topicArticleDetailPage(HttpServletRequest request,@RequestParam(value = "id") Integer id, Model model,
                                          RedirectAttributes attributes){
         Admin a = (Admin) request.getSession().getAttribute("user");
         model.addAttribute("admin",a);
@@ -303,5 +310,23 @@ public class AdminPageController {
         Admin a = (Admin) request.getSession().getAttribute("user");
         model.addAttribute("admin",a);
         return "add-dailySentence";
+    }
+
+    @RequestMapping("/add-Master")
+    public String addMasterPage(HttpServletRequest request,Model model,
+                                       RedirectAttributes attributes){
+        Admin a = (Admin) request.getSession().getAttribute("user");
+        model.addAttribute("admin",a);
+        return "add-Master";
+    }
+
+    @RequestMapping("/master")
+    public String masterPage(HttpServletRequest request,Model model,@PageableDefault(size = 10) Pageable pageable,
+                                       RedirectAttributes attributes){
+        Admin a = (Admin) request.getSession().getAttribute("user");
+        model.addAttribute("admin",a);
+        Page<Master> masterPage = masterRepository.findAll(pageable);
+        model.addAttribute("page",masterPage);
+        return "Master";
     }
 }

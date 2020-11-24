@@ -1,11 +1,14 @@
 package com.yipin.basic.controller.admin;
 
+import com.yipin.basic.dao.master.MasterProductionRepository;
+import com.yipin.basic.dao.master.MasterRepository;
 import com.yipin.basic.dao.othersDao.*;
 import com.yipin.basic.dao.productionDao.ProductionRepository;
 import com.yipin.basic.dao.productionDao.ProductionTagRepository;
 import com.yipin.basic.dao.specialistDao.PaintTypeRepository;
 import com.yipin.basic.dao.specialistDao.SpecialistRepository;
 import com.yipin.basic.dao.userDao.UserRepository;
+import com.yipin.basic.entity.master.Master;
 import com.yipin.basic.entity.others.*;
 import com.yipin.basic.entity.production.Production;
 import com.yipin.basic.entity.production.ProductionTag;
@@ -64,6 +67,10 @@ public class AdminController {
     private ArtActivityRepository artActivityRepository;
     @Autowired
     private DailySentenceRepository dailySentenceRepository;
+    @Autowired
+    private MasterRepository masterRepository;
+    @Autowired
+    private MasterProductionRepository masterProductionRepository;
 
     @PostMapping("/addAdminUser")
     public String addAdminUser(AdminRegisterForm adminRegisterForm, RedirectAttributes attributes) {
@@ -367,6 +374,41 @@ public class AdminController {
         dailySentenceRepository.save(dailySentence);
         attributes.addFlashAttribute("msg", "成功添加每日一句！");
         return "redirect:/admin/dailySentence";
+    }
+
+    /**
+     * 上传大师信息
+     **/
+    @PostMapping("/master/add")
+    public String addMaster(@RequestParam("avatar") MultipartFile avatar,
+                            @RequestParam("background") MultipartFile background,
+                            @RequestParam("name") String name,
+                            @RequestParam("description") String description,
+                                  RedirectAttributes attributes) {
+        Master master = new Master();
+        master.setBackgroundImg(userService.uploadImage(background).getData().get("imageUrl"));
+        master.setMasterAvatar(userService.uploadImage(avatar).getData().get("imageUrl"));
+        master.setMasterName(name);
+        master.setMasterDescription(description);
+        masterRepository.save(master);
+        attributes.addFlashAttribute("msg", "成功添加大师信息！");
+        return "redirect:/admin/master";
+    }
+
+    /**
+     * 删除大师信息
+     **/
+    @PostMapping("/master/delete")
+    public String deleteMaster(@RequestParam Integer id,
+                                      RedirectAttributes attributes) {
+        Master master = masterRepository.findMasterById(id);
+        if (master == null) {
+            attributes.addFlashAttribute("msg", "大师信息不存在！");
+            return "redirect:/admin/master";
+        }
+        masterRepository.delete(master);
+        attributes.addFlashAttribute("msg", "成功删除！");
+        return "redirect:/admin/master";
     }
 
 }

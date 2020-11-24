@@ -1,8 +1,9 @@
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>
-       艺品后台管理系统
+        艺品后台管理系统
     </title>
     <!--<link href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700" media="all" rel="stylesheet" type="text/css" />-->
     <link href="/stylesheets/bootstrap.min.css" media="all" rel="stylesheet" type="text/css"/>
@@ -212,7 +213,6 @@
                     <li><a href="/admin/dictionaries-list">
                         <span aria-hidden="true" class="se7en-charts"></span>字典管理</a>
                     </li>
-
                     <li><a href="/admin/user-list">
                         <span aria-hidden="true" class="se7en-charts"></span>用户管理</a>
                     </li>
@@ -316,7 +316,7 @@
     <div class="container-fluid main-content">
         <div class="page-title">
             <h1>
-                字典管理
+                艺星大师管理
             </h1>
         </div>
         <!-- DataTables Example -->
@@ -324,9 +324,8 @@
             <div class="col-lg-12">
                 <div class="widget-container fluid-height clearfix">
                     <div class="heading">
-                        <i class="icon-table"></i>字典列表
+                        <i class="icon-table"></i>大师列表
                     </div>
-
                     <div class="alert alert-success" th:unless="${#strings.isEmpty(msg)}">
                         <button class="close" data-dismiss="alert" type="button">&times;</button><a th:text="${msg}"></a>
                         <div class="badge pull-right">
@@ -334,86 +333,118 @@
                     </div>
 
                     <div class="widget-content padded clearfix">
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped" >
                             <thead>
                             <th>
-                                字典id
-                            </th>
-                            <th>
-                                字典名称
+                                大师id
                             </th>
                             <th class="hidden-xs">
-                                key
+                                大师名字
                             </th>
                             <th class="hidden-xs">
-                                value
+                                大师头像
                             </th>
                             <th class="hidden-xs">
-                                字典描述
+                                大师详情页面背景图片
                             </th>
-                            <th width="75">
-                                更新日期
-                            </th>
-
                             <th class="hidden-xs">
-
+                                大师描述
+                            </th>
+                            <th class="hidden-xs">
+                                删除大师信息
                             </th>
                             </thead>
-                            <tbody th:each="p : ${page}">
+                            <tbody th:each="master : ${page}">
                             <tr>
-
-                                <td th:text="${p.id}">
-
-                                </td>
-                                <td th:text="${p.name}">
+                                <td th:text="${master.id}">
 
                                 </td>
-                                <td class="hidden-xs" th:text="${p.key}">
+                                <td class="hidden-xs" th:text="${master.masterName}">
 
                                 </td>
-                                <td class="hidden-xs" th:text="${p.value}">
-
+                                <td class="hidden-xs" >
+                                    <img  height="50"   th:src="${master.masterAvatar}"/>
+                                   <a th:href="${master.masterAvatar}" >点击查看</a>
                                 </td>
-                                <td class="hidden-xs" th:text="${p.description}">
-
+                                <td class="hidden-xs" >
+                                    <img  height="90"   th:src="${master.backgroundImg}"/>
+                                    <a th:href="${master.backgroundImg}" >点击查看</a>
                                 </td>
-                                <td class="hidden-xs" th:text="${p.updateTime}">
+                                <td class="hidden-xs" th:text="${master.masterDescription}">
 
                                 </td>
 
                                 <td class="actions">
                                     <div class="action-buttons">
-                                       <!-- <a class="table-actions" th:if="${user.role} eq '0'" data-toggle="modal" href="#myModal1"><i class="icon-pencil"></i></a>
-                                        <a class="table-actions" th:if="${user.role} eq '1'" data-toggle="modal" href="#myModal2"><i class="icon-pencil"></i></a>-->
-                                        <a class="table-actions"><i class="icon-trash"></i></a>
+                                        <a class="table-actions open-AddBookDialog" th:data-id="${master.id}" data-toggle="modal" href="#myModal2" ><i class="icon-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>
 
-                          <!--  <div class="modal fade" id="myModal1">
+                            <div class="modal fade" id="myModal2">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-body">
                                             <h4>
-                                               确定要设置用户为管理员吗
+                                                删除后无法恢复，真的要删除该大师信息吗
                                             </h4>
                                         </div>
                                         <div class="modal-footer">
-                                            <a class="btn btn-primary"  th:href="@{/admin/user-list/{id}/setRole(id=${user.id})}">确定</a><button class="btn btn-default-outline" data-dismiss="modal" type="button">取消</button>
+                                            <form th:action="@{/admin/master/delete}" method="post">
+                                                <input  id="id1" name="id" type="hidden" value="">
+                                                <input class="btn btn-primary" type="submit" value="确定">
+                                            </form>
+                                                <button class="btn btn-default-outline" data-dismiss="modal" type="button">取消</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
--->
                             </tbody>
+
                         </table>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-5">
+                                <div class="dataTables_info"  role="status"
+                                     aria-live="polite"></div>
+                            </div>
+                            <div class="col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="bootstrap-data-table-export_paginate">
+                                    <ul class="pagination">
+                                        <li class="paginate_button page-item previous "
+                                            id="bootstrap-data-table-export_previous">
+
+                                            <a th:href="@{/admin/master(page=${page.number}-1)}" th:unless="${page.first}"
+                                               class="btn">上一页</a>
+
+                                        </li>
+                                        <li class="paginate_button page-item active"><a th:text="${page.number}+1" href="#"
+                                                                                        aria-controls="bootstrap-data-table-export"
+                                                                                        data-dt-idx="1" tabindex="0"
+                                                                                        class="page-link"></a></li>
+                                        <li class="paginate_button page-item next" id="bootstrap-data-table-export_next">
+
+                                            <a th:href="@{/admin/master(page=${page.number}+1)}" th:unless="${page.last}"
+                                               class="btn">下一页</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <!-- end DataTables Example -->
+
     </div>
 </div>
 </body>
-
+<script>
+    $(document).ready(function () {
+        $(".open-AddBookDialog").click(function () {
+            $('#id1').val($(this).data('id'));
+            $('#addBookDialog').modal('show');
+        });
+    });
+</script>
 </html>
