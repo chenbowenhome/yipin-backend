@@ -1,5 +1,6 @@
 package com.yipin.basic.config;
 
+import com.yipin.basic.dao.othersDao.DailySentenceNowRepository;
 import com.yipin.basic.dao.othersDao.DailySentenceRepository;
 import com.yipin.basic.dao.ranking.RankingPeriodRepository;
 import com.yipin.basic.dao.ranking.RankingUserRepository;
@@ -7,6 +8,7 @@ import com.yipin.basic.dao.userDao.UserArtRepository;
 import com.yipin.basic.dao.userDao.UserPerformanceRepository;
 import com.yipin.basic.dao.userDao.UserRepository;
 import com.yipin.basic.entity.others.DailySentence;
+import com.yipin.basic.entity.others.DailySentenceNow;
 import com.yipin.basic.entity.ranking.RankingPeriod;
 import com.yipin.basic.entity.ranking.RankingUser;
 import com.yipin.basic.entity.user.User;
@@ -39,6 +41,8 @@ public class Timer {
     private RankingUserRepository rankingUserRepository;
     @Autowired
     private DailySentenceRepository dailySentenceRepository;
+    @Autowired
+    private DailySentenceNowRepository dailySentenceNowRepository;
 
     /**更新用户艺能**/
     @Scheduled(cron = "0 59 23 * * ?")
@@ -148,10 +152,10 @@ public class Timer {
     public void updateUserPerformanceOrder(){
         List<User> userList = userRepository.findUserByOrderByPerformanceNumDesc();
         RankingPeriod rankingPeriod = rankingPeriodRepository.findLastRankingPeriod();
+        Date startDate = new Date();
         if (rankingPeriod == null){//如果为空就新建一个期数
             RankingPeriod rp = new RankingPeriod();
             rp.setPeriod(1);
-            Date startDate = new Date();
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(startDate);
             calendar.add(Calendar.DATE,7);
@@ -163,7 +167,6 @@ public class Timer {
         }else {
             RankingPeriod rp = new RankingPeriod();
             rp.setPeriod(rankingPeriod.getPeriod() + 1);
-            Date startDate = new Date();
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(startDate);
             calendar.add(Calendar.DATE,7);
@@ -193,20 +196,31 @@ public class Timer {
     }
 
      /**更新每日一句**/
-    @Scheduled(cron = "0 55 23 * * ?")
+    @Scheduled(cron = "0 01 00 * * ?")
     public void updateDailySentence(){
         List<DailySentence> dailySentenceList = dailySentenceRepository.findDailySentenceByNowStatus(1);
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.HOUR,9);
+
         if (dailySentenceList.size() != 0){
             for (DailySentence dailySentence : dailySentenceList) {
                 dailySentence.setNowStatus(0);
                 dailySentenceRepository.save(dailySentence);
             }
-        }
-        List<DailySentence> nowDailySentenceList = dailySentenceRepository.findTop20DailySentence();
-        if (nowDailySentenceList.size() != 0){
-            for (DailySentence dailySentence : nowDailySentenceList) {
-                dailySentence.setNowStatus(1);
-                dailySentenceRepository.save(dailySentence);
+            DailySentenceNow dailySentenceNow = new DailySentenceNow();
+            dailySentenceNow.setDailySentenceId(dailySentenceList.get(0).getId());
+            dailySentenceNow.setNowDate(calendar.getTime());
+            dailySentenceNowRepository.save(dailySentenceNow);
+        }else{
+            List<DailySentence> list = dailySentenceRepository.findDailySentenceByNowStatus(0);
+            if(list.size() != 0){
+                Random random = new Random();
+                DailySentenceNow dailySentenceNow = new DailySentenceNow();
+                dailySentenceNow.setDailySentenceId(list.get(random.nextInt(list.size())).getId());
+                dailySentenceNow.setNowDate(calendar.getTime());
+                dailySentenceNowRepository.save(dailySentenceNow);
             }
         }
     }

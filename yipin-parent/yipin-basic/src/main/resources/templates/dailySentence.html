@@ -375,10 +375,30 @@
 
                                 <td class="actions">
                                     <div class="action-buttons">
+                                        <a class="table-actions open-AddBookDialog" th:data-id="${sentence.id}" data-toggle="modal" href="#myModal1" ><i class="icon-edit"></i></a>
                                         <a class="table-actions open-AddBookDialog" th:data-id="${sentence.id}" data-toggle="modal" href="#myModal2" ><i class="icon-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>
+
+                            <div class="modal fade" id="myModal1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <h4>
+                                               是否设置该句子为第二天显示
+                                            </h4>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form th:action="@{/admin/dailySentence/setTwo}" method="post">
+                                                <input  id="id2" name="id" type="hidden" value="">
+                                                <input class="btn btn-primary" type="submit" value="确定">
+                                            </form>
+                                            <button class="btn btn-default-outline" data-dismiss="modal" type="button">取消</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="modal fade" id="myModal2">
                                 <div class="modal-dialog">
@@ -442,6 +462,14 @@
     $(document).ready(function () {
         $(".open-AddBookDialog").click(function () {
             $('#id1').val($(this).data('id'));
+            $('#addBookDialog').modal('show');
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $(".open-AddBookDialog").click(function () {
+            $('#id2').val($(this).data('id'));
             $('#addBookDialog').modal('show');
         });
     });

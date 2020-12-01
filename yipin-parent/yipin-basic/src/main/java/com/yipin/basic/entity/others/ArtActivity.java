@@ -75,11 +75,6 @@ public class ArtActivity implements Serializable {
      */
     @ApiModelProperty("活动费用")
     private BigDecimal cost;
-    /**
-     * 是否结束，0为未结束，1为已结束，默认为0
-     */
-    @ApiModelProperty("是否结束，0为未结束，1为已结束，默认为0")
-    private Integer isEnd;
 
     private Date createTime;
     /**
@@ -94,10 +89,23 @@ public class ArtActivity implements Serializable {
     @Type( type = "json" )
     @Column( columnDefinition = "json" )
     private List<String> othersProductIds;
+
+    /**
+     * 是否结束，0为未结束，1为已结束，默认为0
+     */
+    @ApiModelProperty("是否结束，0为未结束，1为已结束，默认为0")
+    private Integer isEnd;
+
     /**
      * 是否为轮播图显示的活动，0为不是，1为是
      */
     @ApiModelProperty("是否为轮播图显示的活动，0为不是，1为是")
     private Integer slideStatus;
+
+    @ApiModelProperty("0为不是产品类活动，1为是产品类活动")
+    private Integer productType;
+
+    @ApiModelProperty("0为线上活动，1为线下活动")
+    private Integer activityType;
 
 }

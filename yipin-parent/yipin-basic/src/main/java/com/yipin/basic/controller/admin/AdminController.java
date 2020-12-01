@@ -359,13 +359,42 @@ public class AdminController {
     }
 
     /**
+     * 设置句子为第二天显示
+     **/
+    @PostMapping("/dailySentence/setTwo")
+    public String setDailySentence(@RequestParam Integer id,
+                                      RedirectAttributes attributes) {
+        List<DailySentence> dailySentenceList = dailySentenceRepository.findDailySentenceByNowStatus(1);
+        for (DailySentence dailySentence : dailySentenceList) {
+            dailySentence.setNowStatus(0);
+            dailySentenceRepository.save(dailySentence);
+        }
+        DailySentence dailySentence = dailySentenceRepository.findDailySentenceById(id);
+        if (dailySentence == null) {
+            attributes.addFlashAttribute("msg", "句子信息不存在！");
+            return "redirect:/admin/dailySentence";
+        }
+        dailySentence.setNowStatus(1);
+        dailySentenceRepository.save(dailySentence);
+        attributes.addFlashAttribute("msg", "成功设置");
+        return "redirect:/admin/dailySentence";
+    }
+
+    /**
      * 上传每日一句
      **/
     @PostMapping("/dailySentence/add")
     public String adDailySentence(@RequestParam("file") MultipartFile file, @RequestParam("content") String content,
-                           RedirectAttributes attributes) {
+                           RedirectAttributes attributes,Integer nowStatus) {
+        if (nowStatus == 1){
+            List<DailySentence> dailySentenceList = dailySentenceRepository.findDailySentenceByNowStatus(1);
+            for (DailySentence dailySentence : dailySentenceList) {
+                dailySentence.setNowStatus(0);
+                dailySentenceRepository.save(dailySentence);
+            }
+        }
         DailySentence dailySentence = new DailySentence();
-        dailySentence.setNowStatus(0);
+        dailySentence.setNowStatus(nowStatus);
         dailySentence.setContent(content);
         dailySentence.setCreateTime(new Date());
         String url = userService.uploadImage(file).getData().get("imageUrl");
@@ -375,6 +404,7 @@ public class AdminController {
         attributes.addFlashAttribute("msg", "成功添加每日一句！");
         return "redirect:/admin/dailySentence";
     }
+
 
     /**
      * 上传大师信息

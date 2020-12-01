@@ -5,16 +5,21 @@ import VO.Result;
 import VO.Void;
 import args.PageArg;
 import com.yipin.basic.VO.ArtActivityVO;
+import com.yipin.basic.VO.DailySentenceVO;
+import com.yipin.basic.dao.othersDao.DailySentenceNowRepository;
 import com.yipin.basic.dao.othersDao.DailySentenceRepository;
 import com.yipin.basic.entity.others.ArtActivity;
 import com.yipin.basic.entity.others.DailySentence;
+import com.yipin.basic.entity.others.DailySentenceNow;
 import com.yipin.basic.service.ArtActivityService;
+import enums.ResultEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Api(tags = "艺期活动相关接口(发现页面)")
@@ -26,6 +31,8 @@ public class ArtActivityController {
     private ArtActivityService artActivityService;
     @Autowired
     private DailySentenceRepository dailySentenceRepository;
+    @Autowired
+    private DailySentenceNowRepository dailySentenceNowRepository;
 
     /**
      * 通过id获取话题文章
@@ -48,24 +55,32 @@ public class ArtActivityController {
 
     /**
      * 获取活动轮播图
-     **/
+     *
     @ApiOperation("获取活动轮播图(如果用户登录了就传用户的id，没有登录可以不传，返回的是作为轮播图的活动信息)")
     @RequestMapping(value = "/listTopicArticleSlide", method = RequestMethod.POST)
     public Result<List<ArtActivityVO>> listTopicArticleSlide(@RequestParam(required = false) Integer userId) {
         return artActivityService.listTopicArticleSlide(userId);
-    }
+    }*/
 
     /**
      * 获取每日一句
      **/
     @ApiOperation("获取每日一句")
     @RequestMapping(value = "/getDailySentence", method = RequestMethod.GET)
-    public Result<DailySentence> getDailySentence() {
-        List<DailySentence> dailySentenceList = dailySentenceRepository.findDailySentenceByNowStatus(1);
-        if (dailySentenceList.size() == 0) {
+    public Result<DailySentenceVO> getDailySentence() {
+        DailySentenceNow dailySentenceNow = dailySentenceNowRepository.findTop1();
+        if (dailySentenceNow == null) {
             return Result.newError("系统错误");
         }
-        return Result.newSuccess(dailySentenceList.get(0));
+        DailySentence dailySentence = dailySentenceRepository.findDailySentenceById(dailySentenceNow.getDailySentenceId());
+        if (dailySentence == null){
+            return Result.newError("系统错误");
+        }
+        DailySentenceVO dailySentenceVO = new DailySentenceVO();
+        dailySentenceVO.setContent(dailySentence.getContent());
+        dailySentenceVO.setImgUrl(dailySentence.getImgUrl());
+        dailySentenceVO.setNowDate(dailySentenceNow.getNowDate());
+        return Result.newSuccess(dailySentenceVO);
     }
 
     /**
@@ -73,9 +88,20 @@ public class ArtActivityController {
      **/
     @ApiOperation("获取20句子")
     @RequestMapping(value = "/get20Sentence", method = RequestMethod.GET)
-    public Result<List<DailySentence>> get20Sentence() {
-        List<DailySentence> dailySentenceList = dailySentenceRepository.findDailySentenceByNowStatus(1);
-        return Result.newSuccess(dailySentenceList);
+    public Result<List<DailySentenceVO>> get20Sentence() {
+        List<DailySentenceNow> dailySentenceList = dailySentenceNowRepository.findTop20();
+        List<DailySentenceVO> dailySentenceVOList = new ArrayList<>();
+        for (DailySentenceNow dailySentenceNow : dailySentenceList) {
+            DailySentence dailySentence = dailySentenceRepository.findDailySentenceById(dailySentenceNow.getDailySentenceId());
+            if (dailySentence != null) {
+                DailySentenceVO dailySentenceVO = new DailySentenceVO();
+                dailySentenceVO.setNowDate(dailySentenceNow.getNowDate());
+                dailySentenceVO.setImgUrl(dailySentence.getImgUrl());
+                dailySentenceVO.setContent(dailySentence.getContent());
+                dailySentenceVOList.add(dailySentenceVO);
+            }
+        }
+        return Result.newSuccess(dailySentenceVOList);
     }
 
     /**
@@ -106,10 +132,36 @@ public class ArtActivityController {
     }
 
 
-    @ApiOperation("获取全部每日一句(分页获取数据库中所有的句子)")
+    @ApiOperation("获取全部每日一句(分页获取数据库中所有的每日一句)")
     @RequestMapping(value = "/listAllDailySentence", method = RequestMethod.POST)
-    public Result<PageVO<DailySentence>> listAllDailySentence(@RequestBody PageArg arg) {
+    public Result<PageVO<DailySentenceVO>> listAllDailySentence(@RequestBody PageArg arg) {
         arg.validate();
         return artActivityService.listAllDailySentence(arg);
+    }
+
+    @ApiOperation("api-V1A001 分页获取所有活动（按时间降序排列）")
+    @RequestMapping(value = "/getByList", method = RequestMethod.POST)
+    public Result<PageVO<ArtActivityVO>> getByList(Integer userId,@RequestBody PageArg arg,String keyWord,String actType) {
+        arg.validate();
+        if (actType == null || actType.equals("")){
+            return Result.newResult(ResultEnum.PARAM_ERROR);
+        }else if(actType.equals("all")){
+            return artActivityService.findAllActivity(keyWord,userId,arg);
+        }else if(actType.equals("end")){
+            return artActivityService.findEndActivity(keyWord,userId,1,arg);
+        }else if(actType.equals("banner")){
+            return artActivityService.listTopicArticleSlide(keyWord,userId,1,arg);
+        }else if(actType.equals("product")){
+            return artActivityService.findProductActivity(keyWord,userId,1,arg); //是否为产品类活动
+        }else if(actType.equals("online")){
+            return artActivityService.findOnlineActivity(keyWord,userId,0,arg); //是否为线上活动
+        }else if(actType.equals("offline")){
+            return artActivityService.findOnlineActivity(keyWord,userId,1,arg); //是否为线下活动
+        }else if(actType.equals("join")){
+            return artActivityService.findUserJoinedActivity(keyWord,userId,arg);
+        }else if(actType.equals("collect")){
+            return artActivityService.findUserCollectedActivity(keyWord,userId,arg);
+        }
+        return Result.newError("输入参数有误");
     }
 }

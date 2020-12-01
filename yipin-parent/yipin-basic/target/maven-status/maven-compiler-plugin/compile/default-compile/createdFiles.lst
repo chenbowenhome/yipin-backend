@@ -13,6 +13,7 @@ com\yipin\basic\entity\others\ImgUrl.class
 com\yipin\basic\interceptor\LoginInterceptor.class
 com\yipin\basic\dao\userDao\FollowRepository.class
 com\yipin\basic\entity\user\UserProductionCollections.class
+com\yipin\basic\VO\DailySentenceVO.class
 com\yipin\basic\dao\othersDao\LikesRepository.class
 com\yipin\basic\controller\ProductionController.class
 com\yipin\basic\VO\UserVO.class
@@ -20,6 +21,7 @@ com\yipin\basic\entity\ranking\RankingPeriod.class
 com\yipin\basic\dao\order\ProductRepository.class
 com\yipin\basic\service\impl\CommentServiceImpl.class
 com\yipin\basic\entity\others\Dictionaries.class
+com\yipin\basic\entity\others\DailySentenceNow.class
 com\yipin\basic\interceptor\JwtInterceptor.class
 com\yipin\basic\dao\othersDao\ArtActivityRepository.class
 com\yipin\basic\form\UserMsgForm.class
@@ -31,6 +33,7 @@ com\yipin\basic\controller\admin\AdminController.class
 com\yipin\basic\entity\order\ArtOrder.class
 com\yipin\basic\service\RankingService.class
 com\yipin\basic\form\OrderForm.class
+com\yipin\basic\dao\othersDao\DailySentenceNowRepository.class
 com\yipin\basic\dao\othersDao\SlideRepository.class
 com\yipin\basic\utils\MarkdownUtils$1.class
 com\yipin\basic\entity\others\Slide.class

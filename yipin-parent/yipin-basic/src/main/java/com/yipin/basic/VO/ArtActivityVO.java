@@ -1,9 +1,11 @@
 package com.yipin.basic.VO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -36,13 +38,13 @@ public class ArtActivityVO implements Serializable {
     /**
      * 评论数
      */
-    @ApiModelProperty("评论数")
-    private Integer comments;
+    /*@ApiModelProperty("评论数")
+    private Integer comments;*/
     /**
      * 浏览次数
      */
-    @ApiModelProperty("浏览次数")
-    private Integer views;
+   /* @ApiModelProperty("浏览次数")
+    private Integer views;*/
     /**
      * 点赞数
      */
@@ -51,11 +53,15 @@ public class ArtActivityVO implements Serializable {
     /**
      * 活动开始时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty("活动开始时间")
     private Date startTime;
     /**
      * 活动结束时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty("活动结束时间")
     private Date endTime;
     /**
@@ -74,7 +80,6 @@ public class ArtActivityVO implements Serializable {
     @ApiModelProperty("是否结束，0为未结束，1为已结束，默认为0")
     private Integer isEnd;
 
-    private Date createTime;
     /**
      * 商品id
      */

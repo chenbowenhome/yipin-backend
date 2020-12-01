@@ -5,13 +5,16 @@ import VO.Result;
 import VO.Void;
 import args.PageArg;
 import com.yipin.basic.VO.ArtActivityVO;
+import com.yipin.basic.VO.DailySentenceVO;
 import com.yipin.basic.dao.othersDao.ArtActivityParticipantsRepository;
 import com.yipin.basic.dao.othersDao.ArtActivityRepository;
+import com.yipin.basic.dao.othersDao.DailySentenceNowRepository;
 import com.yipin.basic.dao.othersDao.DailySentenceRepository;
 import com.yipin.basic.dao.userDao.UserRepository;
 import com.yipin.basic.entity.others.ArtActivity;
 import com.yipin.basic.entity.others.ArtActivityParticipants;
 import com.yipin.basic.entity.others.DailySentence;
+import com.yipin.basic.entity.others.DailySentenceNow;
 import com.yipin.basic.entity.user.User;
 import com.yipin.basic.form.ArtActivityForm;
 import com.yipin.basic.service.ArtActivityService;
@@ -40,6 +43,8 @@ public class ArtActivityServiceImpl implements ArtActivityService {
     private ArtActivityParticipantsRepository artActivityParticipantsRepository;
     @Autowired
     private DailySentenceRepository dailySentenceRepository;
+    @Autowired
+    private DailySentenceNowRepository dailySentenceNowRepository;
 
     /**
      * 通过id获取活动详情
@@ -115,9 +120,10 @@ public class ArtActivityServiceImpl implements ArtActivityService {
         return Result.newSuccess(pageVo);
     }
 
-    /**
+
+   /* *
      * 获取活动轮播图
-     **/
+     *
     @Override
     public Result<List<ArtActivityVO>> listTopicArticleSlide(Integer userId) {
         //查找轮播图的活动
@@ -136,18 +142,32 @@ public class ArtActivityServiceImpl implements ArtActivityService {
             artActivityVOList.add(artActivityVO);
         }
         return Result.newSuccess(artActivityVOList);
-    }
+    }*/
 
+    /**查找全部每日一句**/
     @Override
-    public Result<PageVO<DailySentence>> listAllDailySentence(PageArg arg) {
+    public Result<PageVO<DailySentenceVO>> listAllDailySentence(PageArg arg) {
         Pageable pageable = PageRequest.of(arg.getPageNo() - 1,arg.getPageSize());
-        Page<DailySentence> dailySentencePage = dailySentenceRepository.findAll(pageable);
+        Page<DailySentenceNow> dailySentencePage = dailySentenceNowRepository.findDailySentenceNowByOrderByNowDateDesc(pageable);
+        List<DailySentenceNow> dailySentenceNowList = dailySentencePage.getContent();
+        List<DailySentenceVO> dailySentenceVOList = new ArrayList<>();
+
+        for (DailySentenceNow dailySentenceNow : dailySentenceNowList) {
+            DailySentence dailySentence = dailySentenceRepository.findDailySentenceById(dailySentenceNow.getDailySentenceId());
+            if (dailySentence != null) {
+                DailySentenceVO dailySentenceVO = new DailySentenceVO();
+                dailySentenceVO.setContent(dailySentence.getContent());
+                dailySentenceVO.setImgUrl(dailySentence.getImgUrl());
+                dailySentenceVO.setNowDate(dailySentenceNow.getNowDate());
+                dailySentenceVOList.add(dailySentenceVO);
+            }
+        }
         //构建pageVo对象
-        PageVO<DailySentence> pageVo = PageVO.<DailySentence>builder()
+        PageVO<DailySentenceVO> pageVo = PageVO.<DailySentenceVO>builder()
                 .totalPage(dailySentencePage.getTotalPages())
                 .pageNo(arg.getPageNo())
                 .pageSize(arg.getPageSize())
-                .rows(dailySentencePage.getContent())
+                .rows(dailySentenceVOList)
                 .build();
         return Result.newSuccess(pageVo);
     }
@@ -209,4 +229,193 @@ public class ArtActivityServiceImpl implements ArtActivityService {
         artActivityRepository.save(artActivity);
         return Result.newSuccess();
     }
+
+    /** all 查询所有的活动**/
+    @Override
+    public Result<PageVO<ArtActivityVO>> findAllActivity(String keyWord,Integer userId, PageArg arg) {
+        Pageable pageable = PageRequest.of(arg.getPageNo() - 1,arg.getPageSize());
+        Page<ArtActivity> artActivityPage = artActivityRepository.findAllByKeyWord("%"+keyWord+"%",pageable);
+        if(keyWord == null || keyWord.equals("")) {
+             artActivityPage = artActivityRepository.findAll(pageable);
+        }
+
+        List<ArtActivity> artActivityList = artActivityPage.getContent();
+        List<ArtActivityVO> artActivityVOList = new ArrayList<>();
+        for (ArtActivity artActivity : artActivityList) {
+            ArtActivityVO artActivityVO = new ArtActivityVO();
+            BeanUtils.copyProperties(artActivity,artActivityVO);
+            ArtActivityParticipants artActivityParticipants = artActivityParticipantsRepository.findArtActivityParticipantsByUserIdAndArtActivityId(userId, artActivity.getId());
+            if (artActivityParticipants != null) {
+                artActivityVO.setIsJoin(1);
+            } else {
+                artActivityVO.setIsJoin(0);
+            }
+            artActivityVOList.add(artActivityVO);
+        }
+        //构建pageVo对象
+        PageVO<ArtActivityVO> pageVo = PageVO.<ArtActivityVO>builder()
+                .totalPage(artActivityPage.getTotalPages())
+                .pageNo(arg.getPageNo())
+                .pageSize(arg.getPageSize())
+                .rows(artActivityVOList)
+                .build();
+        return Result.newSuccess(pageVo);
+    }
+
+    /** banner 获取活动轮播图**/
+    @Override
+    public Result<PageVO<ArtActivityVO>> listTopicArticleSlide(String keyWord,Integer userId, Integer slideStatus, PageArg arg) {
+        Pageable pageable = PageRequest.of(arg.getPageNo() - 1,arg.getPageSize());
+        Page<ArtActivity> artActivityPage = artActivityRepository.findArtActivityBySlideStatusAndKeyWord(slideStatus,"%"+keyWord+"%",pageable);
+        if(keyWord == null || keyWord.equals("")) {
+            artActivityPage = artActivityRepository.findArtActivityBySlideStatusOrderByCreateTimeDesc(slideStatus, pageable);
+        }
+        List<ArtActivity> artActivityList = artActivityPage.getContent();
+        List<ArtActivityVO> artActivityVOList = new ArrayList<>();
+        for (ArtActivity artActivity : artActivityList) {
+            ArtActivityVO artActivityVO = new ArtActivityVO();
+            BeanUtils.copyProperties(artActivity,artActivityVO);
+            ArtActivityParticipants artActivityParticipants = artActivityParticipantsRepository.findArtActivityParticipantsByUserIdAndArtActivityId(userId, artActivity.getId());
+            if (artActivityParticipants != null) {
+                artActivityVO.setIsJoin(1);
+            } else {
+                artActivityVO.setIsJoin(0);
+            }
+            artActivityVOList.add(artActivityVO);
+        }
+        //构建pageVo对象
+        PageVO<ArtActivityVO> pageVo = PageVO.<ArtActivityVO>builder()
+                .totalPage(artActivityPage.getTotalPages())
+                .pageNo(arg.getPageNo())
+                .pageSize(arg.getPageSize())
+                .rows(artActivityVOList)
+                .build();
+        return Result.newSuccess(pageVo);
+    }
+
+    /** end 查询已经结束的活动**/
+    @Override
+    public Result<PageVO<ArtActivityVO>> findEndActivity(String keyWord,Integer userId, Integer isEnd, PageArg arg) {
+        Pageable pageable = PageRequest.of(arg.getPageNo() - 1,arg.getPageSize());
+        Page<ArtActivity> artActivityPage = artActivityRepository.findArtActivityByIsEndAndKeyWord(isEnd,"%"+keyWord+"%",pageable);
+        if(keyWord == null || keyWord.equals("")) {
+            artActivityPage = artActivityRepository.findArtActivityByIsEndOrderByCreateTimeDesc(isEnd, pageable);
+        }
+        List<ArtActivity> artActivityList = artActivityPage.getContent();
+        List<ArtActivityVO> artActivityVOList = new ArrayList<>();
+        for (ArtActivity artActivity : artActivityList) {
+            ArtActivityVO artActivityVO = new ArtActivityVO();
+            BeanUtils.copyProperties(artActivity,artActivityVO);
+            ArtActivityParticipants artActivityParticipants = artActivityParticipantsRepository.findArtActivityParticipantsByUserIdAndArtActivityId(userId, artActivity.getId());
+            if (artActivityParticipants != null) {
+                artActivityVO.setIsJoin(1);
+            } else {
+                artActivityVO.setIsJoin(0);
+            }
+            artActivityVOList.add(artActivityVO);
+        }
+        //构建pageVo对象
+        PageVO<ArtActivityVO> pageVo = PageVO.<ArtActivityVO>builder()
+                .totalPage(artActivityPage.getTotalPages())
+                .pageNo(arg.getPageNo())
+                .pageSize(arg.getPageSize())
+                .rows(artActivityVOList)
+                .build();
+        return Result.newSuccess(pageVo);
+    }
+
+    /** product 查询产品类的活动**/
+    @Override
+    public Result<PageVO<ArtActivityVO>> findProductActivity(String keyWord,Integer userId, Integer productType, PageArg arg) {
+        Pageable pageable = PageRequest.of(arg.getPageNo() - 1,arg.getPageSize());
+        Page<ArtActivity> artActivityPage = artActivityRepository.findArtActivityByProductTypeAndKeyWord(productType,"%"+keyWord+"%",pageable);
+        if(keyWord == null || keyWord.equals("")) {
+            artActivityPage = artActivityRepository.findArtActivityByProductTypeOrderByCreateTimeDesc(productType, pageable);
+        }
+        List<ArtActivity> artActivityList = artActivityPage.getContent();
+        List<ArtActivityVO> artActivityVOList = new ArrayList<>();
+        for (ArtActivity artActivity : artActivityList) {
+            ArtActivityVO artActivityVO = new ArtActivityVO();
+            BeanUtils.copyProperties(artActivity,artActivityVO);
+            ArtActivityParticipants artActivityParticipants = artActivityParticipantsRepository.findArtActivityParticipantsByUserIdAndArtActivityId(userId, artActivity.getId());
+            if (artActivityParticipants != null) {
+                artActivityVO.setIsJoin(1);
+            } else {
+                artActivityVO.setIsJoin(0);
+            }
+            artActivityVOList.add(artActivityVO);
+        }
+        //构建pageVo对象
+        PageVO<ArtActivityVO> pageVo = PageVO.<ArtActivityVO>builder()
+                .totalPage(artActivityPage.getTotalPages())
+                .pageNo(arg.getPageNo())
+                .pageSize(arg.getPageSize())
+                .rows(artActivityVOList)
+                .build();
+        return Result.newSuccess(pageVo);
+    }
+
+    /** online 查询线上0， offline 线下1 类活动**/
+    @Override
+    public Result<PageVO<ArtActivityVO>> findOnlineActivity(String keyWord,Integer userId, Integer onlineStatus, PageArg arg) {
+        Pageable pageable = PageRequest.of(arg.getPageNo() - 1,arg.getPageSize());
+        Page<ArtActivity> artActivityPage = artActivityRepository.findArtActivityByActivityTypeAndKeyWord(onlineStatus,"%"+keyWord+"%",pageable);
+        if(keyWord == null || keyWord.equals("")) {
+            artActivityPage = artActivityRepository.findArtActivityByActivityTypeOrderByCreateTimeDesc(onlineStatus, pageable);
+        }
+        List<ArtActivity> artActivityList = artActivityPage.getContent();
+        List<ArtActivityVO> artActivityVOList = new ArrayList<>();
+        for (ArtActivity artActivity : artActivityList) {
+            ArtActivityVO artActivityVO = new ArtActivityVO();
+            BeanUtils.copyProperties(artActivity,artActivityVO);
+            ArtActivityParticipants artActivityParticipants = artActivityParticipantsRepository.findArtActivityParticipantsByUserIdAndArtActivityId(userId, artActivity.getId());
+            if (artActivityParticipants != null) {
+                artActivityVO.setIsJoin(1);
+            } else {
+                artActivityVO.setIsJoin(0);
+            }
+            artActivityVOList.add(artActivityVO);
+        }
+        //构建pageVo对象
+        PageVO<ArtActivityVO> pageVo = PageVO.<ArtActivityVO>builder()
+                .totalPage(artActivityPage.getTotalPages())
+                .pageNo(arg.getPageNo())
+                .pageSize(arg.getPageSize())
+                .rows(artActivityVOList)
+                .build();
+        return Result.newSuccess(pageVo);
+    }
+
+    /** join 查询用户已经参加的活动**/
+    @Override
+    public Result<PageVO<ArtActivityVO>> findUserJoinedActivity(String keyWord,Integer userId, PageArg arg) {
+        Pageable pageable = PageRequest.of(arg.getPageNo() - 1,arg.getPageSize());
+        Page<ArtActivity> artActivityPage = artActivityRepository.findUserJoinedActivityByKey("%"+keyWord+"%",userId,pageable);
+        if(keyWord == null || keyWord.equals("")) {
+            artActivityPage = artActivityRepository.findUserJoinedActivity(userId,pageable);
+        }
+        List<ArtActivity> artActivityList = artActivityPage.getContent();
+        List<ArtActivityVO> artActivityVOList = new ArrayList<>();
+        for (ArtActivity artActivity : artActivityList) {
+            ArtActivityVO artActivityVO = new ArtActivityVO();
+            BeanUtils.copyProperties(artActivity,artActivityVO);
+            artActivityVO.setIsJoin(1);
+            artActivityVOList.add(artActivityVO);
+        }
+        //构建pageVo对象
+        PageVO<ArtActivityVO> pageVo = PageVO.<ArtActivityVO>builder()
+                .totalPage(artActivityPage.getTotalPages())
+                .pageNo(arg.getPageNo())
+                .pageSize(arg.getPageSize())
+                .rows(artActivityVOList)
+                .build();
+        return Result.newSuccess(pageVo);
+    }
+
+    /** collect 查询用户收藏的活动**/
+    @Override
+    public Result<PageVO<ArtActivityVO>> findUserCollectedActivity(String keyWord,Integer userId, PageArg arg) {
+        return null;
+    }
+
 }
